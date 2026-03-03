@@ -132,6 +132,15 @@ function App() {
               </HomeLayout>
             }
           />
+
+          <Route
+            path="/jobs/saved"
+            element={
+              <HomeLayout headerColor="bg-white">
+                <AppliedJobs />
+              </HomeLayout>
+            }
+          />
           <Route path="/social-auth-success" element={<SocialAuthSuccess />} />
         </Routes>
       </BrowserRouter>

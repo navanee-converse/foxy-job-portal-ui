@@ -10,6 +10,7 @@ interface Props {
   name: string;
   title: string;
   placeholder: string;
+  disabled?: boolean;
 }
 
 export const DynamicListSection = ({
@@ -17,30 +18,36 @@ export const DynamicListSection = ({
   name,
   title,
   placeholder,
+  disabled = false,
 }: Props) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: name as never,
   });
+
   useEffect(() => {
-    if (fields.length === 0) {
+    if (!disabled && fields.length === 0) {
       append("");
     }
-  }, [fields, append]);
+  }, [fields, append, disabled]);
 
   return (
     <section className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold text-slate-800">{title}</h2>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => append("")}
-          className="text-blue-600 border-blue-200 hover:bg-blue-50"
-        >
-          <Plus className="w-4 h-4 mr-1" /> Add
-        </Button>
+        <h2 className="text-xl font-bold text-slate-800 label-required">
+          {title}
+        </h2>
+        {!disabled && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => append("")}
+            className="text-blue-600 border-blue-200 hover:bg-brand-primary hover:text-white cursor-pointer"
+          >
+            <Plus className="w-4 h-4 mr-1" /> Add
+          </Button>
+        )}
       </div>
 
       <div className="space-y-4">
@@ -49,23 +56,28 @@ export const DynamicListSection = ({
             key={field.id}
             control={control}
             name={`${name}.${index}`}
-            render={({ field }) => (
+            render={({ field: inputField }) => (
               <FormItem>
                 <div className="flex gap-2">
                   <FormControl>
                     <Input
-                      {...field}
-                      placeholder={placeholder}
-                      className="bg-slate-50 focus:bg-white h-12"
+                      {...inputField}
+                      disabled={disabled}
+                      placeholder={disabled ? "" : placeholder}
+                      className={`h-12 transition-all ${
+                        disabled
+                          ? "bg-slate-50 border-transparent cursor-not-allowed select-text disabled:cursor-not-allowed "
+                          : "bg-white border-slate-200 cursor-pointer focus:ring-2 ring-blue-500"
+                      }`}
                     />
                   </FormControl>
 
-                  {fields.length > 1 && (
+                  {!disabled && fields.length > 1 && (
                     <Button
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="text-slate-400 hover:text-red-500"
+                      className="text-slate-400 hover:text-red-500 hover:bg-white cursor-pointer"
                       onClick={() => remove(index)}
                     >
                       <Trash2 className="w-5 h-5" />

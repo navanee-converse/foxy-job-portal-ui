@@ -4,6 +4,7 @@ import axios, {
   type Method,
   type AxiosResponse,
 } from "axios";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -16,38 +17,13 @@ const apiClient = axios.create({
   },
 });
 
-/**
- * Utility to refresh the access token
- */
-// const refreshAccessToken = async (): Promise<string> => {
-//   const refreshToken = localStorage.getItem("refresh_token");
-//   if (!refreshToken) throw new Error("No refresh token found");
-
-//   // We use axios directly here to avoid the interceptors/recursion of 'apiClient'
-//   const response = await axios.post(`${API_URL}/auth/refresh`, {
-//     refreshToken,
-//   });
-
-//   const { access_token, refresh_token } = response.data.data;
-
-//   localStorage.setItem("access_token", access_token);
-//   if (refresh_token) {
-//     localStorage.setItem("refresh_token", refresh_token);
-//   }
-
-//   return access_token;
-// };
-
-/**
- * Main Request Wrapper
- */
 export const request = async <T = any>(
   endpoint: string,
   method: Method = "GET",
   body: any = null,
   customHeaders: any = {},
 ): Promise<T> => {
-  const token = localStorage.getItem("access_token");
+  const token = Cookies.get("access_token");
   const headers = {
     ...customHeaders,
     ...(token ? { Authorization: `Bearer ${token}` } : {}),

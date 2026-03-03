@@ -8,11 +8,11 @@ const HomePageContent: React.FC = () => {
 
   return (
     <div className="bg-white pb-25">
-      <div className="w-full bg-header-bg md:pt-12 lg:pt-16">
+      <div className="w-full bg-header-bg md:py-12 lg:py-16 h-auto">
         <div
-          className={`${contentWidthClass} flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20`}
+          className={`${contentWidthClass} flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12 lg:gap-20`}
         >
-          <div className="flex flex-col gap-8 w-full lg:max-w-175 z-10">
+          <div className="flex flex-col gap-6 w-full lg:max-w-175 z-10 lg:pb-16">
             <div className="text-3xl md:text-4xl xl:text-5xl font-medium leading-tight text-content-heading">
               <span className="inline-block lg:whitespace-nowrap">
                 There Are <span className="text-brand-primary">93,178</span>{" "}
@@ -26,7 +26,7 @@ const HomePageContent: React.FC = () => {
               Find Jobs, Employment & Career Opportunities
             </div>
 
-            <div className="w-full lg:max-w-218 lg:bg-white lg:shadow-sm rounded-2xl overflow-hidden lg:border lg:border-gray-100 lg:p-3 flex flex-col lg:flex-row items-center gap-6 lg:gap-0">
+            <div className="w-full lg:max-w-218 lg:bg-white lg:shadow-sm rounded-lg overflow-hidden lg:border lg:border-gray-100 lg:p-3 flex flex-col lg:flex-row items-center gap-6 lg:gap-0">
               <div className="flex items-center gap-4 px-6 py-6 flex-[1.6] w-full bg-white lg:bg-transparent rounded-2xl lg:rounded-none border border-gray-100 lg:border-none shadow-sm lg:shadow-none">
                 <ImSearch className="text-gray-400 text-xl" />
                 <input
@@ -48,7 +48,7 @@ const HomePageContent: React.FC = () => {
               </div>
 
               <div className="p-1 lg:pl-2 w-full lg:w-auto">
-                <button className="w-full lg:w-40 bg-brand-primary text-white py-5 lg:py-4 px-6 rounded-xl font-medium hover:bg-brand-hover transition-all text-md shadow-md lg:shadow-sm">
+                <button className="w-full lg:w-40 bg-brand-primary text-white py-5 lg:py-4 px-6 rounded-lg font-medium hover:bg-brand-hover transition-all text-md shadow-md lg:shadow-sm">
                   Find Jobs
                 </button>
               </div>
@@ -66,15 +66,15 @@ const HomePageContent: React.FC = () => {
             <img
               src="home/banner-img.png"
               alt="Banner Hero"
-              className="w-full max-w-lg xl:max-w-xl h-auto object-contain"
+              className="block w-full max-w-lg xl:max-w-xl h-auto object-contain"
             />
           </div>
         </div>
       </div>
 
-      <section className="w-full pt-36 bg-white">
+      <section className="w-full pt-20 bg-white">
         <div className={contentWidthClass}>
-          <div className="flex flex-col items-center text-center mb-12">
+          <div className="flex flex-col items-center text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-content-heading mb-3">
               Popular Job Categories
             </h2>
@@ -87,7 +87,7 @@ const HomePageContent: React.FC = () => {
             {jobCategories.map((cat) => (
               <div
                 key={cat.id}
-                className="group border border-gray-100 p-6 rounded-2xl flex items-center gap-5 transition-all duration-300 cursor-pointer hover:shadow-md hover:border-brand-primary/20 w-full max-w-95 bg-white"
+                className="group border bg-header-bg border-gray-100 p-6 rounded-lg flex items-center gap-5 transition-all duration-300 cursor-pointer hover:shadow-md hover:border-brand-primary/20 w-full max-w-95"
               >
                 <div className="p-4 bg-gray-100 text-brand-primary rounded-xl transition-all duration-300 group-hover:bg-brand-primary group-hover:text-white shrink-0">
                   <cat.icon size={28} />
@@ -106,7 +106,7 @@ const HomePageContent: React.FC = () => {
         </div>
       </section>
 
-      <div className="w-full border-t border-gray-200 my-8"></div>
+      <div className="w-full border-t border-gray-200 my-4"></div>
 
       <section
         className={`${contentWidthClass} py-20 flex flex-col lg:flex-row items-center gap-12 lg:gap-20`}
@@ -115,7 +115,7 @@ const HomePageContent: React.FC = () => {
           <img
             src="home/work-img.webp"
             alt="Find your job"
-            className="w-full h-auto object-cover rounded-2xl shadow-sm"
+            className="w-full h-auto object-cover rounded-lg shadow-sm"
           />
         </div>
 
@@ -135,8 +135,8 @@ const HomePageContent: React.FC = () => {
               "But I must explain to you how all this",
             ].map((text, index) => (
               <div key={index} className="flex items-center gap-3">
-                <div className="shrink-0 w-5 h-5 rounded-full bg-brand-light flex items-center justify-center">
-                  <IoCheckmark className="text-brand-primary text-sm" />
+                <div className="shrink-0 w-6 h-6 rounded-full bg-brand-light flex items-center justify-center">
+                  <IoCheckmark className="text-brand-primary text-xl" />
                 </div>
                 <span className="text-content-heading text-base font-medium">
                   {text}
@@ -146,16 +146,16 @@ const HomePageContent: React.FC = () => {
           </div>
 
           <div className="mt-4">
-            <button className="bg-brand-primary text-white px-8 py-4 rounded-xl font-medium hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/10">
+            <button className="bg-brand-primary text-white px-8 py-4 rounded-lg font-medium hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/10">
               Get Started
             </button>
           </div>
         </div>
       </section>
 
-      <section className="w-full py-16">
+      <section className="w-full pt-5 -ml-2">
         <div className={contentWidthClass}>
-          <div className="relative overflow-hidden bg-brand-light rounded-2xl flex flex-row items-center min-h-55 md:min-h-75">
+          <div className="relative overflow-hidden bg-brand-light rounded-xl flex flex-row items-center min-h-55 md:min-h-75">
             <div className="flex flex-col gap-4 md:gap-6 z-10 p-6 md:p-12 w-full max-w-[65%] md:max-w-[60%]">
               <div className="flex flex-col gap-2 md:gap-3">
                 <span className="text-xl md:text-3xl font-semibold text-content-heading">

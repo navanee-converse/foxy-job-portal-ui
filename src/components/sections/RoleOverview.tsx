@@ -19,9 +19,11 @@ import { FormInput } from "../FormInput";
 export const RoleOverviewSection = ({
   control,
   showLastDate = true,
+  disabled = false,
 }: {
   control: Control<any>;
   showLastDate?: boolean;
+  disabled?: boolean;
 }) => {
   const today = new Date().toISOString().split("T")[0];
   const gridCols = showLastDate ? "lg:grid-cols-3" : "lg:grid-cols-2";
@@ -36,20 +38,25 @@ export const RoleOverviewSection = ({
         {" "}
         <FormInput
           name="title"
-          label="Job Title *"
+          label="Job Title"
           placeholder="Job Title"
           control={control}
           disabled={false}
+          required={true}
         />
         <FormField
           control={control}
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Location</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormLabel className="label-required">Location</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={disabled}
+              >
                 <FormControl>
-                  <SelectTrigger className="h-12! bg-slate-50 capitalize w-full border-gray-200">
+                  <SelectTrigger className="h-12! cursor-pointer bg-slate-50 capitalize w-full border-gray-200">
                     <SelectValue placeholder="Select location" />
                   </SelectTrigger>
                 </FormControl>
@@ -71,11 +78,12 @@ export const RoleOverviewSection = ({
             name="lastDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last Date to Apply *</FormLabel>
+                <FormLabel>Last Date to Apply </FormLabel>
                 <FormControl>
                   <Input
                     type="date"
-                    className="h-12 bg-slate-50"
+                    disabled={disabled}
+                    className={`h-12 bg-slate-50 ${disabled ? "cursor-not-allowed pointer-events-auto!" : "cursor-pointer pointer-events-auto!"}!`}
                     min={today}
                     value={
                       field.value instanceof Date
@@ -95,8 +103,12 @@ export const RoleOverviewSection = ({
           name="employmentType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Employment Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormLabel className="label-required">Employment Type</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={disabled}
+              >
                 <FormControl>
                   <SelectTrigger className="bg-slate-50 w-full border-gray-200 h-12!">
                     <SelectValue placeholder="Select type" />
@@ -124,8 +136,12 @@ export const RoleOverviewSection = ({
           name="experienceLevel"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Experience Level</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormLabel className="label-required">Experience Level</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                disabled={disabled}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger className="h-12! bg-slate-50 w-full border-gray-200">
                     <SelectValue placeholder="Select level" />

@@ -20,7 +20,6 @@ const SavedJobs: React.FC = () => {
   const fetchSavedJobs = async (page: number = 1) => {
     setIsLoading(true);
     try {
-      // Assuming your backend has this endpoint
       const response = await request(`/jobs/saved?page=${page}`, "GET");
       setJobs(response.jobs);
       setPagination({
@@ -107,7 +106,6 @@ const SavedJobs: React.FC = () => {
         </div>
       )}
 
-      {/* Basic Pagination Controls */}
       {pagination.totalPages > 1 && (
         <div className="flex justify-center mt-8 gap-2">
           <button

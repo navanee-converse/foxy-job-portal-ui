@@ -16,6 +16,7 @@ interface FormInputProps {
   disabled: boolean;
   control: Control<any>;
   className?: string;
+  required?: boolean;
 }
 
 export const FormInput = ({
@@ -25,19 +26,22 @@ export const FormInput = ({
   disabled,
   control,
   className,
+  required,
 }: FormInputProps) => (
   <FormField
     control={control}
     name={name}
     render={({ field }) => (
       <FormItem className={cn("w-full", className)}>
-        <FormLabel className="text-slate-700">{label}</FormLabel>
+        <FormLabel className={`text-slate-700 ${required && "label-required"}`}>
+          {label}
+        </FormLabel>
         <FormControl>
           <Input
             disabled={disabled}
             placeholder={placeholder}
             className={cn(
-              "bg-slate-50 border-slate-200 focus:bg-white h-12",
+              "bg-slate-50 border-slate-200 focus:bg-white h-12 cursor-pointer",
               "disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-auto ",
               disabled && "select-none",
               className,

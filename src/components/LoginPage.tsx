@@ -6,6 +6,7 @@ import AuthLayout from "../layouts/Auth";
 import { request } from "../services/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,8 +40,13 @@ const LoginPage: React.FC = () => {
       toast.success("Welcome!");
 
       if (response.access_token) {
-        localStorage.setItem("access_token", response.access_token);
-        localStorage.setItem("refresh_token", response.refresh_token);
+        Cookies.set("access_token", response.access_token, {
+          expires: 1,
+          path: "/",
+        });
+        Cookies.set("refresh_token", response.refresh_token, { expires: 7 });
+        const r = Cookies.get("access_token");
+        console.log(r, "resp");
       }
 
       navigate("/jobs");
@@ -56,10 +62,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <AuthLayout
-      title="Login to Hirely"
-      description="Welcome back! Please enter your credentials to access your account."
-    >
+    <AuthLayout title="Login to Hirely">
       <div className="flex flex-col justify-evenly">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1">
@@ -121,7 +124,7 @@ const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full cursor-pointer rounded-xl bg-brand-primary py-4 text-sm font-medium text-white shadow-xl shadow-brand-primary/20 transition-all hover:bg-brand-btn-hover active:scale-[0.98] disabled:bg-gray-400"
+            className="w-full cursor-pointer rounded-lg bg-brand-primary py-4 text-sm font-medium text-white shadow-md shadow-brand-primary/20 transition-all hover:bg-brand-btn-hover active:scale-[0.98] disabled:bg-gray-400"
           >
             {isLoading ? "Signing in..." : "Log In"}
           </button>

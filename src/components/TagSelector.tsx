@@ -10,18 +10,26 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { request } from "@/services/api";
+import { cn } from "@/lib/utils";
 import type { TagOption } from "@/types/tag";
 
-export const TagSelectorField = ({ control }: { control: Control<any> }) => {
+export const TagSelectorField = ({
+  control,
+  disabled = false,
+}: {
+  control: Control<any>;
+  disabled?: boolean;
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState<TagOption[]>([]);
 
   useEffect(() => {
+    if (disabled || searchTerm.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+
     const fetchTags = async () => {
-      if (searchTerm.length < 2) {
-        setSuggestions([]);
-        return;
-      }
       try {
         const res = await request(`/tags?name=${searchTerm}`, "GET");
         setSuggestions(res);
@@ -32,7 +40,7 @@ export const TagSelectorField = ({ control }: { control: Control<any> }) => {
 
     const debounce = setTimeout(fetchTags, 300);
     return () => clearTimeout(debounce);
-  }, [searchTerm]);
+  }, [searchTerm, disabled]);
 
   return (
     <FormField
@@ -44,6 +52,7 @@ export const TagSelectorField = ({ control }: { control: Control<any> }) => {
           : [];
 
         const handleRemove = (e: React.MouseEvent, idToRemove: string) => {
+          if (disabled) return;
           e.preventDefault();
           e.stopPropagation();
           const nextTags = currentTags.filter((tag) => tag._id !== idToRemove);
@@ -52,31 +61,49 @@ export const TagSelectorField = ({ control }: { control: Control<any> }) => {
 
         return (
           <FormItem className="flex flex-col items-start">
-            <FormLabel>Tags (Categories) *</FormLabel>
-            <div className="w-full border border-slate-200 rounded-lg p-2 bg-slate-50 focus-within:ring-2 ring-blue-500">
-              <div className="flex flex-wrap gap-2 mb-2">
+            <FormLabel className="label-required">Tags (Categories)</FormLabel>
+            
+            <div 
+              className={cn(
+                "w-full border rounded-lg p-2 transition-all relative",
+                disabled 
+                  ? "bg-slate-100 border-slate-200 cursor-not-allowed opacity-80" 
+                  : "bg-slate-50 border-slate-200 focus-within:ring-2 ring-blue-500"
+              )}
+            >
+              <div className="flex flex-wrap gap-2 mb-2 absolute right-2 top-3 overflow-auto">
                 {currentTags.map((tag) => (
                   <Badge
                     key={tag.id || tag._id}
                     variant="secondary"
-                    className="bg-blue-100 text-blue-700 flex items-center gap-1"
+                    className={cn(
+                      "bg-blue-100 text-blue-700 flex items-center gap-1",
+                      disabled && "cursor-not-allowed"
+                    )}
                   >
                     {tag.name}
-                    <button
-                      type="button"
-                      onClick={(e) => handleRemove(e, tag._id)}
-                      className="hover:text-red-500 transition-colors"
-                    >
-                      <X className="w-3 h-3 cursor-pointer" />
-                    </button>
+                    {!disabled && (
+                      <button
+                        type="button"
+                        onClick={(e) => handleRemove(e, tag._id)}
+                        className="hover:text-red-500 transition-colors"
+                      >
+                        <X className="w-3 h-3 cursor-pointer" />
+                      </button>
+                    )}
                   </Badge>
                 ))}
               </div>
+              
               <FormControl>
                 <input
-                  className="bg-transparent border-none outline-none w-full p-1 text-sm"
-                  placeholder="Search tags..."
+                  className={cn(
+                    "bg-transparent border-none outline-none w-full p-1 text-sm",
+                    disabled ? "cursor-not-allowed placeholder:text-slate-400" : "cursor-pointer"
+                  )}
+                  placeholder={disabled ? "" : "Search tags..."}
                   value={searchTerm}
+                  disabled={disabled}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") e.preventDefault();
@@ -85,7 +112,7 @@ export const TagSelectorField = ({ control }: { control: Control<any> }) => {
               </FormControl>
             </div>
 
-            {suggestions.length > 0 && (
+            {!disabled && suggestions.length > 0 && (
               <div className="relative w-full">
                 <ul className="absolute z-10 w-full bg-white border border-slate-200 rounded-md mt-1 shadow-lg max-h-48 overflow-auto">
                   {suggestions.map((tag) => (

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
@@ -10,7 +11,9 @@ interface DecodedToken {
 
 export const getDecodedToken = (): DecodedToken | null => {
   try {
-    const token = localStorage.getItem("access_token");
+    const token = Cookies.get("access_token");
+    console.log(token,'=');
+    
     if (!token) return null;
 
     const decoded = jwtDecode<DecodedToken>(token);
@@ -28,7 +31,7 @@ export const getDecodedToken = (): DecodedToken | null => {
 };
 
 export const refreshAccessToken = async () => {
-  const refresh_token = localStorage.getItem("refresh_token");
+  const refresh_token = Cookies.get("refresh_token");
   if (!refresh_token) throw new Error("No refresh token available");
 
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -41,9 +44,10 @@ export const refreshAccessToken = async () => {
   const { accessToken, refreshToken } = response.data.data;
   console.log(accessToken, refreshToken);
 
-  localStorage.setItem("access_token", accessToken);
+  Cookies.set("access_token", accessToken, { expires: 1 });
+
   if (refreshToken) {
-    localStorage.setItem("refresh_token", refreshToken);
+    Cookies.set("refresh_token", refreshToken, { expires: 7 });
   }
 
   return accessToken;

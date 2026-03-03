@@ -3,13 +3,11 @@ import React, { type ReactNode } from "react";
 interface AuthLayoutProps {
   children: ReactNode;
   title: string;
-  description: string;
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({
   children,
   title,
-  description,
 }) => {
   return (
     <div className="flex min-h-screen bg-white">
@@ -30,11 +28,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
 
       <div className="flex w-full flex-col justify-center px-6 py-12 lg:w-1/2 lg:px-20 xl:px-40 relative">
         <div className="mx-auto w-full max-w-sm lg:ml-0">
-          <header className="mb-10 text-left">
-            <h1 className="text-2xl font-medium text-content-heading tracking-tight mb-3">
+          <header className="mb-8 text-left">
+            <h1 className="text-2xl font-medium text-content-heading tracking-tight">
               {title}
             </h1>
-            <p className="text-content-body font-medium">{description}</p>
           </header>
 
           {children}

@@ -3,7 +3,9 @@ import { MdMenu, MdClose } from "react-icons/md";
 import { FaHome, FaSearch, FaUser } from "react-icons/fa";
 import { HiDocumentText } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import Cookies from "js-cookie";
+import { AnimatePresence, motion } from "framer-motion";
+
 interface HeaderProps {
   bgColor?: string;
 }
@@ -30,11 +32,22 @@ const Header: React.FC<HeaderProps> = ({
 
   const navLinks = [
     { name: "Home", icon: <FaHome />, path: "/" },
-    { name: "Find Jobs", icon: <FaSearch />, path: "/jobs" },
+    { name: "Jobs", icon: <FaSearch />, path: "/jobs" },
     { name: "Applications", icon: <HiDocumentText />, path: "/applications" },
-    { name: "Profile", icon: <FaUser />, path: "/profile" },
+    { name: "Profile", icon: <FaUser />, path: "/users/profile" },
   ];
-  const accessToken = localStorage.getItem("access_token");
+  const menuLinks = [
+    { name: " Job Alert", path: "/jobs/alert" },
+    {
+      name: "Applied Jobs",
+      path: "/jobs/applied",
+    },
+    {
+      name: "Saved Jobs",
+      path: "/jobs/saved",
+    },
+  ];
+  const accessToken = Cookies.get("access_token");
 
   return (
     <motion.header
@@ -102,6 +115,80 @@ const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
       </div>
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-40 lg:hidden"
+              onClick={() => setIsMenuOpen(false)}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute top-full right-6 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 lg:hidden z-50 overflow-hidden"
+            >
+              <div className="flex flex-col p-3">
+                <div className="flex flex-col gap-1">
+                  {navLinks.map((link) => (
+                    <div
+                      key={link.name}
+                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-xl transition-colors cursor-pointer group"
+                      onClick={() => {
+                        navigate(link.path);
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
+                        {link.icon}
+                      </span>
+                      <span className="font-semibold text-content-heading group-hover:text-brand-primary transition-colors">
+                        {link.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-2 pt-2 border-t border-gray-100 flex flex-col gap-1">
+                  <p className="px-4 py-1 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                    Management
+                  </p>
+                  {menuLinks.map((link) => (
+                    <div
+                      key={link.name}
+                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-xl transition-colors cursor-pointer group"
+                      onClick={() => {
+                        navigate(link.path);
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <span className="font-medium text-gray-600 group-hover:text-brand-primary transition-colors">
+                        {link.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {!accessToken && (
+                  <div className="pt-3 mt-2 border-t border-gray-100">
+                    <button
+                      className="w-full bg-brand-primary text-white py-3.5 rounded-xl font-bold shadow-md active:scale-95 transition-all"
+                      onClick={() => {
+                        navigate("/login");
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Login / Register
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { FiSearch, FiMapPin, FiChevronDown } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import { FaRupeeSign } from "react-icons/fa";
 import {
   EmploymentType,
@@ -9,6 +9,7 @@ import {
   type ExperienceLevelValue,
   type LocationValue,
 } from "@/validations/job-filter";
+import CustomSelect from "./fields/CustomSelect";
 
 interface SidebarProps {
   filters: {
@@ -36,7 +37,7 @@ const FilterSidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside className="w-full space-y-6">
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-8">
+      <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm space-y-8">
         <div className="space-y-3">
           <h4 className="font-bold text-gray-800">Search by title</h4>
           <div className="relative">
@@ -46,58 +47,29 @@ const FilterSidebar: React.FC<SidebarProps> = ({
               placeholder="Job title..."
               value={filters.title}
               onChange={(e) => setters.setTitle(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg text-sm focus:border-blue-500 outline-none"
+              className="w-full pl-11 cursor-pointer pr-4 py-3 border border-gray-200 rounded-lg text-sm focus:border-blue-500 outline-none"
             />
           </div>
         </div>
 
         <div className="space-y-3">
           <h4 className="font-bold text-gray-800">Experience Level</h4>
-          <div className="relative">
-            <select
-              value={filters.experienceLevel}
-              onChange={(e) =>
-                setters.setExperienceLevel(
-                  e.target.value as ExperienceLevelValue | "",
-                )
-              }
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm outline-none appearance-none bg-white cursor-pointer focus:border-blue-500"
-            >
-              <option value="">All Experience Levels</option>
-              {Object.values(ExperienceLevel).map((lvl) => (
-                <option key={lvl} value={lvl}>
-                  {lvl}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-              <FiChevronDown className="h-4 w-4" />
-            </div>
-          </div>
+          <CustomSelect
+            value={filters.experienceLevel}
+            onChange={(val) => setters.setExperienceLevel(val)}
+            options={Object.values(ExperienceLevel)}
+            placeholder="Experience Levels"
+          />
         </div>
 
         <div className="space-y-3">
           <h4 className="font-bold text-gray-800">Location Type</h4>
-          <div className="relative">
-            <FiMapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-            <select
-              value={filters.locationType}
-              onChange={(e) =>
-                setters.setLocationType(e.target.value as LocationValue | "")
-              }
-              className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg text-sm outline-none appearance-none bg-white cursor-pointer"
-            >
-              <option value="">All Locations</option>
-              {Object.values(Location).map((loc) => (
-                <option key={loc} value={loc} className="capitalize">
-                  {loc}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-              <FiChevronDown className="h-4 w-4" />
-            </div>
-          </div>
+          <CustomSelect
+            value={filters.locationType}
+            onChange={(val) => setters.setLocationType(val)}
+            options={Object.values(Location)}
+            placeholder="Location Type"
+          />
         </div>
 
         <div className="space-y-3">
@@ -113,12 +85,11 @@ const FilterSidebar: React.FC<SidebarProps> = ({
                   value={filters.minSalary}
                   onChange={(e) => {
                     const val = e.target.value;
-                    // Only allow positive numbers
                     if (val === "" || Number(val) >= 0) {
                       setters.setMinSalary(val);
                     }
                   }}
-                  className={`w-full pl-8 pr-2 py-2 border rounded-lg text-sm outline-none transition-colors ${
+                  className={`w-full pl-8 pr-2 py-2 border rounded-lg text-sm outline-none transition-colors cursor-pointer${
                     filters.maxSalary &&
                     Number(filters.minSalary) > Number(filters.maxSalary)
                       ? "border-red-400 focus:border-red-500"
@@ -140,7 +111,7 @@ const FilterSidebar: React.FC<SidebarProps> = ({
                       setters.setMaxSalary(val);
                     }
                   }}
-                  className={`w-full pl-8 pr-2 py-2 border rounded-lg text-sm outline-none transition-colors ${
+                  className={`w-full pl-8 pr-2 cursor-pointer py-2 border rounded-lg text-sm outline-none transition-colors ${
                     filters.maxSalary &&
                     Number(filters.maxSalary) < Number(filters.minSalary)
                       ? "border-red-400 focus:border-red-500"
@@ -171,7 +142,7 @@ const FilterSidebar: React.FC<SidebarProps> = ({
                 type="checkbox"
                 checked={filters.selectedEmploymentTypes.includes(type)}
                 onChange={() => handleEmploymentToggle(type)}
-                className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="w-4 h-4 rounded cursor-pointer border-gray-300 text-blue-600 focus:ring-blue-500"
               />
               <span className="text-sm text-gray-600 capitalize">
                 {type.replace("-", " ")}

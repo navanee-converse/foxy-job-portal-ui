@@ -1,4 +1,5 @@
 import { getDecodedToken } from "@/utils/auth";
+import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -11,8 +12,10 @@ export const SocialAuthSuccess = () => {
     const refreshToken = searchParams.get("refresh_token");
 
     if (accessToken) {
-      localStorage.setItem("access_token", accessToken);
-      if (refreshToken) localStorage.setItem("refresh_token", refreshToken);
+      Cookies.set("access_token", accessToken, { expires: 1 });
+      if (refreshToken)
+        Cookies.set("refresh_token", refreshToken, { expires: 7 });
+
       const payload = getDecodedToken();
       if (payload?.role === "job_seeker") navigate("/jobs");
       else navigate("/users/profile");

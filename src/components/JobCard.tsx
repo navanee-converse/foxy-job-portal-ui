@@ -4,12 +4,20 @@ import { FaRupeeSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { formatRelativeTime } from "@/utils/dateFormatter";
 import type { Job } from "@/types/job";
+import { getDecodedToken } from "@/utils/auth";
 
 interface JobCardProps {
   job: Job;
   isBookmarked: boolean;
   onToggleBookmark: (e: React.MouseEvent, id: string) => void;
 }
+const TAG_PALETTE = [
+  { bg: "bg-emerald-50", text: "text-emerald-600" },
+  { bg: "bg-violet-50", text: "text-violet-600" },
+  { bg: "bg-amber-50", text: "text-amber-700" },
+  { bg: "bg-rose-50", text: "text-rose-600" },
+  { bg: "bg-cyan-50", text: "text-cyan-600" },
+];
 
 const JobCard: React.FC<JobCardProps> = ({
   job,
@@ -17,31 +25,44 @@ const JobCard: React.FC<JobCardProps> = ({
   onToggleBookmark,
 }) => {
   const navigate = useNavigate();
-
-  const activeBookmark = isBookmarked
+  const activeBookmark = isBookmarked;
+  const payload = getDecodedToken();
+  const color =
+    job.status === "draft"
+      ? "bg-blue-50 text-blue-600"
+      : job.status === "published"
+        ? "bg-green-50 text-green-600"
+        : "bg-red-50 text-red-600";
 
   return (
-    <div className="bg-white p-7 rounded-2xl border border-gray-300 hover:shadow-lg transition-all relative group">
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggleBookmark(e, job._id);
-        }}
-        className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-50 transition-colors z-10"
-        title={activeBookmark ? "Remove Bookmark" : "Save Job"}
-      >
-        <FiBookmark
-          size={22}
-          className={
-            activeBookmark
-              ? "fill-blue-600 text-blue-600"
-              : "text-gray-400 hover:text-blue-600"
-          }
-        />
-      </button>
-
+    <div className="bg-white p-7 rounded-lg border border-gray-300 hover:shadow transition-all relative group">
+      {payload?.role === "job_seeker" ? (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleBookmark(e, job._id);
+          }}
+          className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-50 transition-colors z-10"
+          title={activeBookmark ? "Remove Bookmark" : "Save Job"}
+        >
+          <FiBookmark
+            size={22}
+            className={
+              activeBookmark
+                ? "fill-blue-600 text-blue-600 cursor-pointer"
+                : "text-gray-400 hover:text-blue-600 cursor-pointer hover:fill-blue-600 transition-colors"
+            }
+          />
+        </button>
+      ) : (
+        <div
+          className={`absolute top-6 right-6 m-8 text-sm rounded-full ${color}`}
+        >
+          <div className="m-3"> {job.status}</div>
+        </div>
+      )}
       <div className="flex gap-6">
-        <div className="w-14 h-14 bg-[#1E293B] rounded-xl flex items-center justify-center text-white shrink-0 overflow-hidden">
+        <div className="w-14 h-14 bg-[#1E293B] rounded-lg flex items-center justify-center text-white shrink-0 overflow-hidden">
           {job.companyId?.logo ? (
             <img
               src={job.companyId.logo}
@@ -87,6 +108,19 @@ const JobCard: React.FC<JobCardProps> = ({
             <span className="px-4 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold capitalize">
               {job.employmentType}
             </span>
+            <span className="px-4 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-semibold capitalize">
+              {job.experienceLevel}
+            </span>
+            {job.jobTags.map((tag, index) => {
+              const theme = TAG_PALETTE[index % TAG_PALETTE.length];
+              return (
+                <span
+                  className={`px-4 py-1 rounded-full text-xs font-semibold capitalize ${theme.bg} ${theme.text}`}
+                >
+                  {tag.tagId.name}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

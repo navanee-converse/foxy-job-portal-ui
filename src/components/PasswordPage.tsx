@@ -4,8 +4,8 @@ import { request } from "../services/api";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { passwordSchema } from "@/validations/password";
-import { getDecodedToken } from "@/utils/auth";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 type FieldErrors = {
   password?: string[];
@@ -63,8 +63,8 @@ const PasswordPage: React.FC = () => {
         confirmPassword: formData.confirmPassword,
       })) as { access_token: string; refresh_token: string };
       if (response.access_token) {
-        localStorage.setItem("access_token", response.access_token);
-        localStorage.setItem("refresh_token", response.refresh_token);
+        Cookies.set("access_token", response.access_token, { expires: 1 });
+        Cookies.set("refresh_token", response.refresh_token, { expires: 7 });
       }
       navigate("/users/profile");
 
@@ -79,10 +79,7 @@ const PasswordPage: React.FC = () => {
   };
 
   return (
-    <AuthLayout
-      title="Set New Password"
-      description="Create a strong password to secure your account."
-    >
+    <AuthLayout title="Set New Password">
       <div className="flex flex-col justify-evenly">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1">

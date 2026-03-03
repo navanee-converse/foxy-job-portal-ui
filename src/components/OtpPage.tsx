@@ -87,7 +87,6 @@ const OtpPage: React.FC = () => {
   return (
     <AuthLayout
       title="Verify your Email"
-      description={`We sent a code to ${email || "your email"}`}
     >
       <div className="flex flex-col justify-evenly">
         <form onSubmit={handleOtpSubmit} className="space-y-6">

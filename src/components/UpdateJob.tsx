@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
-import { Loader2, Edit3, Users, Save, Globe, X } from "lucide-react";
+import { Loader2, Edit3, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ const UpdateJob = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isEditing, setIsEditing] = useState(false); // 👈 New state to track mode
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobSchema) as Resolver<JobFormValues>,
@@ -85,7 +85,7 @@ const UpdateJob = () => {
       toast.success(
         newStatus === "published" ? "Job published!" : "Draft updated!",
       );
-      setIsEditing(false); // 👈 Switch back to view mode after success
+      setIsEditing(false);
     } catch (err) {
       toast.error("Failed to update job");
     } finally {
@@ -104,27 +104,25 @@ const UpdateJob = () => {
 
   return (
     <div className="bg-[#F8FAFC] min-h-screen pb-20">
-      {/* Dynamic Header */}
       <div className="max-w-7xl mx-auto px-6 pt-12 pb-8 flex justify-between items-center">
         <h1 className="font-bold text-4xl text-slate-900">
           {isEditing ? "Editing Job Listing" : "Job Overview"}
         </h1>
 
-        {/* Mode Toggle Buttons */}
         {!isEditing && (
           <div className="flex gap-3">
             <Button
-              variant="outline"
-              className="gap-2 border-slate-300"
-              onClick={() => navigate(`/jobs/${id}/applications`)}
-            >
-              <Users className="w-4 h-4" /> Applications
-            </Button>
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 gap-2"
+              className="bg-gray-500 hover:bg-gray-600 gap-2"
               onClick={() => setIsEditing(true)}
             >
               <Edit3 className="w-4 h-4" /> Edit Job
+            </Button>
+            <Button
+              variant="outline"
+              className="gap-2 border-slate-300 text-white bg-brand-primary hover:text-white hover:bg-brand-btn-hover"
+              onClick={() => navigate(`/jobs/${id}/applications`)}
+            >
+              <Users className="w-4 h-4" /> Applications
             </Button>
           </div>
         )}
@@ -137,7 +135,10 @@ const UpdateJob = () => {
               disabled={!isEditing}
               className="space-y-12 disabled:opacity-80"
             >
-              <RoleOverviewSection control={form.control} />
+              <RoleOverviewSection
+                control={form.control}
+                disabled={!isEditing}
+              />
               <Separator />
               <SalarySection control={form.control} />
               <Separator />
@@ -146,7 +147,10 @@ const UpdateJob = () => {
                 <h2 className="text-xl font-bold text-slate-800">
                   Classification
                 </h2>
-                <TagSelectorField control={form.control} />
+                <TagSelectorField
+                  control={form.control}
+                  disabled={!isEditing}
+                />
               </section>
               <Separator />
 
@@ -154,6 +158,7 @@ const UpdateJob = () => {
                 control={form.control}
                 name="responsibilities"
                 title="Responsibilities"
+                disabled={!isEditing}
                 placeholder={isEditing ? "Add a responsibility..." : ""}
               />
               <Separator />
@@ -163,6 +168,7 @@ const UpdateJob = () => {
                 name="skillsAndQualifications"
                 title="Skills & Qualifications"
                 placeholder={isEditing ? "Add a skill..." : ""}
+                disabled={!isEditing}
               />
               <Separator />
 
@@ -170,11 +176,11 @@ const UpdateJob = () => {
             </fieldset>
 
             {isEditing && (
-              <div className="flex justify-end items-center gap-4 pt-8 border-t">
+              <div className="flex justify-end items-center gap-4">
                 <Button
                   type="button"
                   variant="ghost"
-                  className="text-slate-500 hover:text-red-600"
+                  className="text-slate-500 hover:text-red-600 hover:bg-white cursor-pointer"
                   onClick={() => {
                     setIsEditing(false);
                     form.reset();
@@ -185,9 +191,8 @@ const UpdateJob = () => {
 
                 <Button
                   type="button"
-                  variant="outline"
                   disabled={isSubmitting}
-                  className="px-8 h-12"
+                  className="px-8 h-12 bg-gray-500 hover:bg-gray-600 cursor-pointer"
                   onClick={form.handleSubmit((data) =>
                     handleJobUpdate(data, "draft"),
                   )}
@@ -198,7 +203,7 @@ const UpdateJob = () => {
                 <Button
                   type="button"
                   disabled={isSubmitting}
-                  className="bg-blue-600 hover:bg-blue-700 px-10 h-12 text-white shadow-md"
+                  className="bg-brand-primary hover:bg-brand-btn-hover cursor-pointer px-10 h-12 text-white shadow-md transition-all duration-300"
                   onClick={form.handleSubmit((data) =>
                     handleJobUpdate(data, "published"),
                   )}

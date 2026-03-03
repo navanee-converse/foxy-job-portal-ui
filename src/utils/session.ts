@@ -5,7 +5,7 @@ export const getOrSetSessionId = (): string => {
   if (existingId) return existingId;
   const newId = self.crypto.randomUUID();
 
-  localStorage.setItem(SESSION_KEY, newId);
+  localStorage.setItem(SESSION_KEY, newId);  
   return newId;
 };
 

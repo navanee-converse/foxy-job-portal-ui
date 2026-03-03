@@ -13,6 +13,7 @@ import JobCard from "@/components/JobCard";
 import FilterSidebar from "./FilterSideBar";
 import type { Job } from "@/types/job";
 import { getDecodedToken } from "@/utils/auth";
+import Cookies from "js-cookie";
 
 const JobFilterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ const JobFilterPage: React.FC = () => {
     );
   };
   const payload = getDecodedToken();
+
   const fetchJobs = useCallback(async () => {
     try {
       const filterData = {
@@ -141,75 +143,57 @@ const JobFilterPage: React.FC = () => {
     <div className="h-screen flex flex-col overflow-hidden">
       <div className="shrink-0 header-gradient w-full py-12 flex flex-col items-center justify-center border-b border-gray-100">
         <h1 className="text-3xl text-center font-bold mb-3 text-gray-800">
-          Find Jobs
+          Jobs
         </h1>
-        <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-          <p
-            className="hover:text-blue-600 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Home
-          </p>
-          <span>/</span>
-          <p className="text-gray-400">Jobs</p>
-        </div>
       </div>
 
       <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-8 p-6 pb-15 overflow-hidden">
-        <div className="w-full lg:w-1/4 shrink-0 h-full overflow-y-auto pr-2 custom-scrollbar">
-          <FilterSidebar
-            filters={{
-              title,
-              locationType,
-              experienceLevel,
-              minSalary,
-              maxSalary,
-              selectedEmploymentTypes,
-            }}
-            setters={{
-              setTitle: (v) => {
-                setTitle(v);
-                setPage(1);
-              },
-              setLocationType: (v) => {
-                setLocationType(v);
-                setPage(1);
-              },
-              setExperienceLevel: (v) => {
-                setExperienceLevel(v);
-                setPage(1);
-              },
-              setMinSalary: (v) => {
-                setMinSalary(v);
-                setPage(1);
-              },
-              setMaxSalary: (v) => {
-                setMaxSalary(v);
-                setPage(1);
-              },
-            }}
-            handleEmploymentToggle={handleEmploymentToggle}
-          />
-        </div>
-
-        <main className="flex-1 h-full flex flex-col bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-          <div className="shrink-0 px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white">
-            {" "}
-            <p className="text-gray-500 text-sm">
-              Showing{" "}
-              <span className="font-bold text-gray-800">{jobs.length}</span> of{" "}
-              <span className="font-bold text-gray-800">{totalJobs}</span> total
-              results
-            </p>
+        {payload?.role === "job_seeker" && (
+          <div className="w-full lg:w-1/4 shrink-0 h-full overflow-y-auto pr-2 custom-scrollbar">
+            <FilterSidebar
+              filters={{
+                title,
+                locationType,
+                experienceLevel,
+                minSalary,
+                maxSalary,
+                selectedEmploymentTypes,
+              }}
+              setters={{
+                setTitle: (v) => {
+                  setTitle(v);
+                  setPage(1);
+                },
+                setLocationType: (v) => {
+                  setLocationType(v);
+                  setPage(1);
+                },
+                setExperienceLevel: (v) => {
+                  setExperienceLevel(v);
+                  setPage(1);
+                },
+                setMinSalary: (v) => {
+                  setMinSalary(v);
+                  setPage(1);
+                },
+                setMaxSalary: (v) => {
+                  setMaxSalary(v);
+                  setPage(1);
+                },
+              }}
+              handleEmploymentToggle={handleEmploymentToggle}
+            />
           </div>
+        )}
 
+        <main className="flex-1 h-full flex flex-col bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
           <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-gray-50/20">
             {isLoading ? (
               <div className="animate-pulse space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="h-44 bg-white rounded-2xl border border-gray-100"
+                    className="h-44 bg-white rounded-lg border border-gray-100"
                   />
                 ))}
               </div>
@@ -224,7 +208,7 @@ const JobFilterPage: React.FC = () => {
                       navigate(`/update-job/${job._id}`);
                     }
                   }}
-                  className="cursor-pointer transition-transform hover:scale-[1.01]"
+                  className="cursor-pointer transition-shadow duration-300 hover:shadow-md"
                 >
                   <JobCard
                     job={job}
@@ -244,7 +228,7 @@ const JobFilterPage: React.FC = () => {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="p-2 rounded-lg border hover:bg-gray-50 disabled:opacity-30 transition-all"
+              className="p-2 disabled:opacity-30 transition-all hover:text-black hover:disabled:opacity-60 cursor-pointer"
             >
               <FiChevronLeft size={20} />
             </button>
@@ -258,7 +242,7 @@ const JobFilterPage: React.FC = () => {
               disabled={
                 jobs.length < limit || (totalPages > 1 && page === totalPages)
               }
-              className="p-2 rounded-lg border hover:bg-gray-50 disabled:opacity-30 transition-all"
+              className="p-2 disabled:opacity-30 transition-all hover:text-black hover:disabled:opacity-60 cursor-pointer"
             >
               <FiChevronRight size={20} />
             </button>

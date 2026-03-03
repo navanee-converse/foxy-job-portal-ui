@@ -93,7 +93,6 @@ const RegisterPage: React.FC = () => {
   return (
     <AuthLayout
       title="Create a Free Hirely Account"
-      description="Join Hirely today and start managing your talent."
     >
       <div className="flex flex-col justify-evenly">
         <div className="flex flex-1 w-full gap-4 mb-10">
@@ -148,7 +147,7 @@ const RegisterPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full cursor-pointer rounded-xl bg-brand-primary py-4 text-sm font-medium text-white shadow-xl shadow-brand-primary/20 transition-all hover:bg-brand-btn-hover active:scale-[0.98] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full cursor-pointer rounded-lg bg-brand-primary py-4 text-sm font-medium text-white shadow-xl shadow-brand-primary/10 transition-all hover:bg-brand-btn-hover active:scale-[0.98] disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 {isLoading
                   ? "Processing..."
@@ -196,12 +195,12 @@ const RegisterPage: React.FC = () => {
 
           <p className="mt-8 text-center text-sm text-content-body lg:text-left">
             Already have an account?{" "}
-            <a
-              href="/login"
-              className="font-bold text-brand-primary hover:underline"
+            <span
+              onClick={() => navigate("/login")}
+              className="cursor-pointer font-bold text-brand-primary hover:underline"
             >
               Log In
-            </a>
+            </span>
           </p>
         </div>
       </div>
