@@ -194,3 +194,9 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
+
+@layer components {
+  .label-required {
+    @apply flex items-center gap-1 after:content-['*'] after:text-red-500;
+  }
+}

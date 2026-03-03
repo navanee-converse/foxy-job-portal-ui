@@ -22,7 +22,7 @@ export const jobSchema = z
     tagIds: z
       .array(
         z.object({
-          id: z.string(),
+          _id: z.string(),
           name: z.string(),
         }),
       )
@@ -31,16 +31,12 @@ export const jobSchema = z
     status: z.enum(["draft", "published", "closed"]),
     description: z.string().min(20, "Please provide a detailed description"),
     responsibilities: z
-  .array(
-    z.string().trim().min(1, "Responsibility cannot be empty") 
-  )
-  .min(1, "At least one responsibility is required"),
+      .array(z.string().trim().min(1, "Responsibility cannot be empty"))
+      .min(1, "At least one responsibility is required"),
 
-skillsAndQualifications: z
-  .array(
-    z.string().trim().min(1, "Skill cannot be empty")
-  )
-  .min(1, "At least one skill is required"),
+    skillsAndQualifications: z
+      .array(z.string().trim().min(1, "Skill cannot be empty"))
+      .min(1, "At least one skill is required"),
     minSalary: z.coerce
       .number()
       .min(0, { message: "Minimum salary must be zero or a positive number" })

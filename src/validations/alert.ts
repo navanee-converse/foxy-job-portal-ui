@@ -15,6 +15,7 @@ export const alertSchema = z.object({
     .or(z.literal("").transform(() => undefined)),
   experienceLevel: z.string().optional(),
   employmentType: z.string().optional(),
+  isEnabled: z.boolean().optional(),
 });
 
 export type AlertFormValues = z.infer<typeof alertSchema>;

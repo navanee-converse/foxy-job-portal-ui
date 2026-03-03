@@ -84,7 +84,7 @@ const RegisterPage: React.FC = () => {
       toast.success("Registration successful!");
       navigate("/verify-otp");
     } catch (error: any) {
-      console.error("Registration error:", error);
+      toast.error("Registration error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +128,7 @@ const RegisterPage: React.FC = () => {
             <div className="space-y-1">
               <label
                 htmlFor="email"
-                className="text-sm font-medium text-content-heading"
+                className="text-sm font-medium text-content-heading label-required"
               >
                 Email Address
               </label>
@@ -140,7 +140,7 @@ const RegisterPage: React.FC = () => {
                 placeholder="Enter your email"
                 required
                 disabled={isLoading}
-                className="w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-1 focus:ring-blue-600 focus:bg-white border border-transparent disabled:opacity-50"
+                className="w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-blue-600 focus:bg-white border border-transparent disabled:opacity-50"
               />
             </div>
 

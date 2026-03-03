@@ -12,6 +12,7 @@ import {
 import JobCard from "@/components/JobCard";
 import FilterSidebar from "./FilterSideBar";
 import type { Job } from "@/types/job";
+import { getDecodedToken } from "@/utils/auth";
 
 const JobFilterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const JobFilterPage: React.FC = () => {
       prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
     );
   };
-
+  const payload = getDecodedToken();
   const fetchJobs = useCallback(async () => {
     try {
       const filterData = {
@@ -216,7 +217,13 @@ const JobFilterPage: React.FC = () => {
               jobs.map((job) => (
                 <div
                   key={job._id}
-                  onClick={() => navigate(`/jobs/${job._id}`)}
+                  onClick={() => {
+                    if (payload?.role === "job_seeker") {
+                      navigate(`/jobs/${job._id}`);
+                    } else {
+                      navigate(`/update-job/${job._id}`);
+                    }
+                  }}
                   className="cursor-pointer transition-transform hover:scale-[1.01]"
                 >
                   <JobCard

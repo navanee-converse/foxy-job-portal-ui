@@ -8,11 +8,12 @@ import { jobSchema, type JobFormValues } from "@/validations/job";
 import { request } from "@/services/api";
 import { DynamicListSection } from "./DynamicListSelection";
 import { JobDescriptionField } from "./fields/JobDescription";
-import { TagSelectorField, type Tag } from "./TagSelector";
+import { TagSelectorField } from "./TagSelector";
 import { SalarySection } from "./sections/Salary";
 import { RoleOverviewSection } from "./sections/RoleOverview";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import type { TagOption } from "@/types/tag";
 
 const PostJob = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,8 +43,8 @@ const PostJob = () => {
   ) => {
     setIsSubmitting(true);
     try {
-      const tagIdsOnly = values.tagIds.map((tag: Tag) =>
-        typeof tag === "object" ? tag.id : tag,
+      const tagIdsOnly = values.tagIds.map(
+        (tag: TagOption) => tag._id
       );
 
       const payload = {
@@ -64,7 +65,6 @@ const PostJob = () => {
       setIsSubmitting(false);
     }
   };
-  console.log(form.formState.errors);
   return (
     <div className="bg-[#F8FAFC] min-h-screen pb-20">
       <div className="max-w-7xl mx-auto px-6 pt-12 pb-10">

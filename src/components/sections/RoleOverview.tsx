@@ -46,7 +46,7 @@ export const RoleOverviewSection = ({
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Location *</FormLabel>
+              <FormLabel>Location</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12! bg-slate-50 capitalize w-full border-gray-200">
@@ -54,7 +54,7 @@ export const RoleOverviewSection = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {["onsite", "hybride", "remote"].map((t) => (
+                  {["onsite", "hybrid", "remote"].map((t) => (
                     <SelectItem key={t} value={t} className="capitalize">
                       {t}
                     </SelectItem>

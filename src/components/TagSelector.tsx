@@ -10,15 +10,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { request } from "@/services/api";
-
-export interface Tag {
-  id: string;
-  name: string;
-}
+import type { TagOption } from "@/types/tag";
 
 export const TagSelectorField = ({ control }: { control: Control<any> }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState<Tag[]>([]);
+  const [suggestions, setSuggestions] = useState<TagOption[]>([]);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -43,32 +39,32 @@ export const TagSelectorField = ({ control }: { control: Control<any> }) => {
       control={control}
       name="tagIds"
       render={({ field }) => {
-        const currentTags: Tag[] = Array.isArray(field.value)
+        const currentTags: TagOption[] = Array.isArray(field.value)
           ? field.value
           : [];
 
         const handleRemove = (e: React.MouseEvent, idToRemove: string) => {
           e.preventDefault();
           e.stopPropagation();
-          const nextTags = currentTags.filter((tag) => tag.id !== idToRemove);
+          const nextTags = currentTags.filter((tag) => tag._id !== idToRemove);
           field.onChange(nextTags);
         };
 
         return (
           <FormItem className="flex flex-col items-start">
-            <FormLabel>Tags (Categories)</FormLabel>
+            <FormLabel>Tags (Categories) *</FormLabel>
             <div className="w-full border border-slate-200 rounded-lg p-2 bg-slate-50 focus-within:ring-2 ring-blue-500">
               <div className="flex flex-wrap gap-2 mb-2">
                 {currentTags.map((tag) => (
                   <Badge
-                    key={tag.id}
+                    key={tag.id || tag._id}
                     variant="secondary"
                     className="bg-blue-100 text-blue-700 flex items-center gap-1"
                   >
                     {tag.name}
                     <button
                       type="button"
-                      onClick={(e) => handleRemove(e, tag.id)}
+                      onClick={(e) => handleRemove(e, tag._id)}
                       className="hover:text-red-500 transition-colors"
                     >
                       <X className="w-3 h-3 cursor-pointer" />

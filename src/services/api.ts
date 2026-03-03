@@ -1,4 +1,4 @@
-import type { Response } from "@/types/response";
+import { refreshAccessToken } from "@/utils/auth";
 import axios, {
   type AxiosRequestConfig,
   type Method,
@@ -13,24 +13,54 @@ const apiClient = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    "x-requested-with": "XMLHttpRequest",
   },
 });
 
+/**
+ * Utility to refresh the access token
+ */
+// const refreshAccessToken = async (): Promise<string> => {
+//   const refreshToken = localStorage.getItem("refresh_token");
+//   if (!refreshToken) throw new Error("No refresh token found");
+
+//   // We use axios directly here to avoid the interceptors/recursion of 'apiClient'
+//   const response = await axios.post(`${API_URL}/auth/refresh`, {
+//     refreshToken,
+//   });
+
+//   const { access_token, refresh_token } = response.data.data;
+
+//   localStorage.setItem("access_token", access_token);
+//   if (refresh_token) {
+//     localStorage.setItem("refresh_token", refresh_token);
+//   }
+
+//   return access_token;
+// };
+
+/**
+ * Main Request Wrapper
+ */
 export const request = async <T = any>(
   endpoint: string,
   method: Method = "GET",
   body: any = null,
   customHeaders: any = {},
 ): Promise<T> => {
-  try {
-    const config: AxiosRequestConfig = {
-      url: endpoint,
-      method,
-      data: body,
-      headers: { ...customHeaders },
-    };
+  const token = localStorage.getItem("access_token");
+  const headers = {
+    ...customHeaders,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
 
+  const config: AxiosRequestConfig = {
+    url: endpoint,
+    method,
+    data: body,
+    headers,
+  };
+
+  try {
     const response: AxiosResponse<T> = await apiClient(config);
 
     if (method !== "GET") {
@@ -38,20 +68,42 @@ export const request = async <T = any>(
       toast.success(successMsg);
     }
 
-    console.log(response.data);
+    return (response.data as any).data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const data = error.response?.data as {
+        isAccessTokenExpired: boolean;
+        message?: string;
+      };
+      const status = error.response?.status;
 
-    return (response.data as Response<T>).data;
-  } catch (error: any) {
-    const status = error.response?.status;
-    const message =
-      error.response?.data?.message || "An unexpected error occurred";
+      if (status === 401 && data?.isAccessTokenExpired) {
+        try {
+          console.warn("Access token expired. Attempting silent refresh...");
+          const newAccessToken = await refreshAccessToken();
+          console.log("access_token", newAccessToken);
 
-    toast.error(message);
+          return await request<T>(endpoint, method, body, {
+            ...customHeaders,
+            Authorization: `Bearer ${newAccessToken}`,
+          });
+        } catch (refreshError) {
+          console.log(refreshError);
 
-    if (status === 401) {
-      console.warn("Unauthorized! Redirecting to login...");
+          console.error("Refresh token expired or invalid.");
+
+          throw refreshError;
+        }
+      }
+
+      const message = data?.message || "An unexpected error occurred";
+      toast.error(message);
+      throw { status, message };
     }
 
-    throw { status, message };
+    const genericMessage =
+      error instanceof Error ? error.message : "A client-side error occurred";
+    toast.error(genericMessage);
+    throw { status: 500, message: genericMessage };
   }
 };

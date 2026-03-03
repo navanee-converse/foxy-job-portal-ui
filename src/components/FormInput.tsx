@@ -24,7 +24,7 @@ export const FormInput = ({
   placeholder,
   disabled,
   control,
-  className
+  className,
 }: FormInputProps) => (
   <FormField
     control={control}
@@ -36,7 +36,12 @@ export const FormInput = ({
           <Input
             disabled={disabled}
             placeholder={placeholder}
-            className="bg-slate-50 border-slate-200 focus:bg-white h-12 disabled:opacity-70 disabled:cursor-not-allowed"
+            className={cn(
+              "bg-slate-50 border-slate-200 focus:bg-white h-12",
+              "disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-auto ",
+              disabled && "select-none",
+              className,
+            )}
             {...field}
           />
         </FormControl>

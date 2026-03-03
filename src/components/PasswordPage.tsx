@@ -4,6 +4,8 @@ import { request } from "../services/api";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { passwordSchema } from "@/validations/password";
+import { getDecodedToken } from "@/utils/auth";
+import { useNavigate } from "react-router-dom";
 
 type FieldErrors = {
   password?: string[];
@@ -19,6 +21,7 @@ const PasswordPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -54,11 +57,16 @@ const PasswordPage: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await request("/auth/update-password", "POST", {
+      const response = (await request("/auth/update-password", "POST", {
         email: email,
         password: formData.password,
         confirmPassword: formData.confirmPassword,
-      });
+      })) as { access_token: string; refresh_token: string };
+      if (response.access_token) {
+        localStorage.setItem("access_token", response.access_token);
+        localStorage.setItem("refresh_token", response.refresh_token);
+      }
+      navigate("/users/profile");
 
       toast.success("Password updated successfully!");
       localStorage.removeItem("email");

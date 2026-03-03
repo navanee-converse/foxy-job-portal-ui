@@ -22,14 +22,14 @@ import toast from "react-hot-toast";
 import { request } from "@/services/api";
 import { Pencil, X } from "lucide-react";
 import { FormInput } from "./FormInput";
-import { companySchema, type CompanyFormValues } from "@/validations/company";
+import { companySchema, type CompanyDto } from "@/validations/company";
 
 const CompanyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   const [hasExistingData, setHasExistingData] = useState(false);
 
-  const form = useForm<CompanyFormValues>({
+  const form = useForm<CompanyDto>({
     resolver: zodResolver(companySchema),
     defaultValues: {
       name: "",
@@ -63,7 +63,7 @@ const CompanyProfile = () => {
     fetchCompanyData();
   }, [form]);
 
-  const onSubmit = async (values: CompanyFormValues) => {
+  const onSubmit = async (values: CompanyDto) => {
     try {
       await request("/companies", "PUT", values);
       toast.success("Profile updated successfully!");
@@ -118,7 +118,6 @@ const CompanyProfile = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-12 bg-white p-10 w-full max-w-7xl rounded-xl shadow-sm border border-slate-200"
           >
-            {/* Basic Details */}
             <section className="space-y-6">
               <h2 className="text-xl font-bold text-slate-800">
                 Basic Details
@@ -267,7 +266,6 @@ const CompanyProfile = () => {
 
             <Separator />
 
-            {/* Socials */}
             <section className="space-y-6">
               <h2 className="text-xl font-bold text-slate-800">Social Links</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

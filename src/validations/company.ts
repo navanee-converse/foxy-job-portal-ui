@@ -24,17 +24,20 @@ export const companySchema = z.object({
       linkedin: z
         .string()
         .regex(urlRegex, "Invalid LinkedIn URL")
-        .or(z.literal("")),
+        .optional()
+        .or(z.literal("").transform(() => undefined)),
       twitter: z
         .string()
         .regex(urlRegex, "Invalid Twitter URL")
-        .or(z.literal("")),
+        .optional()
+        .or(z.literal("").transform(() => undefined)),
       facebook: z
         .string()
         .regex(urlRegex, "Invalid Facebook URL")
-        .or(z.literal("")),
+        .optional()
+        .or(z.literal("").transform(() => undefined)),
     })
     .optional(),
 });
 
-export type CompanyFormValues = z.infer<typeof companySchema>;
+export type CompanyDto = z.infer<typeof companySchema>;

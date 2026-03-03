@@ -31,15 +31,16 @@ const LoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await request("/auth/login", "POST", {
+      const response = (await request("/auth/login", "POST", {
         email: formData.email,
         password: formData.password,
-      });
+      })) as { access_token: string; refresh_token: string };
 
-      toast.success("Welcome back!");
+      toast.success("Welcome!");
 
-      if (response.token) {
-        localStorage.setItem("token", response.token);
+      if (response.access_token) {
+        localStorage.setItem("access_token", response.access_token);
+        localStorage.setItem("refresh_token", response.refresh_token);
       }
 
       navigate("/jobs");
@@ -64,7 +65,7 @@ const LoginPage: React.FC = () => {
           <div className="space-y-1">
             <label
               htmlFor="email"
-              className="text-sm font-medium text-content-heading"
+              className="text-sm font-medium text-content-heading label-required"
             >
               Email Address
             </label>
@@ -76,7 +77,7 @@ const LoginPage: React.FC = () => {
               placeholder="Email"
               required
               disabled={isLoading}
-              className="w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-1 focus:bg-white border border-transparent disabled:opacity-50"
+              className="w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer"
             />
           </div>
 
@@ -84,14 +85,14 @@ const LoginPage: React.FC = () => {
             <div className="flex justify-between items-center">
               <label
                 htmlFor="password"
-                className="text-sm font-medium text-content-heading"
+                className="text-sm font-medium text-content-heading label-required"
               >
                 Password
               </label>
               <button
                 type="button"
                 onClick={() => navigate("/forgot-password")}
-                className="text-xs font-bold text-brand-primary hover:underline"
+                className="text-xs font-bold text-brand-primary hover:underline cursor-pointer"
               >
                 Forgot Password?
               </button>
@@ -105,12 +106,12 @@ const LoginPage: React.FC = () => {
                 placeholder="Password"
                 required
                 disabled={isLoading}
-                className="w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-1 focus:bg-white border border-transparent disabled:opacity-50"
+                className="w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl cursor-pointer"
               >
                 {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               </button>
@@ -141,21 +142,21 @@ const LoginPage: React.FC = () => {
           <button
             type="button"
             onClick={() => handleSocialLogin("google")}
-            className="flex flex-1 items-center justify-center gap-3 rounded-xl border border-gray-100 py-3 text-sm font-bold text-content-heading hover:bg-gray-50 transition-colors"
+            className="flex flex-1 items-center justify-center gap-3 rounded-xl border border-gray-100 py-3 text-sm font-bold text-content-heading hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <FcGoogle className="text-lg" /> Google
           </button>
           <button
             type="button"
             onClick={() => handleSocialLogin("linkedin")}
-            className="flex flex-1 items-center justify-center gap-3 rounded-xl border border-gray-100 py-3 text-sm font-bold text-content-heading hover:bg-gray-50 transition-colors"
+            className="flex flex-1 items-center justify-center gap-3 rounded-xl border border-gray-100 py-3 text-sm font-bold text-content-heading hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <FaLinkedinIn className="text-[#0077b5] text-lg" /> LinkedIn
           </button>
           <button
             type="button"
             onClick={() => handleSocialLogin("github")}
-            className="flex flex-1 items-center justify-center gap-3 rounded-xl border border-gray-100 py-3 text-sm font-bold text-content-heading hover:bg-gray-50 transition-colors"
+            className="flex flex-1 items-center justify-center gap-3 rounded-xl border border-gray-100 py-3 text-sm font-bold text-content-heading hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <FaGithub className="text-black text-lg" /> GitHub
           </button>
@@ -165,7 +166,7 @@ const LoginPage: React.FC = () => {
           Don't have an account?{" "}
           <button
             onClick={() => navigate("/register")}
-            className="font-bold text-brand-primary hover:underline"
+            className="font-bold text-brand-primary hover:underline cursor-pointer"
           >
             Create an account
           </button>

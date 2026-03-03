@@ -1,5 +1,4 @@
 import React, { type ReactNode } from "react";
-import { FaArrowLeft } from "react-icons/fa";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -16,7 +15,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
     <div className="flex min-h-screen bg-white">
       <div className="hidden lg:relative lg:block lg:flex-1 bg-brand-light">
         <div className="absolute inset-0 flex flex-col items-center justify-center p-16 text-center">
-          <div className="relative mb-12 flex h-80 w-80 items-center justify-center rounded-full bg-white shadow-2xl border border-white/50">
+          <div className="relative mb-12 flex h-80 w-80 items-center justify-center rounded-full bg-white shadow-xl border border-white/50">
             <img src="logo.png" alt="Hirely" className="w-36 h-36" />
           </div>
           <h3 className="text-3xl font-extrabold text-content-heading mb-4 px-10">
@@ -30,14 +29,6 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
       </div>
 
       <div className="flex w-full flex-col justify-center px-6 py-12 lg:w-1/2 lg:px-20 xl:px-40 relative">
-        <button
-          onClick={() => window.history.back()}
-          className="absolute top-10 right-10 flex items-center gap-2 text-sm font-bold text-content-body hover:text-brand-primary transition-colors cursor-pointer group"
-        >
-          <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
-          Back to site
-        </button>
-
         <div className="mx-auto w-full max-w-sm lg:ml-0">
           <header className="mb-10 text-left">
             <h1 className="text-2xl font-medium text-content-heading tracking-tight mb-3">

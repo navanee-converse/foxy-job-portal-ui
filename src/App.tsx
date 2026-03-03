@@ -13,6 +13,12 @@ import JobDetailsPage from "./components/JobDetailsPage";
 import CompanyProfile from "./components/CompanyProfile";
 import PostJob from "./components/PostJob";
 import { JobAlertScreen } from "./components/JobAlert";
+import UserProfile from "./components/UserProfile";
+import JobApplications from "./components/ApplicantsPage";
+import ApplicationDetail from "./components/ApplicantDetailPage";
+import AppliedJobs from "./components/AppliedJobs";
+import { SocialAuthSuccess } from "./components/SocialSuccessAuth";
+import UpdateJob from "./components/UpdateJob";
 
 function App() {
   return (
@@ -62,6 +68,14 @@ function App() {
             }
           />
           <Route
+            path="/update-job/:id"
+            element={
+              <HomeLayout headerColor="bg-white">
+                <UpdateJob />
+              </HomeLayout>
+            }
+          />
+          <Route
             path="/jobs/:id"
             element={
               <HomeLayout headerColor="bg-white">
@@ -77,6 +91,14 @@ function App() {
               </HomeLayout>
             }
           />
+          <Route
+            path="/users/profile"
+            element={
+              <HomeLayout headerColor="bg-white">
+                <UserProfile />
+              </HomeLayout>
+            }
+          />
 
           <Route
             path="*"
@@ -86,6 +108,31 @@ function App() {
               </div>
             }
           />
+          <Route
+            path="/jobs/:jobId/applications"
+            element={
+              <HomeLayout headerColor="bg-white">
+                <JobApplications />
+              </HomeLayout>
+            }
+          />
+          <Route
+            path="/jobs/:jobId/applications/:appId"
+            element={
+              <HomeLayout headerColor="bg-white">
+                <ApplicationDetail />
+              </HomeLayout>
+            }
+          />
+          <Route
+            path="/jobs/applied"
+            element={
+              <HomeLayout headerColor="bg-white">
+                <AppliedJobs />
+              </HomeLayout>
+            }
+          />
+          <Route path="/social-auth-success" element={<SocialAuthSuccess />} />
         </Routes>
       </BrowserRouter>
     </>

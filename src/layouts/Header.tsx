@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
-import { FaHome, FaSearch, FaBuilding, FaUser } from "react-icons/fa";
+import { FaHome, FaSearch, FaUser } from "react-icons/fa";
+import { HiDocumentText } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 interface HeaderProps {
   bgColor?: string;
 }
@@ -16,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 150) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -30,16 +31,32 @@ const Header: React.FC<HeaderProps> = ({
   const navLinks = [
     { name: "Home", icon: <FaHome />, path: "/" },
     { name: "Find Jobs", icon: <FaSearch />, path: "/jobs" },
-    { name: "Employers", icon: <FaBuilding />, path: "/employers" },
-    { name: "Candidates", icon: <FaUser />, path: "/candidates" },
+    { name: "Applications", icon: <HiDocumentText />, path: "/applications" },
+    { name: "Profile", icon: <FaUser />, path: "/profile" },
   ];
+  const accessToken = localStorage.getItem("access_token");
 
   return (
-    <header
-      className={`w-full sticky top-0 z-50 transition-all duration-1000 border-b ease-in-out border-gray-100 shadow-md shadow-gray-200/10
-        ${isScrolled ? "bg-white" : `${bgColor}`}`}
+    <motion.header
+      initial={{ y: 0 }}
+      animate={{
+        y: isScrolled ? [-100, 0] : 0,
+        position: isScrolled ? "fixed" : "sticky",
+        backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.98)" : "white",
+        boxShadow: isScrolled ? "0 10px 15px -3px rgba(0,0,0,0.1)" : "none",
+        paddingTop: isScrolled ? "0px" : "10px",
+        paddingBottom: isScrolled ? "0px" : "10px",
+      }}
+      transition={{
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+        backgroundColor: { duration: 0.6 },
+      }}
+      className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10 ${
+        !isScrolled ? bgColor : ""
+      }`}
     >
-      <div className="max-w-wide mx-auto w-full flex items-center justify-between p-5 px-6 md:px-12 lg:px-20">
+      <div className="max-w-wide mx-auto w-full flex items-center justify-between p-3 px-6 md:px-12 lg:px-20">
         <div className="flex items-center shrink-0 z-50">
           <img
             src="/logo.png"
@@ -66,14 +83,16 @@ const Header: React.FC<HeaderProps> = ({
         </nav>
 
         <div className="flex items-center gap-2 z-50">
-          <button
-            className="hidden lg:block bg-brand-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-btn-hover transition-all shadow-md"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login / Register
-          </button>
+          {!accessToken && (
+            <button
+              className="hidden lg:block bg-brand-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-btn-hover transition-all shadow-md"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login / Register
+            </button>
+          )}
 
           <button
             className="lg:hidden text-3xl text-content-heading"
@@ -83,7 +102,7 @@ const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
