@@ -11,8 +11,9 @@ interface JobHeaderProps {
 }
 
 const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
-  <div className="header-gradient bg-white border-b border-gray-100 py-12 px-6 lg:px-8">
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+  <div className=" bg-header-bg py-12 px-6 lg:px-8">
+    {" "}
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 pr-20 lg:pr-52">
       <div className="flex items-start gap-6">
         <div className="w-20 h-20 bg-slate-900 rounded-xl flex items-center justify-center shrink-0 shadow-lg">
           <span className="text-white font-bold text-2xl">
@@ -26,7 +27,10 @@ const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
               <FiBriefcase /> {job.companyId?.name}
             </span>
             <span className="flex items-center gap-1">
-              <FiMapPin /> {job.location}
+              <FiMapPin />{" "}
+              {job.location !== "onsite"
+                ? job.location
+                : (job.companyId?.location.city ?? job.location)}
             </span>
             <span className="flex items-center gap-1">
               <FiClock />{" "}
@@ -53,7 +57,7 @@ const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
           className={`flex-1 md:flex-none px-8 py-3 font-bold rounded-lg transition-all ${
             job.isApplied
               ? "bg-gray-200 text-gray-500 cursor-not-allowed border border-gray-300"
-              : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
+              : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95 cursor-pointer"
           }`}
         >
           {job.isApplied ? "Applied" : "Apply For Job"}
@@ -63,7 +67,7 @@ const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
           className="p-3 rounded-4xl transition-all active:scale-95 hover:bg-gray-50"
         >
           <FiBookmark
-            className={`w-6 h-6 text-blue-600 ${job.isSaved ? "fill-blue-600" : ""}`}
+            className={`w-6 h-6 cursor-pointer text-blue-600 ${job.isSaved ? "fill-blue-600" : ""}`}
           />
         </button>
       </div>

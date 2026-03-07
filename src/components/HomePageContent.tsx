@@ -8,11 +8,11 @@ const HomePageContent: React.FC = () => {
 
   return (
     <div className="bg-white pb-25">
-      <div className="w-full bg-header-bg md:py-12 lg:py-16 h-auto">
+      <div className="w-full bg-header-bg md:py-12 lg:py-16 lg:h-215">
         <div
-          className={`${contentWidthClass} flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12 lg:gap-20`}
+          className={`${contentWidthClass} flex flex-col lg:flex-row items-center lg:items-end lg:justify-evenly gap-12 lg:gap-20`}
         >
-          <div className="flex flex-col gap-6 w-full lg:max-w-175 z-10 lg:pb-16">
+          <div className="flex flex-col gap-8 w-full lg:max-w-175 z-10 lg:pb-30 md:pb-20">
             <div className="text-3xl md:text-4xl xl:text-5xl font-medium leading-tight text-content-heading">
               <span className="inline-block lg:whitespace-nowrap">
                 There Are <span className="text-brand-primary">93,178</span>{" "}
@@ -31,8 +31,8 @@ const HomePageContent: React.FC = () => {
                 <ImSearch className="text-gray-400 text-xl" />
                 <input
                   type="text"
-                  placeholder="Job title, keywords, or company"
-                  className="w-full outline-none text-base text-content-heading bg-transparent placeholder:text-gray-400"
+                  placeholder="Job title or keywords"
+                  className="w-full outline-none cursor-pointer text-base text-content-heading bg-transparent placeholder:text-gray-400"
                 />
               </div>
 
@@ -42,13 +42,13 @@ const HomePageContent: React.FC = () => {
                 <CiLocationOn className="text-gray-400 text-2xl" />
                 <input
                   type="text"
-                  placeholder="City or postcode"
-                  className="w-full outline-none text-base text-content-heading bg-transparent placeholder:text-gray-400"
+                  placeholder="Location Type"
+                  className="w-full outline-none cursor-pointer text-base text-content-heading bg-transparent placeholder:text-gray-400"
                 />
               </div>
 
               <div className="p-1 lg:pl-2 w-full lg:w-auto">
-                <button className="w-full lg:w-40 bg-brand-primary text-white py-5 lg:py-4 px-6 rounded-lg font-medium hover:bg-brand-hover transition-all text-md shadow-md lg:shadow-sm">
+                <button className="w-full lg:w-40 cursor-pointer bg-brand-primary text-white py-5 lg:py-4 px-6 rounded-lg font-medium hover:bg-brand-hover transition-all text-md shadow-md lg:shadow-sm">
                   Find Jobs
                 </button>
               </div>
@@ -62,11 +62,11 @@ const HomePageContent: React.FC = () => {
             </div>
           </div>
 
-          <div className="hidden lg:flex relative shrink-0">
+          <div className="hidden lg:flex relative shrink-0 overflow-hidden">
             <img
               src="home/banner-img.png"
               alt="Banner Hero"
-              className="block w-full max-w-lg xl:max-w-xl h-auto object-contain"
+              className="block w-full max-w-lg lg:w-97.5 xl:w-137.5 2xl:w-full xl:max-w-xl h-auto object-contain"
             />
           </div>
         </div>
@@ -146,7 +146,7 @@ const HomePageContent: React.FC = () => {
           </div>
 
           <div className="mt-4">
-            <button className="bg-brand-primary text-white px-8 py-4 rounded-lg font-medium hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/10">
+            <button className="bg-brand-primary cursor-pointer text-white px-8 py-4 rounded-lg font-medium hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/10">
               Get Started
             </button>
           </div>
@@ -168,7 +168,7 @@ const HomePageContent: React.FC = () => {
                 </h2>
               </div>
               <div>
-                <button className="bg-brand-primary text-white px-5 md:px-10 py-3 md:py-4 rounded-lg text-s md:text-md font-medium hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/20 whitespace-nowrap">
+                <button className="bg-brand-primary cursor-pointer text-white px-5 md:px-10 py-3 md:py-4 rounded-lg text-s md:text-md font-medium hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/20 whitespace-nowrap">
                   Start Recruiting Now
                 </button>
               </div>

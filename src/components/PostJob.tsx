@@ -43,9 +43,7 @@ const PostJob = () => {
   ) => {
     setIsSubmitting(true);
     try {
-      const tagIdsOnly = values.tagIds.map(
-        (tag: TagOption) => tag._id
-      );
+      const tagIdsOnly = values.tagIds.map((tag: TagOption) => tag._id);
 
       const payload = {
         ...values,
@@ -114,7 +112,7 @@ const PostJob = () => {
                 type="button"
                 variant="outline"
                 disabled={isSubmitting}
-                className="px-8 h-14 text-lg font-semibold border-slate-300"
+                className="px-8 h-12 bg-gray-500 text-white hover:text-white hover:bg-gray-600 cursor-pointer"
                 onClick={form.handleSubmit((data: JobFormValues) =>
                   handleJobAction(data, "draft"),
                 )}
@@ -125,7 +123,7 @@ const PostJob = () => {
               <Button
                 type="button"
                 disabled={isSubmitting}
-                className="bg-blue-600 hover:bg-blue-700 px-12 h-14 text-lg font-bold text-white"
+                className="bg-brand-primary hover:bg-brand-btn-hover cursor-pointer px-12 h-14 text-lg font-bold text-white"
                 onClick={form.handleSubmit((data: JobFormValues) =>
                   handleJobAction(data, "published"),
                 )}

@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 import { updateEmployerProfileSchema } from "@/validations/employer";
 import { updateUserSchema } from "@/validations/user";
 import z from "zod";
@@ -47,11 +46,7 @@ export const EmployerProfileForm = ({
               disabled={isSubmitting || !form.formState.isDirty}
               className="bg-brand-primary hover:bg-brand-btn-hover px-10 h-12 text-white font-bold"
             >
-              {isSubmitting ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                "Save Profile"
-              )}
+              {isSubmitting ? "Saving Profile..." : "Save Profile"}
             </Button>
           ) : (
             <Button

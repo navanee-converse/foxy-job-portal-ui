@@ -4,7 +4,6 @@ import { request } from "@/services/api";
 import {
   Loader2,
   FileText,
-  Mail,
   ExternalLink,
   Calendar,
   ChevronLeft,
@@ -99,7 +98,7 @@ const JobApplications = () => {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <div className="mx-auto max-w-5xl px-4 py-12 min-h-130">
       <header className="mb-10">
         <h1 className="text-3xl font-bold text-slate-900">Job Applications</h1>
         <p className="text-slate-500 mt-2">
@@ -121,35 +120,32 @@ const JobApplications = () => {
             {applications.map((app) => (
               <div
                 key={app._id}
-                className="group flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-all"
+                className="group grid grid-cols-1 md:grid-cols-3 items-center gap-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-all"
               >
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center text-blue-600 font-bold border border-slate-100 shadow-sm">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="h-12 w-12 shrink-0 rounded-full bg-slate-50 flex items-center justify-center text-blue-600 font-bold border border-slate-100 shadow-sm">
                     {app.candidateId.name?.charAt(0) ||
                       app.candidateId.email.charAt(0).toUpperCase()}
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-semibold text-slate-900 truncate max-w-62.5">
+                  <div className="space-y-1 min-w-0">
+                    <h3 className="font-semibold text-slate-900 truncate">
                       {app.candidateId.name ||
                         app.candidateId.email.split("@")[0]}
                     </h3>
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <Mail className="h-3.5 w-3.5" />
-                      <span className="truncate max-w-50">
-                        {app.candidateId.email}
-                      </span>
-                    </div>
+                    <p className="text-sm text-slate-500 truncate">
+                      {app.candidateId.email}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2">
+                <div className="flex flex-col items-center justify-center gap-2">
                   <Badge
                     variant="outline"
-                    className={`capitalize px-3 py-1 font-medium ${getStatusStyles(app.status)}`}
+                    className={`capitalize px-3 py-1 font-medium whitespace-nowrap ${getStatusStyles(app.status)}`}
                   >
                     {app.status}
                   </Badge>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 whitespace-nowrap">
                     <Calendar className="h-3 w-3" />
                     {new Date(app.appliedAt).toLocaleDateString(undefined, {
                       month: "short",
@@ -159,20 +155,16 @@ const JobApplications = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 border-t md:border-t-0 pt-4 md:pt-0">
+                <div className="flex items-center justify-end gap-3 border-t md:border-t-0 pt-4 md:pt-0">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 md:flex-none border-slate-200 hover:bg-slate-50"
+                    className="border-slate-200 hover:bg-slate-50 whitespace-nowrap"
                     onClick={() => {
-                      if (app.resumeUrl.endsWith(".pdf")) {
-                        window.open(app.resumeUrl, "_blank");
-                      } else {
-                        window.open(
-                          `https://docs.google.com/gview?url=${app.resumeUrl}&embedded=true`,
-                          "_blank",
-                        );
-                      }
+                      const url = app.resumeUrl.endsWith(".pdf")
+                        ? app.resumeUrl
+                        : `https://docs.google.com/gview?url=${app.resumeUrl}&embedded=true`;
+                      window.open(url, "_blank");
                     }}
                   >
                     <FileText className="mr-2 h-4 w-4 text-blue-600" />
@@ -180,7 +172,7 @@ const JobApplications = () => {
                   </Button>
                   <Button
                     size="sm"
-                    className="flex-1 md:flex-none bg-brand-primary hover:bg-brand-btn-hover"
+                    className="bg-brand-primary hover:bg-brand-btn-hover whitespace-nowrap"
                     onClick={() =>
                       navigate(`/jobs/${params.jobId}/applications/${app._id}`)
                     }
@@ -193,7 +185,6 @@ const JobApplications = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           {meta && meta.totalPages > 1 && (
             <div className="mt-10 flex items-center justify-center gap-2">
               <Button

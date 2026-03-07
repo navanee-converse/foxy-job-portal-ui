@@ -42,7 +42,7 @@ const JobCard: React.FC<JobCardProps> = ({
             e.stopPropagation();
             onToggleBookmark(e, job._id);
           }}
-          className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-50 transition-colors z-10"
+          className="absolute top-4 right-3 rounded-full transition-colors z-10"
           title={activeBookmark ? "Remove Bookmark" : "Save Job"}
         >
           <FiBookmark
@@ -50,7 +50,7 @@ const JobCard: React.FC<JobCardProps> = ({
             className={
               activeBookmark
                 ? "fill-blue-600 text-blue-600 cursor-pointer"
-                : "text-gray-400 hover:text-blue-600 cursor-pointer hover:fill-blue-600 transition-colors"
+                : "text-gray-400 hover:text-blue-600 cursor-pointer transition-colors"
             }
           />
         </button>

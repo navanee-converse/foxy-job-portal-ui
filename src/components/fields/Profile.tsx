@@ -14,27 +14,30 @@ export const ProfileFields = <T extends FieldValues>({
     <div className={`grid grid-cols-1 gap-4 ${gridCols} items-start`}>
       <FormInput
         name="name"
-        label="Full Name *"
+        label="Full Name"
         placeholder="full name"
         control={control}
         disabled={false}
-        className="w-full "
+        className="w-full"
+        required={true}
       />
       <FormInput
         name="phone"
-        label="Phone Number *"
+        label="Phone Number"
         placeholder="phone number"
         control={control}
         disabled={false}
         className="w-full"
+        required={true}
       />
       <FormInput
         name="email"
-        label="Email *"
+        label="Email"
         placeholder="email"
         control={control}
         disabled={true}
         className="w-full"
+        required={true}
       />
       {role === "employer" && (
         <FormInput

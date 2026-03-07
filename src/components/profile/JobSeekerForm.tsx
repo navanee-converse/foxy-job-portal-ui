@@ -2,7 +2,6 @@ import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 
 import {
   updateJobSeekerProfileSchema,
@@ -65,14 +64,14 @@ export const JobSeekerProfileForm = ({
         <JobSeekerFields control={form.control} />
         <Separator />
         <TagSelectorField control={form.control} />
-        <div className="flex justify-end gap-4 pt-4">
+        <div className="flex justify-center gap-4 pt-4 sm:justify-end">
           <Button
             type="submit"
             disabled={isSubmitting || !form.formState.isDirty}
             className="bg-brand-primary hover:bg-brand-btn-hover px-10 h-12 text-white font-bold"
           >
             {isSubmitting ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
+              "Saving Profile..."
             ) : (
               "Save Profile"
             )}

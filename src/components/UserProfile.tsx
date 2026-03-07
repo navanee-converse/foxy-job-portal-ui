@@ -127,10 +127,10 @@ const UserProfile = () => {
     );
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pb-20">
+    <div className="bg-header-bg min-h-screen pb-20">
       <div className="max-w-6xl mx-auto pt-12 px-4">
         <div className="flex items-center gap-4 mb-10">
-          <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-200">
+          <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-200">
             <User className="w-8 h-8 text-blue-600" />
           </div>
           <h1 className="font-semibold text-3xl text-slate-900">
@@ -138,7 +138,7 @@ const UserProfile = () => {
           </h1>
         </div>
 
-        <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+        <div className="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
           {role === "job_seeker" ? (
             <JobSeekerProfileForm
               initialData={profileData}

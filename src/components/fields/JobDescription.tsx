@@ -21,7 +21,7 @@ export const JobDescriptionField = ({ control }: { control: Control<any> }) => {
             </FormLabel>
             <FormControl>
               <Textarea
-                className="bg-slate-50 min-h-50 cursor-pointer"
+                className="bg-header-bg min-h-50 cursor-pointer"
                 placeholder="Explain the role in detail..."
                 {...field}
               />

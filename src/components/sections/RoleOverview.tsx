@@ -56,7 +56,7 @@ export const RoleOverviewSection = ({
                 disabled={disabled}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12! cursor-pointer bg-slate-50 capitalize w-full border-gray-200">
+                  <SelectTrigger className="h-12! cursor-pointer bg-header-bg capitalize w-full border-gray-200">
                     <SelectValue placeholder="Select location" />
                   </SelectTrigger>
                 </FormControl>
@@ -83,7 +83,7 @@ export const RoleOverviewSection = ({
                   <Input
                     type="date"
                     disabled={disabled}
-                    className={`h-12 bg-slate-50 ${disabled ? "cursor-not-allowed pointer-events-auto!" : "cursor-pointer pointer-events-auto!"}!`}
+                    className={`h-12 bg-header-bg ${disabled ? "cursor-not-allowed pointer-events-auto!" : "cursor-pointer pointer-events-auto!"}!`}
                     min={today}
                     value={
                       field.value instanceof Date
@@ -110,7 +110,7 @@ export const RoleOverviewSection = ({
                 disabled={disabled}
               >
                 <FormControl>
-                  <SelectTrigger className="bg-slate-50 w-full border-gray-200 h-12!">
+                  <SelectTrigger className="bg-header-bg w-full border-gray-200 h-12!">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
@@ -143,7 +143,7 @@ export const RoleOverviewSection = ({
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12! bg-slate-50 w-full border-gray-200">
+                  <SelectTrigger className="h-12! bg-header-bg w-full border-gray-200">
                     <SelectValue placeholder="Select level" />
                   </SelectTrigger>
                 </FormControl>

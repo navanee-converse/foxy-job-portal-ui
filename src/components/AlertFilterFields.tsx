@@ -27,7 +27,7 @@ export const AlertFilterFields = ({ control }: { control: Control<any> }) => (
             <Input
               type="number"
               placeholder="Minimum Salary"
-              className="bg-slate-50 border-slate-200 focus:bg-white h-12"
+              className="bg-header-bg cursor-pointer border-slate-200 focus:bg-white h-12"
               {...field}
               value={
                 field.value === 0 || field.value === undefined
@@ -52,7 +52,7 @@ export const AlertFilterFields = ({ control }: { control: Control<any> }) => (
           <FormLabel>Frequency</FormLabel>
           <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
-              <SelectTrigger className="h-12! w-full bg-slate-50 border-slate-200">
+              <SelectTrigger className="h-12! w-full bg-header-bg border-slate-200">
                 <SelectValue placeholder="Select frequency" />
               </SelectTrigger>
             </FormControl>

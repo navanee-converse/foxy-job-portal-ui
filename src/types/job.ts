@@ -63,7 +63,7 @@ export interface Job {
   isApplied?: boolean;
   maxSalary: number;
   lastDate?: string;
-  location: "remote" | "on-site" | "hybrid";
+  location: "remote" | "onsite" | "hybrid";
   status: "published" | "draft" | "closed";
   jobTags: JobTag[];
   createdAt: string;

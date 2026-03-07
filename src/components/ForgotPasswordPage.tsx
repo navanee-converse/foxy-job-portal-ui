@@ -32,7 +32,6 @@ const ForgotPasswordPage: React.FC = () => {
   return (
     <AuthLayout
       title="Forgot Password?"
-      description="Enter your email address and we'll send you an OTP to reset your password."
     >
       <div className="flex flex-col justify-evenly">
         <form onSubmit={handleSubmit} className="space-y-5">

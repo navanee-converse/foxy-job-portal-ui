@@ -41,7 +41,7 @@ export const FormInput = ({
             disabled={disabled}
             placeholder={placeholder}
             className={cn(
-              "bg-slate-50 border-slate-200 focus:bg-white h-12 cursor-pointer",
+              "bg-header-bg border-slate-200 focus:bg-white h-12 cursor-pointer",
               "disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-auto ",
               disabled && "select-none",
               className,

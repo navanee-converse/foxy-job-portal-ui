@@ -40,31 +40,30 @@ export const JobSeekerFields = ({ control }: { control: Control<any> }) => {
 
   return (
     <div className="space-y-10">
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-bold text-slate-800">Education *</h3>
+            <h3 className="text-lg font-bold text-slate-800 label-required">
+              Education
+            </h3>
           </div>
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={() =>
-              appendEdu(
-                {
-                  level: "bachelor",
-                  degree: "",
-                  institution: "",
-                  fieldOfStudy: "",
-                  percentage: "",
-                  startYear: 2020,
-                  endYear: 2024,
-                },
-                { shouldFocus: false },
-              )
+              appendEdu({
+                level: "bachelor",
+                degree: "",
+                institution: "",
+                fieldOfStudy: "",
+                percentage: "",
+                startYear: 2020,
+                endYear: 2024,
+              })
             }
-            className="h-8 text-xs border-slate-200 hover:border-slate-300"
+            className="text-blue-600 border-blue-200 hover:bg-brand-primary hover:text-white cursor-pointer"
           >
             <Plus className="w-3 h-3 mr-1" /> Add
           </Button>
@@ -73,31 +72,31 @@ export const JobSeekerFields = ({ control }: { control: Control<any> }) => {
         {eduFields.map((field, index) => (
           <div
             key={field.id}
-            className="p-4 border border-slate-200 rounded-lg bg-slate-50/50 relative space-y-4"
+            className="p-6 border border-slate-200 rounded-xl bg-slate-50/50 relative"
           >
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-7 w-7 text-slate-400 hover:text-red-600 z-10"
+              className="absolute top-3 right-3 h-8 w-8 text-slate-400 hover:text-red-600 cursor-pointer z-10"
               onClick={() => removeEdu(index)}
             >
               <Trash2 className="w-4 h-4" />
             </Button>
 
-            <div className="grid grid-cols-2 gap-x-4 gap-y-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
               <FormField
                 control={control}
                 name={`education.${index}.level`}
                 render={({ field }) => (
-                  <FormItem className="col-span-1">
-                    <FormLabel className="text-sm mt-1.5">Level</FormLabel>
+                  <FormItem>
+                    <FormLabel className="text-sm">Level</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="text-sm border border-slate-200 w-full h-12!">
+                        <SelectTrigger className="border w-full h-12! border-slate-200">
                           <SelectValue placeholder="Level" />
                         </SelectTrigger>
                       </FormControl>
@@ -112,40 +111,29 @@ export const JobSeekerFields = ({ control }: { control: Control<any> }) => {
                   </FormItem>
                 )}
               />
+
               <FormInput
                 name={`education.${index}.degree`}
                 label="Degree"
                 placeholder="B.Tech"
                 control={control}
-                className="h-12 mt-1.5 "
+                className="mt-0.5"
                 disabled={false}
               />
-
-              <div className="col-span-2 mb-8">
-                <FormInput
-                  name={`education.${index}.institution`}
-                  label="Institution"
-                  placeholder="University name"
-                  control={control}
-                  className="h-12"
-                  disabled={false}
-                />
-              </div>
 
               <FormInput
                 name={`education.${index}.fieldOfStudy`}
-                label="Field OF Study"
+                label="Field of Study"
                 placeholder="Computer Science"
                 control={control}
-                className="h-12 mb-8"
                 disabled={false}
               />
+
               <FormInput
                 name={`education.${index}.percentage`}
                 label="Percentage"
                 placeholder="80"
                 control={control}
-                className="h-12"
                 disabled={false}
               />
 
@@ -153,26 +141,39 @@ export const JobSeekerFields = ({ control }: { control: Control<any> }) => {
                 name={`education.${index}.startYear`}
                 label="Start Year"
                 control={control}
-                className="h-12"
                 disabled={false}
               />
+
               <FormInput
                 name={`education.${index}.endYear`}
                 label="End Year"
                 control={control}
-                className="h-12"
                 disabled={false}
               />
+
+              <div className="md:col-span-2">
+                <FormInput
+                  name={`education.${index}.institution`}
+                  label="Institution"
+                  placeholder="University name"
+                  control={control}
+                  disabled={false}
+                />
+              </div>
             </div>
           </div>
         ))}
       </div>
+
       <Separator />
-      <div className="space-y-4">
+
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-bold text-slate-800">Experience *</h3>
+            <h3 className="text-lg font-bold text-slate-800 label-required">
+              Experience
+            </h3>
           </div>
           <Button
             type="button"
@@ -186,34 +187,33 @@ export const JobSeekerFields = ({ control }: { control: Control<any> }) => {
                 endYear: 2026,
               })
             }
-            className="h-8 text-xs border-slate-200 hover:border-slate-300"
+            className="text-blue-600 border-blue-200 hover:bg-brand-primary hover:text-white cursor-pointer"
           >
             <Plus className="w-3 h-3 mr-1" /> Add
           </Button>
-        </div> 
+        </div>
 
         {expFields.map((field, index) => (
           <div
             key={field.id}
-            className="p-4 border border-slate-200 rounded-lg bg-slate-50/50 relative space-y-4"
+            className="p-6 border border-slate-200 rounded-xl bg-slate-50/50 relative"
           >
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-7 w-7 text-slate-400 hover:text-red-600 z-10"
+              className="absolute top-3 right-3 h-8 w-8 text-slate-400 hover:text-red-600 cursor-pointer z-10"
               onClick={() => removeExp(index)}
             >
               <Trash2 className="w-4 h-4" />
             </Button>
 
-            <div className="grid grid-cols-2 gap-x-4 gap-y-14">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
               <FormInput
                 name={`experience.${index}.company`}
                 label="Company"
                 placeholder="Company name"
                 control={control}
-                className="h-9"
                 disabled={false}
               />
               <FormInput
@@ -221,21 +221,18 @@ export const JobSeekerFields = ({ control }: { control: Control<any> }) => {
                 label="Job Title"
                 placeholder="Position"
                 control={control}
-                className="h-9"
                 disabled={false}
               />
               <FormInput
                 name={`experience.${index}.startYear`}
                 label="Start Year"
                 control={control}
-                className="h-9"
                 disabled={false}
               />
               <FormInput
                 name={`experience.${index}.endYear`}
                 label="End Year"
                 control={control}
-                className="h-9 mb-12"
                 disabled={false}
               />
             </div>

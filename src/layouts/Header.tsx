@@ -5,9 +5,18 @@ import { HiDocumentText } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AnimatePresence, motion } from "framer-motion";
+import { request } from "@/services/api";
+import { BsBell } from "react-icons/bs";
+import toast from "react-hot-toast";
+import { getDecodedToken } from "@/utils/auth";
 
 interface HeaderProps {
   bgColor?: string;
+}
+
+interface UserMeResponse {
+  name: string;
+  email: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -16,38 +25,86 @@ const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [userData, setUserData] = useState<UserMeResponse | null>(null);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const accessToken = Cookies.get("access_token");
+  const handleLogout = async () => {
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+    const loadingToast = toast.loading("Logging out...");
+
+    try {
+      await request("/auth/logout", "POST");
+    } catch (error) {
+      console.error(
+        "Backend logout failed, proceeding with local cleanup",
+        error,
+      );
+    } finally {
+      Cookies.remove("access_token", { path: "/" });
+      Cookies.remove("refresh_token", { path: "/" });
+      localStorage.clear();
+
+      toast.dismiss(loadingToast);
+      toast.success("Successfully logged out");
+
+      setIsMenuOpen(false);
+      navigate("/login");
+      setIsLoggingOut(false);
+    }
+  };
+  const getJobId = async () => {
+    try {
+      const res = await request("/jobs", "GET");
+      return res.data[0]._id;
+    } catch (err) {}
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 150) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      setIsScrolled(window.scrollY > 150);
+    };
+
+    const fetchUser = async () => {
+      if (accessToken) {
+        try {
+          const res = await request<UserMeResponse>("/users/me", "GET");
+          setUserData({
+            name: res.name,
+            email: res.email,
+          });
+        } catch (error) {
+          console.error("Failed to fetch user:", error);
+        }
       }
     };
 
+    fetchUser();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [accessToken]);
+  const payload = getDecodedToken();
+  const role = payload?.role;
 
   const navLinks = [
     { name: "Home", icon: <FaHome />, path: "/" },
     { name: "Jobs", icon: <FaSearch />, path: "/jobs" },
-    { name: "Applications", icon: <HiDocumentText />, path: "/applications" },
+    { name: "Applications", icon: <HiDocumentText />, path: "/jobs/applied" },
     { name: "Profile", icon: <FaUser />, path: "/users/profile" },
   ];
+  const employeerLinks = {
+    name: "Post Job",
+    path: "/post-job",
+  };
+  const jobSeekerLinks = { name: "Saved Jobs", path: "/jobs/saved" };
+
   const menuLinks = [
-    { name: " Job Alert", path: "/jobs/alert" },
-    {
-      name: "Applied Jobs",
-      path: "/jobs/applied",
-    },
-    {
-      name: "Saved Jobs",
-      path: "/jobs/saved",
-    },
+    { name: "Change Password", path: "/change-password" },
+    { name: "Logout", path: "/" },
   ];
-  const accessToken = Cookies.get("access_token");
+
+  const userInitial = userData?.name?.charAt(0).toUpperCase() || "U";
 
   return (
     <motion.header
@@ -70,7 +127,10 @@ const Header: React.FC<HeaderProps> = ({
       }`}
     >
       <div className="max-w-wide mx-auto w-full flex items-center justify-between p-3 px-6 md:px-12 lg:px-20">
-        <div className="flex items-center shrink-0 z-50">
+        <div
+          className="flex items-center shrink-0 z-50 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           <img
             src="/logo.png"
             alt="Hirely Logo"
@@ -86,6 +146,14 @@ const Header: React.FC<HeaderProps> = ({
             <div
               key={link.name}
               className="group flex items-center gap-2 hover:text-brand-primary cursor-pointer transition-colors"
+              onClick={async () => {
+                if (link.name === "Applications" && role === "employer") {
+                  const jobId = await getJobId();
+                  navigate(`/jobs/${jobId}/applications`);
+                } else {
+                  navigate(link.path);
+                }
+              }}
             >
               <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
                 {link.icon}
@@ -95,31 +163,59 @@ const Header: React.FC<HeaderProps> = ({
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 z-50">
-          {!accessToken && (
+        <div className="flex items-center gap-4 z-50">
+          {!accessToken ? (
             <button
               className="hidden lg:block bg-brand-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-btn-hover transition-all shadow-md"
-              onClick={() => {
-                navigate("/login");
-              }}
+              onClick={() => navigate("/login")}
             >
               Login / Register
             </button>
+          ) : (
+            <div className="flex gap-8">
+              {role === "job_seeker" && (
+                <div>
+                  <BsBell
+                    className="hidden hover:text-brand-primary lg:flex items-center justify-center w-5 h-5 transition-all mt-3 cursor-pointer"
+                    onClick={() => navigate("/jobs/alert")}
+                  />
+                </div>
+              )}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-brand-primary text-white font-bold shadow-sm hover:ring-4 ring-brand-primary/10 transition-all cursor-pointer"
+              >
+                {userInitial}
+              </button>
+            </div>
           )}
 
           <button
             className="lg:hidden text-3xl text-content-heading"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <MdClose /> : <MdMenu />}
+            {isMenuOpen ? (
+              <MdClose />
+            ) : accessToken ? (
+              <div className="w-8 h-8 rounded-full bg-brand-primary text-white text-sm flex items-center justify-center font-bold">
+                {userInitial}
+              </div>
+            ) : (
+              <MdMenu />
+            )}
           </button>
         </div>
       </div>
+
       <AnimatePresence>
         {isMenuOpen && (
           <>
             <div
               className="fixed inset-0 z-40 lg:hidden"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            <div
+              className="fixed inset-0 z-40 hidden lg:block"
               onClick={() => setIsMenuOpen(false)}
             />
 
@@ -128,38 +224,56 @@ const Header: React.FC<HeaderProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-full right-6 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 lg:hidden z-50 overflow-hidden"
+              className="absolute top-full right-6 mt-2 w-72 bg-white rounded-lg shadow-2xl border border-gray-100 z-50 overflow-hidden"
             >
               <div className="flex flex-col p-3">
-                <div className="flex flex-col gap-1">
-                  {navLinks.map((link) => (
+                {accessToken && userData && (
+                  <div className="px-4 py-3 mb-2 border-b border-gray-50">
+                    <p className="text-sm font-bold text-content-heading">
+                      {userData.name}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {userData.email}
+                    </p>
+                  </div>
+                )}
+
+                <div className="mt-2 pt-2 border-t border-gray-100 flex flex-col gap-1">
+                  {role === "employer" ? (
                     <div
-                      key={link.name}
-                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-xl transition-colors cursor-pointer group"
+                      key={employeerLinks.name}
+                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
                       onClick={() => {
-                        navigate(link.path);
+                        navigate(employeerLinks.path);
                         setIsMenuOpen(false);
                       }}
                     >
-                      <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
-                        {link.icon}
-                      </span>
-                      <span className="font-semibold text-content-heading group-hover:text-brand-primary transition-colors">
-                        {link.name}
+                      <span className="font-medium text-gray-600 group-hover:text-brand-primary transition-colors">
+                        {employeerLinks.name}
                       </span>
                     </div>
-                  ))}
-                </div>
-
-                <div className="mt-2 pt-2 border-t border-gray-100 flex flex-col gap-1">
-                  <p className="px-4 py-1 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                    Management
-                  </p>
+                  ) : (
+                    <div
+                      key={jobSeekerLinks.name}
+                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
+                      onClick={() => {
+                        navigate(jobSeekerLinks.path);
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <span className="font-medium text-gray-600 group-hover:text-brand-primary transition-colors">
+                        {jobSeekerLinks.name}
+                      </span>
+                    </div>
+                  )}
                   {menuLinks.map((link) => (
                     <div
                       key={link.name}
-                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-xl transition-colors cursor-pointer group"
+                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
                       onClick={() => {
+                        if (link.name === "Logout") {
+                          handleLogout();
+                        }
                         navigate(link.path);
                         setIsMenuOpen(false);
                       }}

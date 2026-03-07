@@ -65,19 +65,19 @@ export const TagSelectorField = ({
             
             <div 
               className={cn(
-                "w-full border rounded-lg p-2 transition-all relative",
+                "w-full border rounded-lg p-2 transition-all",
                 disabled 
-                  ? "bg-slate-100 border-slate-200 cursor-not-allowed opacity-80" 
-                  : "bg-slate-50 border-slate-200 focus-within:ring-2 ring-blue-500"
+                  ? "bg-header-bg border-slate-200 cursor-not-allowed opacity-80" 
+                  : "bg-header-bg border-slate-200 focus-within:ring-2 ring-blue-500"
               )}
             >
-              <div className="flex flex-wrap gap-2 mb-2 absolute right-2 top-3 overflow-auto">
+              <div className="flex flex-wrap gap-2 mb-2 overflow-auto">
                 {currentTags.map((tag) => (
                   <Badge
                     key={tag.id || tag._id}
                     variant="secondary"
                     className={cn(
-                      "bg-blue-100 text-blue-700 flex items-center gap-1",
+                      "bg-blue-100 text-blue-700 flex items-center gap-1 ",
                       disabled && "cursor-not-allowed"
                     )}
                   >
@@ -86,7 +86,7 @@ export const TagSelectorField = ({
                       <button
                         type="button"
                         onClick={(e) => handleRemove(e, tag._id)}
-                        className="hover:text-red-500 transition-colors"
+                        className="hover:text-red-500 transition-colors hover:scale-125"
                       >
                         <X className="w-3 h-3 cursor-pointer" />
                       </button>

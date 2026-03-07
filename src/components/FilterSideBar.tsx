@@ -16,6 +16,7 @@ interface SidebarProps {
     title: string;
     locationType: LocationValue | "";
     experienceLevel: ExperienceLevelValue | "";
+    city: string;
     minSalary: string;
     maxSalary: string;
     selectedEmploymentTypes: EmploymentTypeValue[];
@@ -26,6 +27,7 @@ interface SidebarProps {
     setExperienceLevel: (val: ExperienceLevelValue | "") => void;
     setMinSalary: (val: string) => void;
     setMaxSalary: (val: string) => void;
+    setCity: (val: string) => void;
   };
   handleEmploymentToggle: (type: EmploymentTypeValue) => void;
 }
@@ -37,7 +39,7 @@ const FilterSidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside className="w-full space-y-6">
-      <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm space-y-8">
+      <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm space-y-6">
         <div className="space-y-3">
           <h4 className="font-bold text-gray-800">Search by title</h4>
           <div className="relative">
@@ -73,6 +75,20 @@ const FilterSidebar: React.FC<SidebarProps> = ({
         </div>
 
         <div className="space-y-3">
+          <h4 className="font-bold text-gray-800">City</h4>
+          <div className="relative">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="City"
+              value={filters.city}
+              onChange={(e) => setters.setCity(e.target.value)}
+              className="w-full pl-11 cursor-pointer pr-4 py-3 border border-gray-200 rounded-lg text-sm focus:border-blue-500 outline-none"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-3">
           <h4 className="font-bold text-gray-800">Salary Range</h4>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -89,7 +105,7 @@ const FilterSidebar: React.FC<SidebarProps> = ({
                       setters.setMinSalary(val);
                     }
                   }}
-                  className={`w-full pl-8 pr-2 py-2 border rounded-lg text-sm outline-none transition-colors cursor-pointer${
+                  className={`w-full pl-8 pr-2 cursor-pointer py-2 border border-[#e5e7eb] rounded-lg text-sm outline-none transition-colors${
                     filters.maxSalary &&
                     Number(filters.minSalary) > Number(filters.maxSalary)
                       ? "border-red-400 focus:border-red-500"

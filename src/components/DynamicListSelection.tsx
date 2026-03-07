@@ -43,7 +43,7 @@ export const DynamicListSection = ({
             variant="outline"
             size="sm"
             onClick={() => append("")}
-            className="text-blue-600 border-blue-200 hover:bg-brand-primary hover:text-white cursor-pointer"
+            className="text-blue-600 border-blue-200 hover:bg-brand-primary transition-colors duration-300 hover:text-white cursor-pointer"
           >
             <Plus className="w-4 h-4 mr-1" /> Add
           </Button>
@@ -66,8 +66,8 @@ export const DynamicListSection = ({
                       placeholder={disabled ? "" : placeholder}
                       className={`h-12 transition-all ${
                         disabled
-                          ? "bg-slate-50 border-transparent cursor-not-allowed select-text disabled:cursor-not-allowed "
-                          : "bg-white border-slate-200 cursor-pointer focus:ring-2 ring-blue-500"
+                          ? "bg-header-bg border-transparent cursor-not-allowed select-text disabled:cursor-not-allowed "
+                          : "bg-header-bg border-slate-200 cursor-pointer focus:ring-2 ring-blue-500"
                       }`}
                     />
                   </FormControl>

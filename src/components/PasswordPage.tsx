@@ -25,8 +25,6 @@ const PasswordPage: React.FC = () => {
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
-    console.log(storedEmail);
-
     if (storedEmail) {
       setEmail(storedEmail);
     } else {

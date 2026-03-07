@@ -45,14 +45,10 @@ const LoginPage: React.FC = () => {
           path: "/",
         });
         Cookies.set("refresh_token", response.refresh_token, { expires: 7 });
-        const r = Cookies.get("access_token");
-        console.log(r, "resp");
       }
 
       navigate("/jobs");
     } catch (error: any) {
-      console.log(error);
-
       const errorMsg =
         error?.response?.data?.message || "Invalid email or password.";
       toast.error(errorMsg);

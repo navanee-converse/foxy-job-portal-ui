@@ -12,8 +12,6 @@ interface DecodedToken {
 export const getDecodedToken = (): DecodedToken | null => {
   try {
     const token = Cookies.get("access_token");
-    console.log(token,'=');
-    
     if (!token) return null;
 
     const decoded = jwtDecode<DecodedToken>(token);
@@ -35,14 +33,12 @@ export const refreshAccessToken = async () => {
   if (!refresh_token) throw new Error("No refresh token available");
 
   const baseUrl = import.meta.env.VITE_API_URL;
-  console.log(baseUrl);
 
   const response = await axios.post(`${baseUrl}/auth/refresh-token`, {
     refresh_token: refresh_token,
   });
 
   const { accessToken, refreshToken } = response.data.data;
-  console.log(accessToken, refreshToken);
 
   Cookies.set("access_token", accessToken, { expires: 1 });
 

@@ -31,17 +31,17 @@ export const FileField = ({
           <FormLabel>Resume</FormLabel>
           <FormControl>
             {isSyncing ? (
-              <div className="flex items-center gap-3 p-3 border border-blue-200 bg-blue-50 rounded-lg animate-pulse">
+              <div className="flex items-center gap-3 p-3 border border-blue-200 bg-header-bg ounded-lg animate-pulse">
                 <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
                 <span className="text-sm font-medium text-blue-700">
                   Processing your resume...
                 </span>
               </div>
             ) : existingUrl && !value ? (
-              <div className="flex items-center justify-between p-3 border rounded-lg bg-slate-50 border-slate-200">
-                <div className="flex items-center gap-3">
-                  <FileText className="text-blue-600 w-5 h-5" />
-                  <span className="text-sm font-medium text-slate-700 truncate max-w-50">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 border rounded-lg bg-header-bg border-slate-200 gap-3">
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <FileText className="text-blue-600 w-5 h-5 shrink-0" />
+                  <span className="text-sm font-medium text-slate-700 truncate max-w-37.5 xs:max-w-[200px] sm:max-w-50">
                     Current Resume
                   </span>
                   <a
@@ -52,17 +52,18 @@ export const FileField = ({
                     }
                     target="_blank"
                     rel="noreferrer"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-blue-600 hover:text-blue-800 shrink-0"
                   >
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 </div>
+
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={onRemoveExisting}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  className="text-red-500 cursor-pointer hover:text-red-600 hover:bg-header-bg h-auto p-0 sm:p-2 self-end sm:self-auto"
                 >
                   <X className="w-4 h-4 mr-1" /> Remove
                 </Button>
@@ -76,7 +77,7 @@ export const FileField = ({
                     const file = e.target.files?.[0];
                     if (file) onChange(file);
                   }}
-                  className="h-12 bg-slate-50 file:mt-0 pt-2 border-slate-200 focus:bg-white"
+                  className="h-12 bg-header-bg file:mt-0 pt-2 border-slate-200 focus:bg-white"
                   {...field}
                 />
                 {value && (
