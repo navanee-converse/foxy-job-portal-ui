@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="w-full bg-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 gap-12 md:py-6 flex flex-col lg:gap-0">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 gap-12 md:py-6 flex flex-col lg:gap-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           <motion.div
             initial="hidden"
@@ -113,11 +113,6 @@ const Footer: React.FC = () => {
           ))}
         </div>
         <div className="max-w-7xl flex flex-col md:flex-row justify-start sm:items-start md:justify-start md:items-center gap-6">
-          <p className="text-slate-500 text-sm">
-            © 2026 <span className="text-blue-600 font-semibold">Hirely</span>.
-            All Rights Reserved.
-          </p>
-
           <div className="flex items-center gap-3">
             {[
               { icon: <RiFacebookFill />, key: "fb" },
@@ -142,38 +137,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="w-full border-t border-gray-100 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-slate-500 text-sm">
-            © 2026 <span className="text-blue-600 font-semibold">Hirely</span>.
-            All Rights Reserved.
-          </p>
-
-          <div className="flex items-center gap-3">
-            {[
-              { icon: <RiFacebookFill />, key: "fb" },
-              { icon: <FaTwitter />, key: "tw" },
-              { icon: <FaInstagram />, key: "ig" },
-              { icon: <FaLinkedinIn />, key: "li" },
-            ].map((item) => (
-              <motion.a
-                key={item.key}
-                href="#"
-                whileHover={{
-                  y: -4,
-                  backgroundColor: "rgb(37 99 235)",
-                  color: "#fff",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 bg-white border border-gray-200 flex items-center justify-center rounded-xl text-slate-600 transition-colors shadow-sm"
-              >
-                <span className="text-lg">{item.icon}</span>
-              </motion.a>
-            ))}
-          </div>
-        </div>
-      </div> */}
     </footer>
   );
 };

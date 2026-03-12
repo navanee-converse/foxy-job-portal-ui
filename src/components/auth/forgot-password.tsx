@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import AuthLayout from "../../layouts/auth";
+import { request } from "../../services/api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import type { ApiError } from "@/types/response";
+
+const ForgotPasswordPage: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await request("/auth/resend-otp", "POST", { email });
+
+      toast.success("OTP sent successfully to your email!");
+
+      navigate("/verify-otp", { state: { email } });
+    } catch (error) {
+      if (error && typeof error === "object" && "message" in error) {
+        const apiError = error as ApiError;
+        toast.error(apiError.message);
+      } else toast.error("Failed to send OTP. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <AuthLayout title="Forgot Password?">
+      <div className="flex flex-col justify-evenly">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-1">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-content-heading"
+            >
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your registered email"
+              required
+              disabled={isLoading}
+              className="w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-1 focus:bg-white border border-transparent disabled:opacity-50"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading || !email}
+            className="w-full cursor-pointer rounded-xl bg-brand-primary py-4 text-sm font-medium text-white shadow-xl shadow-brand-primary/20 transition-all hover:bg-brand-btn-hover active:scale-[0.98] disabled:bg-gray-400"
+          >
+            {isLoading ? "Sending OTP..." : "Send OTP"}
+          </button>
+        </form>
+
+        <p className="mt-10 text-center text-sm text-content-body">
+          Remember your password?{" "}
+          <button
+            onClick={() => navigate("/login")}
+            className="font-bold text-brand-primary hover:underline"
+          >
+            Back to Login
+          </button>
+        </p>
+      </div>
+    </AuthLayout>
+  );
+};
+
+export default ForgotPasswordPage;

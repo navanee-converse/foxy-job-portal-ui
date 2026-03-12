@@ -5,10 +5,7 @@ interface AuthLayoutProps {
   title: string;
 }
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({
-  children,
-  title,
-}) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title }) => {
   return (
     <div className="flex min-h-screen bg-white">
       <div className="hidden lg:relative lg:block lg:flex-1 bg-brand-light">
@@ -28,6 +25,18 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
 
       <div className="flex w-full flex-col justify-center px-6 py-12 lg:w-1/2 lg:px-20 xl:px-40 relative">
         <div className="mx-auto w-full max-w-sm lg:ml-0">
+          <div className="flex flex-col items-center mb-10 lg:hidden">
+            <div className="flex items-center gap-3">
+              <img
+                src="logo.png"
+                alt="Hirely Logo"
+                className="w-10 h-10 object-contain"
+              />
+              <span className="text-2xl font-black text-content-heading tracking-tight">
+                Hirely
+              </span>
+            </div>
+          </div>
           <header className="mb-8 text-left">
             <h1 className="text-2xl font-medium text-content-heading tracking-tight">
               {title}

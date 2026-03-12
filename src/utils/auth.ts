@@ -22,8 +22,7 @@ export const getDecodedToken = (): DecodedToken | null => {
     }
 
     return decoded;
-  } catch (error) {
-    console.error("Invalid token:", error);
+  } catch (_error) {
     return null;
   }
 };

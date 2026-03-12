@@ -12,7 +12,7 @@ export type EmploymentTypeValue =
 export const ExperienceLevel = {
   ENTRY: "Entry Level",
   JUNIOR: "Junior",
-  MID: "Mid-Level",
+  MID: "Mid Level",
   SENIOR: "Senior",
   DIRECTOR: "Director",
   EXECUTIVE: "Executive",
@@ -47,6 +47,7 @@ export const JobFilterSchema = z.object({
     (val) => (typeof val === "string" ? [val] : val),
     z.array(z.string().regex(/^[0-9a-fA-F]{24}$/)).optional(),
   ),
+  city: z.string().optional(),
 
   sortBy: z
     .enum(["minSalary", "maxSalary", "publishedAt"])
@@ -57,3 +58,5 @@ export const JobFilterSchema = z.object({
   page: z.coerce.number().int().default(1).optional(),
   limit: z.coerce.number().int().max(100).default(10).optional(),
 });
+
+export type JobFilterValues = z.infer<typeof JobFilterSchema>;

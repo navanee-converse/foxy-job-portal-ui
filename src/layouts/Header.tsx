@@ -9,6 +9,8 @@ import { request } from "@/services/api";
 import { BsBell } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { getDecodedToken } from "@/utils/auth";
+import type { ApiError } from "@/types/response";
+import type { Job } from "@/types/job";
 
 interface HeaderProps {
   bgColor?: string;
@@ -17,7 +19,9 @@ interface HeaderProps {
 interface UserMeResponse {
   name: string;
   email: string;
+  providers: object[];
 }
+type UserProfile = Omit<UserMeResponse, "providers">;
 
 const Header: React.FC<HeaderProps> = ({
   bgColor = "bg-white",
@@ -25,7 +29,8 @@ const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [userData, setUserData] = useState<UserMeResponse | null>(null);
+  const [isThirdPartyLogin, setIsThirdPartyLogin] = useState(false);
+  const [userData, setUserData] = useState<UserProfile | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const accessToken = Cookies.get("access_token");
@@ -37,10 +42,10 @@ const Header: React.FC<HeaderProps> = ({
     try {
       await request("/auth/logout", "POST");
     } catch (error) {
-      console.error(
-        "Backend logout failed, proceeding with local cleanup",
-        error,
-      );
+      if (error && typeof error === "object" && "message" in error) {
+        const apiError = error as ApiError;
+        toast.error(apiError.message);
+      } else toast.error("Error occured");
     } finally {
       Cookies.remove("access_token", { path: "/" });
       Cookies.remove("refresh_token", { path: "/" });
@@ -56,9 +61,11 @@ const Header: React.FC<HeaderProps> = ({
   };
   const getJobId = async () => {
     try {
-      const res = await request("/jobs", "GET");
+      const res = await request<{ data: Job[] }>("/jobs", "GET");
       return res.data[0]._id;
-    } catch (err) {}
+    } catch (_err) {
+      console.warn("Unable to fetch jobs");
+    }
   };
 
   useEffect(() => {
@@ -70,19 +77,29 @@ const Header: React.FC<HeaderProps> = ({
       if (accessToken) {
         try {
           const res = await request<UserMeResponse>("/users/me", "GET");
+          if (res.providers.length > 0) {
+            setIsThirdPartyLogin(true);
+          }
           setUserData({
             name: res.name,
             email: res.email,
           });
         } catch (error) {
-          console.error("Failed to fetch user:", error);
+          if (error && typeof error === "object" && "message" in error) {
+            const apiError = error as ApiError;
+            toast.error(apiError.message);
+          } else toast.error("Failed to fetch user");
         }
       }
     };
 
     fetchUser();
+    window.addEventListener("profileUpdated", fetchUser);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("profileUpdated", fetchUser);
+    };
   }, [accessToken]);
   const payload = getDecodedToken();
   const role = payload?.role;
@@ -93,10 +110,16 @@ const Header: React.FC<HeaderProps> = ({
     { name: "Applications", icon: <HiDocumentText />, path: "/jobs/applied" },
     { name: "Profile", icon: <FaUser />, path: "/users/profile" },
   ];
-  const employeerLinks = {
-    name: "Post Job",
-    path: "/post-job",
-  };
+  const employerLinks = [
+    {
+      name: "Post Job",
+      path: "/post-job",
+    },
+    {
+      name: "Company Profile",
+      path: "/company",
+    },
+  ];
   const jobSeekerLinks = { name: "Saved Jobs", path: "/jobs/saved" };
 
   const menuLinks = [
@@ -158,7 +181,7 @@ const Header: React.FC<HeaderProps> = ({
               <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
                 {link.icon}
               </span>
-              <span>{link.name}</span>
+              <span className="pr-2">{link.name}</span>
             </div>
           ))}
         </nav>
@@ -219,13 +242,7 @@ const Header: React.FC<HeaderProps> = ({
               onClick={() => setIsMenuOpen(false)}
             />
 
-            <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-full right-6 mt-2 w-72 bg-white rounded-lg shadow-2xl border border-gray-100 z-50 overflow-hidden"
-            >
+            <motion.div className="absolute top-full right-6 mt-2 w-72 bg-white rounded-lg shadow-2xl border border-gray-100 z-50 overflow-hidden">
               <div className="flex flex-col p-3">
                 {accessToken && userData && (
                   <div className="px-4 py-3 mb-2 border-b border-gray-50">
@@ -238,57 +255,90 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
                 )}
 
-                <div className="mt-2 pt-2 border-t border-gray-100 flex flex-col gap-1">
-                  {role === "employer" ? (
-                    <div
-                      key={employeerLinks.name}
-                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
-                      onClick={() => {
-                        navigate(employeerLinks.path);
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      <span className="font-medium text-gray-600 group-hover:text-brand-primary transition-colors">
-                        {employeerLinks.name}
-                      </span>
-                    </div>
-                  ) : (
-                    <div
-                      key={jobSeekerLinks.name}
-                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
-                      onClick={() => {
-                        navigate(jobSeekerLinks.path);
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      <span className="font-medium text-gray-600 group-hover:text-brand-primary transition-colors">
-                        {jobSeekerLinks.name}
-                      </span>
-                    </div>
-                  )}
-                  {menuLinks.map((link) => (
+                <div className="lg:hidden flex flex-col gap-1 border-b border-gray-100">
+                  {navLinks.map((link) => (
                     <div
                       key={link.name}
                       className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
-                      onClick={() => {
-                        if (link.name === "Logout") {
-                          handleLogout();
-                        }
-                        navigate(link.path);
+                      onClick={async () => {
                         setIsMenuOpen(false);
+                        if (
+                          link.name === "Applications" &&
+                          role === "employer"
+                        ) {
+                          const jobId = await getJobId();
+                          navigate(`/jobs/${jobId}/applications`);
+                        } else {
+                          navigate(link.path);
+                        }
                       }}
                     >
-                      <span className="font-medium text-gray-600 group-hover:text-brand-primary transition-colors">
+                      <span className="font-medium text-gray-600 group-hover:text-brand-primary">
                         {link.name}
                       </span>
                     </div>
                   ))}
                 </div>
 
+                <div className="mt-2 pt-2 flex flex-col gap-1">
+                  {accessToken && (
+                    <>
+                      {role === "employer" ? (
+                        employerLinks.map((link) => (
+                          <div
+                            key={link.name}
+                            className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg cursor-pointer group"
+                            onClick={() => {
+                              navigate(link.path);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            <span className="font-medium text-gray-600 group-hover:text-brand-primary">
+                              {link.name}
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div
+                          className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg cursor-pointer group"
+                          onClick={() => {
+                            navigate(jobSeekerLinks.path);
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          <span className="font-medium text-gray-600 group-hover:text-brand-primary">
+                            {jobSeekerLinks.name}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {accessToken &&
+                    menuLinks.map((link) => {
+                      if (link.name !== "Change Password" || !isThirdPartyLogin)
+                        return (
+                          <div
+                            key={link.name}
+                            className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg cursor-pointer group"
+                            onClick={() => {
+                              if (link.name === "Logout") handleLogout();
+                              else navigate(link.path);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            <span className="font-medium text-gray-600 group-hover:text-brand-primary">
+                              {link.name}
+                            </span>
+                          </div>
+                        );
+                    })}
+                </div>
+
                 {!accessToken && (
                   <div className="pt-3 mt-2 border-t border-gray-100">
                     <button
-                      className="w-full bg-brand-primary text-white py-3.5 rounded-xl font-bold shadow-md active:scale-95 transition-all"
+                      className="w-full bg-brand-primary text-white py-3.5 rounded-xl font-bold"
                       onClick={() => {
                         navigate("/login");
                         setIsMenuOpen(false);

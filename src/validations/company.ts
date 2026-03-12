@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const urlRegex =
-  /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+  /^https:\/\/([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
 
 export const companySchema = z.object({
   name: z.string().min(2, "Name is required"),

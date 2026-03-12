@@ -1,32 +1,33 @@
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import OtpPage from "./components/OtpPage";
-import PasswordPage from "./components/PasswordPage";
-import RegisterPage from "./components/RegisterPage";
-import HomeLayout from "./components/HomePage";
-import HomePageContent from "./components/HomePageContent";
-import LoginPage from "./components/LoginPage";
-import ForgotPasswordPage from "./components/ForgotPasswordPage";
-import JobFilterPage from "./components/JobFilterPage";
-import Error400 from "./components/Error400";
-import JobDetailsPage from "./components/JobDetailsPage";
-import CompanyProfile from "./components/CompanyProfile";
-import PostJob from "./components/PostJob";
-import { JobAlertScreen } from "./components/JobAlert";
-import UserProfile from "./components/UserProfile";
-import JobApplications from "./components/ApplicantsPage";
-import ApplicationDetail from "./components/ApplicantDetailPage";
-import AppliedJobs from "./components/AppliedJobs";
-import { SocialAuthSuccess } from "./components/SocialSuccessAuth";
-import UpdateJob from "./components/UpdateJob";
-import SavedJobs from "./components/SavedJob";
-import ChangePasswordPage from "./components/ChangePassword";
-import Logout from "./components/Logout";
-import InternalServerError from "./components/Errors/InternalServerError";
-import TooManyRequestError from "./components/Errors/TooManyRequestError";
-import NotFoundError from "./components/Errors/NotFoundError";
-import ForbiddenError from "./components/Errors/ForbiddenError";
-import UnauthorizedError from "./components/Errors/UnauthorizedError";
+import OtpPage from "./components/auth/otp-page";
+import UpdatePassword from "./components/auth/update-password";
+import RegisterPage from "./components/auth/register";
+import HomeLayout from "./components/homepage";
+import HomePageContent from "./components/homepage/content";
+import LoginPage from "./components/auth/login";
+import ForgotPasswordPage from "./components/auth/forgot-password";
+import JobFilterPage from "./components/job/filter-page";
+import Error400 from "./components/error/bad-request-error";
+import JobDetailsPage from "./components/job/detail-page";
+import CompanyProfile from "./components/profile/company";
+import PostJob from "./components/job/post";
+import { JobAlertScreen } from "./components/job/alert";
+import UserProfile from "./components/profile/user";
+import JobApplications from "./components/applicant/page";
+import ApplicationDetail from "./components/applicant/detail-page";
+import AppliedJobs from "./components/job/applied";
+import { SocialAuthSuccess } from "./components/auth/third-party-success";
+import UpdateJob from "./components/job/update";
+import SavedJobs from "./components/job/saved";
+import ChangePasswordPage from "./components/auth/change-password";
+import Logout from "./components/auth/logout";
+import UnauthorizedError from "./components/error/unauthorized-error";
+import TooManyRequestError from "./components/error/too-many-request-error";
+import ForbiddenError from "./components/error/forbidden-error";
+import NotFoundError from "./components/error/not-found-error";
+import InternalServerError from "./components/error/internal-server-error";
+import ProtectedRoute from "./components/auth/protected-routes";
 
 const MainLayout = ({ headerColor }: { headerColor: string }) => (
   <HomeLayout headerColor={headerColor}>
@@ -44,7 +45,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/verify-otp" element={<OtpPage />} />
-          <Route path="/update-password" element={<PasswordPage />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/social-auth-success" element={<SocialAuthSuccess />} />
@@ -60,24 +61,29 @@ function App() {
           </Route>
 
           <Route element={<MainLayout headerColor="bg-white" />}>
-            <Route path="/company" element={<CompanyProfile />} />
             <Route path="/jobs" element={<JobFilterPage />} />
             <Route path="/jobs/:id" element={<JobDetailsPage />} />
-            <Route path="/jobs/alert" element={<JobAlertScreen />} />
-            <Route path="/jobs/applied" element={<AppliedJobs />} />
-            <Route path="/jobs/saved" element={<SavedJobs />} />
             <Route path="/users/profile" element={<UserProfile />} />
 
-            <Route path="/post-job" element={<PostJob />} />
-            <Route path="/update-job/:id" element={<UpdateJob />} />
-            <Route
-              path="/jobs/:jobId/applications"
-              element={<JobApplications />}
-            />
-            <Route
-              path="/jobs/:jobId/applications/:appId"
-              element={<ApplicationDetail />}
-            />
+            <Route element={<ProtectedRoute roles={["job_seeker"]} />}>
+              <Route path="/jobs/alert" element={<JobAlertScreen />} />
+              <Route path="/jobs/applied" element={<AppliedJobs />} />
+              <Route path="/jobs/saved" element={<SavedJobs />} />
+            </Route>
+
+            <Route element={<ProtectedRoute roles={["employer"]} />}>
+              <Route path="/company" element={<CompanyProfile />} />
+              <Route path="/post-job" element={<PostJob />} />
+              <Route path="/update-job/:id" element={<UpdateJob />} />
+              <Route
+                path="/jobs/:jobId/applications"
+                element={<JobApplications />}
+              />
+              <Route
+                path="/jobs/:jobId/applications/:appId"
+                element={<ApplicationDetail />}
+              />
+            </Route>
           </Route>
 
           <Route

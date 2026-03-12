@@ -14,7 +14,7 @@ import {
 export interface JobCategory {
   id: number;
   name: string;
-  icon: IconType; // This allows you to pass the actual Component
+  icon: IconType;
   openPositions: number;
 }
 

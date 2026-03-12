@@ -1,8 +1,10 @@
+import type { Response } from "@/types/response";
 import { refreshAccessToken } from "@/utils/auth";
 import axios, {
   type AxiosRequestConfig,
   type Method,
   type AxiosResponse,
+  type RawAxiosRequestHeaders,
 } from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -16,11 +18,11 @@ const apiClient = axios.create({
   },
 });
 
-export const request = async <T = any>(
+export const request = async <T>(
   endpoint: string,
   method: Method = "GET",
-  body: any = {},
-  customHeaders: any = {},
+  body: unknown = {},
+  customHeaders: RawAxiosRequestHeaders = {},
 ): Promise<T> => {
   const token = Cookies.get("access_token");
   const headers = {
@@ -36,14 +38,14 @@ export const request = async <T = any>(
   };
 
   try {
-    const response: AxiosResponse<T> = await apiClient(config);
+    const response: AxiosResponse<Response<T>> = await apiClient(config);
 
-    if (method !== "GET") {
-      const successMsg = (response.data as any).message || "Action successful!";
+    if (method !== "GET" && response.data.message) {
+      const successMsg = (response.data).message || "Action successful!";
       toast.success(successMsg);
     }
 
-    return (response.data as any).data;
+    return response.data.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const data = error.response?.data as {
@@ -72,21 +74,13 @@ export const request = async <T = any>(
       if (status === 401) {
         if (data.isAccessTokenExpired) {
           {
-            try {
-              console.warn(
-                "Access token expired. Attempting silent refresh...",
-              );
-              const newAccessToken = await refreshAccessToken();
+            console.warn("Access token expired. Attempting silent refresh...");
+            const newAccessToken = await refreshAccessToken();
 
-              return await request<T>(endpoint, method, body, {
-                ...customHeaders,
-                Authorization: `Bearer ${newAccessToken}`,
-              });
-            } catch (refreshError) {
-              console.error("Refresh token expired or invalid.");
-
-              throw refreshError;
-            }
+            return await request<T>(endpoint, method, body, {
+              ...customHeaders,
+              Authorization: `Bearer ${newAccessToken}`,
+            });
           }
         } else {
           window.location.href = "/error/401";

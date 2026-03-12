@@ -1,26 +1,26 @@
 export type Experience = {
-  _id: string;
-  id: string;
+  _id?: string;
+  id?: string;
 
-  company: string;
-  title: string;
+  company?: string;
+  title?: string;
 
-  startYear: number;
-  endYear: number;
+  startYear?: number;
+  endYear?: number;
 };
 
 export type Education = {
-  _id: string;
-  id: string;
+  _id?: string;
+  id?: string;
 
   level: "sslc" | "hsc" | "diploma" | "bachelor" | "master" | "phd";
-  degree: string;
-  fieldOfStudy: string;
-  institution: string;
+  degree?: string;
+  fieldOfStudy?: string | null;
+  institution?: string;
 
-  startYear: number;
-  endYear: number;
-  percentage: number;
+  startYear?: number;
+  endYear?: number;
+  percentage?: number;
 };
 
 export type JobSeekerProfile = {
