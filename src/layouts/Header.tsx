@@ -255,8 +255,9 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
                 )}
 
-                <div className="lg:hidden flex flex-col gap-1 border-b border-gray-100">
-                  {navLinks.map((link) => (
+                <div className="lg:hidden flex flex-col">
+                  {navLinks.map((link) => {
+                  return(
                     <div
                       key={link.name}
                       className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
@@ -277,10 +278,10 @@ const Header: React.FC<HeaderProps> = ({
                         {link.name}
                       </span>
                     </div>
-                  ))}
+                  )})}
                 </div>
 
-                <div className="mt-2 pt-2 flex flex-col gap-1">
+                <div className="flex flex-col">
                   {accessToken && (
                     <>
                       {role === "employer" ? (
