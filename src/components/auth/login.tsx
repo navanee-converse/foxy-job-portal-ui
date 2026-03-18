@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { FaLinkedinIn, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import AuthLayout from "../../layouts/auth";
 import { request } from "../../services/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import type { ApiError } from "@/types/response";
+import AuthLayout from "@/layouts/auth";
 
 const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

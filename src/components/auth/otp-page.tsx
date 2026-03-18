@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import AuthLayout from "../../layouts/auth";
 import { request } from "../../services/api";
 import toast from "react-hot-toast";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { useNavigate } from "react-router-dom";
 import type { ApiError } from "@/types/response";
+import AuthLayout from "@/layouts/auth";
 
 const OtpPage: React.FC = () => {
   const [otpValue, setOtpValue] = useState("");

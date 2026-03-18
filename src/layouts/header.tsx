@@ -164,27 +164,29 @@ const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
 
-        <nav className="hidden lg:flex items-center gap-8 xl:gap-25 font-medium text-content-heading">
-          {navLinks.map((link) => (
-            <div
-              key={link.name}
-              className="group flex items-center gap-2 hover:text-brand-primary cursor-pointer transition-colors"
-              onClick={async () => {
-                if (link.name === "Applications" && role === "employer") {
-                  const jobId = await getJobId();
-                  navigate(`/jobs/${jobId}/applications`);
-                } else {
-                  navigate(link.path);
-                }
-              }}
-            >
-              <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
-                {link.icon}
-              </span>
-              <span className="pr-2">{link.name}</span>
-            </div>
-          ))}
-        </nav>
+        {accessToken && (
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-25 font-medium text-content-heading">
+            {navLinks.map((link) => (
+              <div
+                key={link.name}
+                className="group flex items-center gap-2 hover:text-brand-primary cursor-pointer transition-colors"
+                onClick={async () => {
+                  if (link.name === "Applications" && role === "employer") {
+                    const jobId = await getJobId();
+                    navigate(`/jobs/${jobId}/applications`);
+                  } else {
+                    navigate(link.path);
+                  }
+                }}
+              >
+                <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
+                  {link.icon}
+                </span>
+                <span className="pr-2">{link.name}</span>
+              </div>
+            ))}
+          </nav>
+        )}
 
         <div className="flex items-center gap-4 z-50">
           {!accessToken ? (
@@ -255,32 +257,34 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
                 )}
 
-                <div className="lg:hidden flex flex-col">
-                  {navLinks.map((link) => {
-                  return(
-                    <div
-                      key={link.name}
-                      className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
-                      onClick={async () => {
-                        setIsMenuOpen(false);
-                        if (
-                          link.name === "Applications" &&
-                          role === "employer"
-                        ) {
-                          const jobId = await getJobId();
-                          navigate(`/jobs/${jobId}/applications`);
-                        } else {
-                          navigate(link.path);
-                        }
-                      }}
-                    >
-                      <span className="font-medium text-gray-600 group-hover:text-brand-primary">
-                        {link.name}
-                      </span>
-                    </div>
-                  )})}
-                </div>
-
+                {accessToken && (
+                  <div className="lg:hidden flex flex-col">
+                    {navLinks.map((link) => {
+                      return (
+                        <div
+                          key={link.name}
+                          className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
+                          onClick={async () => {
+                            setIsMenuOpen(false);
+                            if (
+                              link.name === "Applications" &&
+                              role === "employer"
+                            ) {
+                              const jobId = await getJobId();
+                              navigate(`/jobs/${jobId}/applications`);
+                            } else {
+                              navigate(link.path);
+                            }
+                          }}
+                        >
+                          <span className="font-medium text-gray-600 group-hover:text-brand-primary">
+                            {link.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
                 <div className="flex flex-col">
                   {accessToken && (
                     <>

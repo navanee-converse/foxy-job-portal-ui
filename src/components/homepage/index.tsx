@@ -1,6 +1,6 @@
+import Footer from "@/layouts/footer";
+import Header from "@/layouts/header";
 import { type ReactNode } from "react";
-import Footer from "@/layouts/Footer";
-import Header from "@/layouts/Header";
 
 interface LayoutProps {
   children: ReactNode;
