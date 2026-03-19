@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -33,6 +34,7 @@ const CompanyProfile = () => {
 
   const form = useForm<CompanyDto>({
     resolver: zodResolver(companySchema),
+    shouldUnregister:false,
     defaultValues: {
       name: "",
       website: "",
@@ -137,15 +139,17 @@ const CompanyProfile = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 <FormInput
                   name="name"
-                  label="Company Name *"
+                  label="Company Name"
                   control={form.control}
                   disabled={!isEditMode}
+                  required={true}
                 />
                 <FormInput
                   name="website"
                   label="Website"
                   control={form.control}
                   disabled={!isEditMode}
+                  required={true}
                 />
               </div>
 
@@ -155,7 +159,9 @@ const CompanyProfile = () => {
                   name="size"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Team Size</FormLabel>
+                      <FormLabel className="label-required">
+                        Team Size
+                      </FormLabel>
                       <Select
                         disabled={!isEditMode}
                         onValueChange={field.onChange}
@@ -182,15 +188,16 @@ const CompanyProfile = () => {
                   name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Industry</FormLabel>
+                      <FormLabel className="label-required">Industry</FormLabel>
                       <Select
                         disabled={!isEditMode}
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="bg-slate-50 h-12">
-                            <SelectValue placeholder="Select industry" />
+                          <SelectTrigger className="bg-slate-50 h-12 border border-slate-200 focus:ring-0 focus:ring-offset-0 focus:outline-none">
+                            {" "}
+                              <SelectValue placeholder="Select industry" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -251,21 +258,24 @@ const CompanyProfile = () => {
                 />
                 <FormInput
                   name="location.city"
-                  label="City *"
+                  label="City"
                   control={form.control}
                   disabled={!isEditMode}
+                  required={true}
                 />
                 <FormInput
                   name="location.state"
-                  label="State *"
+                  label="State"
                   control={form.control}
                   disabled={!isEditMode}
+                  required={true}
                 />
                 <FormInput
                   name="location.country"
-                  label="Country *"
+                  label="Country"
                   control={form.control}
                   disabled={!isEditMode}
+                  required={true}
                 />
                 <FormInput
                   name="location.zipCode"

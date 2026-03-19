@@ -7,8 +7,8 @@ export const companySchema = z.object({
   name: z.string().min(2, "Name is required"),
   website: z
     .string()
-    .regex(urlRegex, "Please enter a valid web address")
-    .or(z.literal("")),
+    .min(1, "Website is required")
+    .regex(urlRegex, "Please enter a valid web address"),
   location: z.object({
     city: z.string().min(1, "City is required"),
     state: z.string().min(1, "State is required"),
@@ -16,8 +16,8 @@ export const companySchema = z.object({
     address: z.string().optional(),
     zipCode: z.string().optional(),
   }),
-  industry: z.string().optional(),
-  size: z.string().optional(),
+  industry: z.string().min(1, "Choose the industry"),
+  size: z.string().min(1, "Choose the size"),
   aboutCompany: z.string().optional(),
   socials: z
     .object({

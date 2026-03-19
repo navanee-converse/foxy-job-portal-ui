@@ -32,7 +32,7 @@ export const FormInput = <T extends FieldValues>({
     control={control}
     name={name}
     render={({ field }) => (
-      <FormItem className={cn("w-full relative pb-5", className)}>
+      <FormItem className={cn("w-full pb-5", className)}>
         <FormLabel className={`text-slate-700 ${required && "label-required"}`}>
           {label}
         </FormLabel>
@@ -41,7 +41,7 @@ export const FormInput = <T extends FieldValues>({
             disabled={disabled}
             placeholder={placeholder}
             className={cn(
-              "bg-header-bg border-slate-200 focus:bg-white h-12 cursor-pointer",
+              "bg-header-bg border-slate-200 focus:bg-white h-12",
               "disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-auto ",
               disabled && "select-none",
               className,
@@ -49,7 +49,7 @@ export const FormInput = <T extends FieldValues>({
             {...field}
           />
         </FormControl>
-        <FormMessage className="absolute bottom-1 left-0 text-[11px]" />{" "}
+        <FormMessage className="text-[11px]" />{" "}
       </FormItem>
     )}
   />

@@ -32,6 +32,9 @@ export const EmployerProfileForm = ({
   });
   const navigate = useNavigate();
   const isReadOnly = !initialData?.company;
+  if (isReadOnly) {
+    navigate("/company");
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave)} className="space-y-8">

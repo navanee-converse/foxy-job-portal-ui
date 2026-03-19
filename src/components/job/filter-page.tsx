@@ -84,8 +84,7 @@ const JobFilterPage: React.FC = () => {
       setTotalJobs(response?.total || data.length || 0);
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
-        const apiError = error as ApiError;
-        toast.error(apiError.message);
+        error as ApiError;
       } else toast.error("Failed to load jobs.");
     } finally {
       setIsLoading(false);

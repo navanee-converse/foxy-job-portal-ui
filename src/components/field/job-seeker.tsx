@@ -114,8 +114,9 @@ export const JobSeekerFields = <
                 control={control}
                 name={`education.${index}.level` as Path<T>}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">Level</FormLabel>
+                  <FormItem className="w-full pb-5">
+                    {" "}
+                    <FormLabel className="text-slate-700">Level</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -142,7 +143,6 @@ export const JobSeekerFields = <
                 label="Degree"
                 placeholder="B.Tech"
                 control={control}
-                className="mt-0.5"
                 disabled={false}
               />
 
