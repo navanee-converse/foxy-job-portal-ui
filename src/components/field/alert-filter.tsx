@@ -16,8 +16,14 @@ import {
 import type { AlertFormValues } from "@/validations/alert";
 import type { Control } from "react-hook-form";
 
-export const AlertFilterFields = ({ control }: { control: Control<AlertFormValues> }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+export const AlertFilterFields = ({ 
+  control, 
+  disabled = false 
+}: { 
+  control: Control<AlertFormValues>;
+  disabled?: boolean;
+}) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
     <FormField
       control={control}
       name="minSalary"
@@ -28,7 +34,8 @@ export const AlertFilterFields = ({ control }: { control: Control<AlertFormValue
             <Input
               type="number"
               placeholder="Minimum Salary"
-              className="bg-header-bg cursor-pointer border-slate-200 focus:bg-white h-12"
+              disabled={disabled}
+              className="bg-header-bg cursor-pointer border-slate-200 focus:bg-white h-12 disabled:opacity-70 disabled:cursor-not-allowed"
               {...field}
               value={
                 field.value === 0 || field.value === undefined
@@ -51,9 +58,13 @@ export const AlertFilterFields = ({ control }: { control: Control<AlertFormValue
       render={({ field }) => (
         <FormItem>
           <FormLabel>Frequency</FormLabel>
-          <Select onValueChange={field.onChange} value={field.value}>
+          <Select 
+            onValueChange={field.onChange} 
+            value={field.value} 
+            disabled={disabled}
+          >
             <FormControl>
-              <SelectTrigger className="h-12! w-full bg-header-bg border-slate-200">
+              <SelectTrigger className="h-12! w-full bg-header-bg border-slate-200 disabled:opacity-70 disabled:cursor-not-allowed">
                 <SelectValue placeholder="Select frequency" />
               </SelectTrigger>
             </FormControl>

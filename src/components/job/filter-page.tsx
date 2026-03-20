@@ -16,7 +16,6 @@ import { JobCardSkeleton } from "./card-skeleton";
 import JobPagination from "./pagination";
 import FilterSidebar from "../filter-sidebar";
 import type { PaginationMeta } from "@/types/pagination";
-import type { ApiError } from "@/types/response";
 
 const JobFilterPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -83,9 +82,9 @@ const JobFilterPage: React.FC = () => {
       setJobs(data);
       setTotalJobs(response?.total || data.length || 0);
     } catch (error) {
-      if (error && typeof error === "object" && "message" in error) {
-        error as ApiError;
-      } else toast.error("Failed to load jobs.");
+      if (error && typeof error === "object") {
+        toast.error("Failed to load jobs.");
+      }
     } finally {
       setIsLoading(false);
     }

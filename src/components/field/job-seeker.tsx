@@ -103,7 +103,7 @@ export const JobSeekerFields = <
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute top-3 right-3 h-8 w-8 bg-transparent text-slate-400 hover:text-red-600 cursor-pointer z-10"
+              className="absolute top-3 right-3 h-8 w-8 text-slate-400 hover:text-red-600 cursor-pointer z-10 hover:bg-transparent"
               onClick={() => removeEdu(index)}
             >
               <Trash2 className="w-4 h-4" />
@@ -111,7 +111,7 @@ export const JobSeekerFields = <
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
               <FormField
-                control={control}
+                control={control} 
                 name={`education.${index}.level` as Path<T>}
                 render={({ field }) => (
                   <FormItem className="w-full pb-5">
@@ -196,7 +196,7 @@ export const JobSeekerFields = <
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-bold text-slate-800 label-required">
+            <h3 className="text-lg font-bold text-slate-800">
               Experience
             </h3>
           </div>
@@ -229,7 +229,7 @@ export const JobSeekerFields = <
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute top-3 right-3 h-8 w-8 text-slate-400 hover:text-red-600 cursor-pointer z-10"
+              className="absolute top-3 right-3 h-8 w-8 text-slate-400 hover:bg-transparent hover:text-red-600 cursor-pointer z-10"
               onClick={() => removeExp(index)}
             >
               <Trash2 className="w-4 h-4" />

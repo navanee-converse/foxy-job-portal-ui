@@ -30,6 +30,21 @@ export const jobSchema = z
 
     status: z.enum(["draft", "published", "closed"]),
     description: z.string().min(20, "Please provide a detailed description"),
+
+    numberOfPositions: z.preprocess(
+      (val) => {
+        if (val === "" || val == null) return undefined;
+
+        const num = Number(val);
+        return isNaN(num) ? NaN : num;
+      },
+      z
+        .number({ error: "Please provide numeric values" })
+        .int("Must be a whole number")
+        .gt(0, "Number of positions must be greater than 0")
+        .default(1),
+    ),
+
     responsibilities: z
       .array(z.string().trim().min(1, "Responsibility cannot be empty"))
       .min(1, "At least one responsibility is required"),

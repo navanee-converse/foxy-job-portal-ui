@@ -16,7 +16,7 @@ const ForgotPasswordPage: React.FC = () => {
 
     try {
       await request("/auth/resend-otp", "POST", { email });
-
+      localStorage.setItem("email", email);
       toast.success("OTP sent successfully to your email!");
 
       navigate("/verify-otp", { state: { email } });

@@ -13,7 +13,7 @@ import JobDetailsPage from "./components/job/detail-page";
 import CompanyProfile from "./components/profile/company";
 import PostJob from "./components/job/post";
 import { JobAlertScreen } from "./components/job/alert";
-import UserProfile from "./components/profile/user";
+import UserProfile from "./components/profile/user-form";
 import JobApplications from "./components/applicant/page";
 import ApplicationDetail from "./components/applicant/detail-page";
 import AppliedJobs from "./components/job/applied";
@@ -28,6 +28,7 @@ import ForbiddenError from "./components/error/forbidden-error";
 import NotFoundError from "./components/error/not-found-error";
 import InternalServerError from "./components/error/internal-server-error";
 import ProtectedRoute from "./components/auth/protected-routes";
+import UserProfileView from "./components/profile/user-card";
 
 const MainLayout = ({ headerColor }: { headerColor: string }) => (
   <HomeLayout headerColor={headerColor}>
@@ -64,6 +65,7 @@ function App() {
             <Route path="/jobs" element={<JobFilterPage />} />
             <Route path="/jobs/:id" element={<JobDetailsPage />} />
             <Route path="/users/profile" element={<UserProfile />} />
+            <Route path="/users/profile-card" element={<UserProfileView/>} />
 
             <Route element={<ProtectedRoute roles={["job_seeker"]} />}>
               <Route path="/jobs/alert" element={<JobAlertScreen />} />

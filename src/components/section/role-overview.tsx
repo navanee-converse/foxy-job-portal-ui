@@ -20,10 +20,12 @@ export const RoleOverviewSection = <T extends FieldValues>({
   control,
   showLastDate = true,
   disabled = false,
+  showOpenings = true,
 }: {
   control: Control<T>;
   showLastDate?: boolean;
   disabled?: boolean;
+  showOpenings?: boolean;
 }) => {
   const today = new Date().toISOString().split("T")[0];
   const gridCols = showLastDate ? "lg:grid-cols-3" : "lg:grid-cols-2";
@@ -41,8 +43,9 @@ export const RoleOverviewSection = <T extends FieldValues>({
           label="Job Title"
           placeholder="Job Title"
           control={control}
-          disabled={false}
+          disabled={disabled}
           required={true}
+          className="pb-0"
         />
         <FormField
           control={control}
@@ -166,6 +169,17 @@ export const RoleOverviewSection = <T extends FieldValues>({
             </FormItem>
           )}
         />
+        {showOpenings && (
+          <FormInput
+            name={"numberOfPositions" as Path<T>}
+            label="Openings"
+            placeholder="No.of positions"
+            control={control}
+            disabled={false}
+            required={true}
+            className="pb-0"
+          />
+        )}
       </div>
     </section>
   );

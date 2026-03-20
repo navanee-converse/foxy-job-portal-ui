@@ -26,6 +26,7 @@ const PostJob = () => {
       title: "",
       responsibilities: [""],
       skillsAndQualifications: [""],
+      numberOfPositions: 0,
       status: "published",
       location: "onsite",
       description: "",

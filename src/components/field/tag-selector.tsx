@@ -1,154 +1,139 @@
-import { useState, useEffect } from "react";
-import type { Control, FieldValues, Path } from "react-hook-form";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
-import { request } from "@/services/api";
-import { cn } from "@/lib/utils";
-import { type Tag, type TagOption } from "@/types/tag";
-import toast from "react-hot-toast";
-import type { ApiError } from "@/types/response";
+  import { useState, useEffect, useRef } from "react";
+  import type { Control, FieldValues, Path } from "react-hook-form";
+  import {
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+  } from "@/components/ui/form";
+  import {
+    Combobox,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxList,
+    ComboboxChips,
+    ComboboxChip,
+    ComboboxChipsInput,
+    ComboboxValue,
+    ComboboxItem,
+  } from "@/components/ui/combobox";
+  import { request } from "@/services/api";
+  import toast from "react-hot-toast";
+  import { cn } from "@/lib/utils";
+  import type { ApiError } from "@/types/response";
+  import useDebounce from "@/hooks/useDebounce";
 
-export const TagSelectorField = <T extends FieldValues>({
-  control,
-  disabled = false,
-}: {
-  control: Control<T>;
-  disabled?: boolean;
-}) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState<TagOption[]>([]);
+  export type TagOption = {
+    _id: string;
+    name: string;
+  };
 
-  useEffect(() => {
-    if (disabled || searchTerm.length < 2) {
-      return;
-    }
+  interface TagSelectorFieldProps<T extends FieldValues> {
+    control: Control<T>;
+    disabled?: boolean;
+  }
 
-    const fetchTags = async () => {
+  export const  TagSelectorField = <T extends FieldValues>({
+    control,
+    disabled = false,
+  }: TagSelectorFieldProps<T>) => {
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [suggestions, setSuggestions] = useState<TagOption[]>([]);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const debouncedSearchTerm = useDebounce(searchTerm);
+
+    const fetchTags = async (query?: string) => {
+      if (disabled) return;
       try {
-        const res = await request<Tag[]>(`/tags?name=${searchTerm}`, "GET");
+        const res = await request<TagOption[]>(
+          `/tags${query ? `?name=${query}` : ""}`,
+          "GET"
+        );
         setSuggestions(res);
-      } catch (error) {
+      } catch (error: unknown) {
         if (error && typeof error === "object" && "message" in error) {
           const apiError = error as ApiError;
           toast.error(apiError.message);
-        } else toast.error("Failed to fetch tags");
+        } else {
+          toast.error("Failed to fetch tags");
+        }
       }
     };
 
-    const debounce = setTimeout(fetchTags, 300);
-    return () => clearTimeout(debounce);
-  }, [searchTerm, disabled]);
+    useEffect(() => {
+      fetchTags(debouncedSearchTerm.trim() || undefined);
+    }, [debouncedSearchTerm]);
 
-  return (
-    <FormField
-      control={control}
-      name={"tagIds" as Path<T>}
-      render={({ field }) => {
-        const currentTags: TagOption[] = Array.isArray(field.value)
-          ? field.value
-          : [];
+    return (
+      <FormField
+        control={control}
+        name={"tagIds" as Path<T>}
+        render={({ field }) => {
+          const value: TagOption[] = Array.isArray(field.value)
+            ? field.value
+            : [];
 
-        const handleRemove = (e: React.MouseEvent, idToRemove: string) => {
-          if (disabled) return;
-          e.preventDefault();
-          e.stopPropagation();
-          const nextTags = currentTags.filter((tag) => tag._id !== idToRemove);
-          field.onChange(nextTags);
-        };
+          return (
+            <FormItem className="space-y-2 cursor-pointer">
+              <FormLabel className="label-required">Tags (Categories)</FormLabel>
 
-        return (
-          <FormItem className="flex flex-col items-start">
-            <FormLabel className="label-required">Tags (Categories)</FormLabel>
+              <Combobox<TagOption, true>
+                items={suggestions}
+                multiple
+                value={value}
+                disabled={disabled}
+                itemToStringValue={(item) => item.name}
+                onValueChange={(val: TagOption[]) => {
+                  const unique = val.filter(
+                    (v, i, arr) => arr.findIndex((x) => x._id === v._id) === i
+                  );
+                  field.onChange(unique);
+                  setSearchTerm("");
+                }}
+              >
+                <ComboboxChips className="border border-slate-200 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600 transition-all duration-300">
+                  <ComboboxValue>
+                    {value.map((tag) => (
+                      <ComboboxChip className="focus-within:bg-white" key={tag._id}>
+                        {tag.name}
+                      </ComboboxChip>
+                    ))}
+                  </ComboboxValue>
 
-            <div
-              className={cn(
-                "w-full border rounded-lg p-2 transition-all",
-                disabled
-                  ? "bg-header-bg border-slate-200 cursor-not-allowed opacity-80"
-                  : "bg-header-bg border-slate-200 focus-within:ring-2 ring-blue-500",
-              )}
-            >
-              <div className="flex flex-wrap gap-2 mb-2 overflow-auto">
-                {currentTags.map((tag) => (
-                  <Badge
-                    key={tag.id || tag._id}
-                    variant="secondary"
-                    className={cn(
-                      "bg-blue-100 text-blue-700 flex items-center gap-1 ",
-                      disabled && "cursor-not-allowed",
-                    )}
-                  >
-                    {tag.name}
-                    {!disabled && (
-                      <button
-                        type="button"
-                        onClick={(e) => handleRemove(e, tag._id)}
-                        className="hover:text-red-500 transition-colors hover:scale-125"
-                      >
-                        <X className="w-3 h-3 cursor-pointer" />
-                      </button>
-                    )}
-                  </Badge>
-                ))}
-              </div>
+                  <ComboboxChipsInput
+                    ref={inputRef}
+                    placeholder="Search tags..."
+                    value={searchTerm}
+                    onFocus={() => fetchTags(undefined)}
+                    className="cursor-pointer"
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </ComboboxChips>
 
-              <FormControl>
-                <input
-                  className={cn(
-                    "bg-transparent border-none outline-none w-full p-1 text-sm",
-                    disabled
-                      ? "cursor-not-allowed placeholder:text-slate-400"
-                      : "cursor-pointer",
+                <ComboboxContent
+                  className={cn("border border-blue-600", "w-(--anchor-width) min-w-full")}
+                >
+                  {suggestions.length <= 0 && (
+                    <ComboboxEmpty className="flex items-center justify-center font-medium text-sm h-30">
+                      No tags found.
+                    </ComboboxEmpty>
                   )}
-                  placeholder={disabled ? "" : "Search tags..."}
-                  value={searchTerm}
-                  disabled={disabled}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setSearchTerm(value);
-                    if (value.length < 2) {
-                      setSuggestions([]);
-                    }
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.preventDefault();
-                  }}
-                />
-              </FormControl>
-            </div>
 
-            {!disabled && suggestions.length > 0 && (
-              <div className="relative w-full">
-                <ul className="absolute z-10 w-full bg-white border border-slate-200 rounded-md mt-1 shadow-lg max-h-48 overflow-auto">
-                  {suggestions.map((tag) => (
-                    <li
-                      key={tag.id}
-                      className="px-4 py-2 hover:bg-slate-100 cursor-pointer text-sm"
-                      onClick={() => {
-                        if (!currentTags.some((t) => t.id === tag.id)) {
-                          field.onChange([...currentTags, tag]);
-                        }
-                        setSearchTerm("");
-                        setSuggestions([]);
-                      }}
-                    >
-                      {tag.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
-  );
-};
+                  <ComboboxList>
+                    {suggestions.map((tag) => (
+                      <ComboboxItem key={tag._id} value={tag}>
+                        {tag.name}
+                      </ComboboxItem>
+                    ))}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+
+              <FormMessage />
+            </FormItem>
+          );
+        }}
+      />
+    );
+  };

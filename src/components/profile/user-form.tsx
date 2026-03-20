@@ -8,14 +8,16 @@ import { JobSeekerProfileForm } from "@/components/profile/job-seeker-form";
 import type { ProfileFormValues, UserMeResponse } from "@/types/user-profile";
 import type { Tag } from "@/types/tag";
 import type { ApiError } from "@/types/response";
+import { useNavigate } from "react-router-dom";
 
-const UserProfile = () => {
+const UserProfileForm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [role, setRole] = useState("");
   const [profileData, setProfileData] = useState<ProfileFormValues>();
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,10 +59,9 @@ const UserProfile = () => {
       toast.success("Resume removed from view");
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
-          const apiError = error as ApiError;
-          toast.error(apiError.message);
-        } else
-      toast.error("Failed to remove resume");
+        const apiError = error as ApiError;
+        toast.error(apiError.message);
+      } else toast.error("Failed to remove resume");
     }
   };
 
@@ -120,6 +121,7 @@ const UserProfile = () => {
       }
       toast.success("Profile saved successfully");
       window.dispatchEvent(new Event("profileUpdated"));
+      navigate("/users/profile-card");
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
@@ -172,4 +174,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserProfileForm;

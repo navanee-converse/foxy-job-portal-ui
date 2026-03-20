@@ -34,7 +34,7 @@ const CompanyProfile = () => {
 
   const form = useForm<CompanyDto>({
     resolver: zodResolver(companySchema),
-    shouldUnregister:false,
+    shouldUnregister: false,
     defaultValues: {
       name: "",
       website: "",
@@ -168,7 +168,7 @@ const CompanyProfile = () => {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="bg-slate-50 h-12">
+                          <SelectTrigger className="bg-header-bg h-12 border border-slate-200">
                             <SelectValue placeholder="Select size" />
                           </SelectTrigger>
                         </FormControl>
@@ -180,6 +180,7 @@ const CompanyProfile = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      <FormMessage className="text-[11px]" />
                     </FormItem>
                   )}
                 />
@@ -195,9 +196,9 @@ const CompanyProfile = () => {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="bg-slate-50 h-12 border border-slate-200 focus:ring-0 focus:ring-offset-0 focus:outline-none">
+                          <SelectTrigger className="bg-header-bg h-12 border border-slate-200 focus:ring-0 focus:ring-offset-0 focus:outline-none">
                             {" "}
-                              <SelectValue placeholder="Select industry" />
+                            <SelectValue placeholder="Select industry" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -214,6 +215,7 @@ const CompanyProfile = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      <FormMessage className="text-[11px]" />
                     </FormItem>
                   )}
                 />
@@ -234,7 +236,7 @@ const CompanyProfile = () => {
                     <FormControl>
                       <Textarea
                         disabled={!isEditMode}
-                        className="bg-slate-50 border-none min-h-45"
+                        className="bg-header-bg border-slate-200 min-h-45"
                         {...field}
                       />
                     </FormControl>
@@ -316,7 +318,7 @@ const CompanyProfile = () => {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 px-12 h-14 text-lg font-bold"
+                  className="bg-brand-primary hover:bg-brand-btn-hover cursor-pointer px-12 h-14 text-lg font-bold"
                 >
                   Save Changes
                 </Button>

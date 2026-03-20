@@ -4,6 +4,7 @@ import { PiMoneyBold } from "react-icons/pi";
 import type { IconType } from "react-icons";
 import { formatRelativeTime } from "@/utils/date-formatter";
 import type { Job } from "@/types/job";
+import { HiUserGroup } from "react-icons/hi";
 
 interface SidebarItemProps {
   icon: IconType;
@@ -11,7 +12,7 @@ interface SidebarItemProps {
   value: string | number | React.ReactNode;
 }
 
-const JobSidebar: React.FC<{ job: Job }> = ({ job }) => {
+const   JobSidebar: React.FC<{ job: Job }> = ({ job }) => {
   const formatSalary = (min: number, max: number) => {
     return `₹${(min / 1000).toFixed(0)}k - ₹${(max / 1000).toFixed(0)}k`;
   };
@@ -60,6 +61,11 @@ const JobSidebar: React.FC<{ job: Job }> = ({ job }) => {
             icon={PiMoneyBold}
             label="Salary"
             value={formatSalary(job.minSalary, job.maxSalary)}
+          />
+           <SidebarItem
+            icon={HiUserGroup}
+            label="Openings"
+            value={job.numberOfPositions}
           />
         </div>
 

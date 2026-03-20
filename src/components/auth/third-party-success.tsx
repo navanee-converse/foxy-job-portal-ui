@@ -14,7 +14,7 @@ export const SocialAuthSuccess = () => {
       Cookies.set("access_token", accessToken, { expires: 1 });
       if (refreshToken)
         Cookies.set("refresh_token", refreshToken, { expires: 7 });
-      navigate("/users/profile");
+      navigate("/users/profile-card");
     } else {
       navigate("/login");
     }

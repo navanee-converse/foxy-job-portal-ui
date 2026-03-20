@@ -137,15 +137,13 @@ const Header: React.FC<HeaderProps> = ({
         position: isScrolled ? "fixed" : "sticky",
         backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.98)" : "white",
         boxShadow: isScrolled ? "0 10px 15px -3px rgba(0,0,0,0.1)" : "none",
-        paddingTop: isScrolled ? "0px" : "10px",
-        paddingBottom: isScrolled ? "0px" : "10px",
       }}
       transition={{
         duration: 0.8,
         ease: [0.22, 1, 0.36, 1],
         backgroundColor: { duration: 0.6 },
       }}
-      className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10 ${
+      className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10 pt-2.5 pb-2.5   ${
         !isScrolled ? bgColor : ""
       }`}
     >
@@ -157,7 +155,11 @@ const Header: React.FC<HeaderProps> = ({
           <img
             src="/logo.png"
             alt="Hirely Logo"
-            className="w-8 h-8 md:w-10 md:h-10"
+            onDragStart={(e) => {
+              e.dataTransfer.setData("text/uri-list", window.location.origin);
+              e.dataTransfer.setData("text/plain", window.location.origin);
+            }}
+              className="w-8 h-8 md:w-10 md:h-10"
           />
           <span className="pl-3 text-xl font-bold text-content-heading">
             Hirely

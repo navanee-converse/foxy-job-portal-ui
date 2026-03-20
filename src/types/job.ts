@@ -55,6 +55,7 @@ export interface Job {
   responsibilities: string[];
   skillsAndQualifications: string[];
   companyId: Company;
+  numberOfPositions: number;
   postedByUserId: JobUser;
   employmentType: "full-time" | "part-time" | "contract" | "internship";
   experienceLevel: string;
