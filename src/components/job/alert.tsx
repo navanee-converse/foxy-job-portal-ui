@@ -19,11 +19,10 @@ import { AlertFilterFields } from "../field/alert-filter";
 import { Switch } from "@/components/ui/switch";
 import type { JobAlert } from "@/types/job-alert";
 import type { ApiError } from "@/types/response";
-import { Edit2 } from "lucide-react"; // Optional: for the button icon
+import { Edit2 } from "lucide-react";
 
 export const JobAlertScreen = () => {
   const [mode, setMode] = useState<"create" | "update">("create");
-  // 1. Add state to track if we are currently editing
   const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<AlertFormValues>({
@@ -40,9 +39,6 @@ export const JobAlertScreen = () => {
     },
   });
 
-  // 2. Determine if fields should be disabled
-  // Logic: Disable if we are in "update" mode AND "isEditing" is false.
-  // In "create" mode, it is never disabled.
   const isFieldsDisabled = mode === "update" && !isEditing;
 
   useEffect(() => {
@@ -51,7 +47,7 @@ export const JobAlertScreen = () => {
         const data = await request<JobAlert>("/users/me/alert", "GET");
         if (data) {
           setMode("update");
-          setIsEditing(false); // Ensure it starts in read-only mode for updates
+          setIsEditing(false);
 
           form.reset({
             ...data,
@@ -60,7 +56,7 @@ export const JobAlertScreen = () => {
           });
         } else {
           setMode("create");
-          setIsEditing(true); // Always "editing" in create mode
+          setIsEditing(true);
         }
       } catch (error) {
         if (error && typeof error === "object" && "message" in error) {
@@ -76,14 +72,14 @@ export const JobAlertScreen = () => {
     try {
       const payload = {
         ...values,
-        tagIds: values.tagIds.map((tag) => tag.id), // Changed tag.id to tag._id based on your previous code
+        tagIds: values.tagIds.map((tag) => tag.id),
       };
 
       const method = mode === "update" ? "PUT" : "POST";
       await request("/users/me/alert", method, payload);
       
       setMode("update");
-      setIsEditing(false); // Go back to read-only after saving
+      setIsEditing(false);
       toast.success(`Alert ${mode === "update" ? "updated" : "created"} successfully!`);
     } catch (error) {
       toast.error("Failed to save alert");
@@ -158,7 +154,6 @@ export const JobAlertScreen = () => {
               />
             )}
 
-            {/* 5. Only show the Submit button if we are in "Create" mode or actively "Editing" */}
             {(mode === "create" || isEditing) && (
               <div className="flex justify-center w-full gap-4">
                 {isEditing && mode === "update" && (
