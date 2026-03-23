@@ -10,9 +10,13 @@ export const SocialAuthSuccess = () => {
     const accessToken = searchParams.get("access_token");
     const refreshToken = searchParams.get("refresh_token");
 
-    if (accessToken) {
+    if (accessToken && accessToken !== "undefined" && accessToken !== "null") {
       Cookies.set("access_token", accessToken, { expires: 1 });
-      if (refreshToken)
+      if (
+        refreshToken &&
+        refreshToken !== "undefined" &&
+        refreshToken !== "null"
+      )
         Cookies.set("refresh_token", refreshToken, { expires: 7 });
       navigate("/users/profile-card");
     } else {

@@ -22,6 +22,8 @@ const UpdatePassword: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -106,7 +108,7 @@ const UpdatePassword: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"
+                className="absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"
               >
                 {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               </button>
@@ -125,18 +127,31 @@ const UpdatePassword: React.FC = () => {
             >
               Confirm New Password
             </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm Password"
-              className={`w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:ring-1 border ${
-                errors.confirmPassword
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-transparent focus:border-brand-primary focus:ring-brand-primary"
-              }`}
-            />
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm Password"
+                className={`w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:ring-1 border ${
+                  errors.confirmPassword
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-transparent focus:border-brand-primary focus:ring-brand-primary"
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"
+              >
+                {showConfirmPassword ? (
+                  <AiOutlineEyeInvisible />
+                ) : (
+                  <AiOutlineEye />
+                )}
+              </button>
+            </div>
             {errors.confirmPassword && (
               <p className="mt-1 text-xs font-medium text-red-500">
                 {errors.confirmPassword[0]}

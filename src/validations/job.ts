@@ -61,12 +61,10 @@ export const jobSchema = z
       .min(0, { message: "Minimum salary must be zero or a positive number" })
       .optional(),
     lastDate: z.coerce
-      .date({
-        error: "Please enter a valid date",
-      })
-      .refine((date) => date >= new Date(new Date().setHours(0, 0, 0, 0)), {
-        message: "The last date must be today or a future date",
-      }),
+    .date()
+    .min(new Date(), { message: 'Last date must be in the future' })
+    .optional(),
+
   })
   .refine(
     (data) => {

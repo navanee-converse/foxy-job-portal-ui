@@ -81,10 +81,6 @@ const JobFilterPage: React.FC = () => {
       const data = response.data;
       setJobs(data);
       setTotalJobs(response?.total || data.length || 0);
-    } catch (error) {
-      if (error && typeof error === "object") {
-        toast.error("Failed to load jobs.");
-      }
     } finally {
       setIsLoading(false);
     }
