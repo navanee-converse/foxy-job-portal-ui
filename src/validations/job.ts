@@ -65,7 +65,7 @@ export const jobSchema = z
     .min(new Date(), { message: 'Last date must be in the future' })
     .optional(),
 
-  }) 
+  })
   .refine(
     (data) => {
       if (data.minSalary && data.maxSalary) {
