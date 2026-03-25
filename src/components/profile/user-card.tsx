@@ -42,7 +42,7 @@ const UserProfileView = () => {
         }
       } catch (error) {
         if (error && typeof error === "object" && "message" in error) {
-          toast.error((error as ApiError).message);
+          console.error((error as ApiError).message);
         } else {
           toast.error("Failed to load profile");
         }

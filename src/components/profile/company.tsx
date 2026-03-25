@@ -60,7 +60,7 @@ const CompanyProfile = () => {
       } catch (error) {
         if (error && typeof error === "object" && "message" in error) {
           const apiError = error as ApiError;
-          toast.error(apiError.message);
+          console.error(apiError.message);
         } else {
           toast.error("Unexpected error occured");
         }
@@ -81,7 +81,7 @@ const CompanyProfile = () => {
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
+        console.error(apiError.message);
       } else toast.error("Failed to update profile.");
     }
   };
@@ -167,7 +167,7 @@ const CompanyProfile = () => {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <FormControl>
+                        <FormControl className="w-full h-12!">
                           <SelectTrigger className="bg-header-bg h-12 border border-slate-200">
                             <SelectValue placeholder="Select size" />
                           </SelectTrigger>
@@ -195,7 +195,7 @@ const CompanyProfile = () => {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <FormControl>
+                        <FormControl className="w-full h-12!">
                           <SelectTrigger className="bg-header-bg h-12 border border-slate-200 focus:ring-0 focus:ring-offset-0 focus:outline-none">
                             {" "}
                             <SelectValue placeholder="Select industry" />
@@ -220,29 +220,6 @@ const CompanyProfile = () => {
                   )}
                 />
               </div>
-            </section>
-
-            <Separator />
-
-            <section className="space-y-6">
-              <FormField
-                control={form.control}
-                name="aboutCompany"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xl font-bold text-slate-800">
-                      About Company
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        disabled={!isEditMode}
-                        className="bg-header-bg border-slate-200 min-h-45"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
             </section>
 
             <Separator />
@@ -312,6 +289,28 @@ const CompanyProfile = () => {
                   disabled={!isEditMode}
                 />
               </div>
+            </section>
+            <Separator />
+
+            <section className="space-y-6">
+              <FormField
+                control={form.control}
+                name="aboutCompany"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xl font-bold text-slate-800">
+                      About Company
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        disabled={!isEditMode}
+                        className="bg-header-bg border-slate-200 min-h-45"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </section>
 
             {isEditMode && (

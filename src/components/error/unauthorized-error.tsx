@@ -1,7 +1,19 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UnauthorizedError: React.FC = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    let count = Number(localStorage.getItem("uaCount") || "0");
+
+    if (count >= 3) {
+      localStorage.removeItem("uaCount");
+      navigate("/login");
+    } else {
+      count += 1;
+      localStorage.setItem("uaCount", count.toString());
+    }
+  }, [navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">

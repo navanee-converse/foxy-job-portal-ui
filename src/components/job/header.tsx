@@ -14,17 +14,14 @@ interface JobHeaderProps {
 const payload = getDecodedToken();
 const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
   <div className="bg-header-bg py-8 md:py-12 px-4 md:px-6 lg:px-8">
-    {/* Removed the fixed pr-20 and lg:pr-52 */}
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-        {/* Company Logo */}
         <div className="w-20 h-20 bg-slate-900 rounded-xl flex items-center justify-center shrink-0 shadow-lg">
           <span className="text-white font-bold text-2xl">
             {job.companyId?.name?.charAt(0) || "S"}
           </span>
         </div>
 
-        {/* Job Info */}
         <div className="min-w-0">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 wrap-break-word">
             {job.title}
@@ -60,7 +57,6 @@ const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
         </div>
       </div>
 
-      {/* Action Buttons */}
       {payload?.role === "job_seeker" && (
         <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
           <button

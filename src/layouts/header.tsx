@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
+        console.error(apiError.message);
       } else toast.error("Error occured");
     } finally {
       Cookies.remove("access_token", { path: "/" });
@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
         } catch (error) {
           if (error && typeof error === "object" && "message" in error) {
             const apiError = error as ApiError;
-            toast.error(apiError.message);
+            console.error(apiError.message);
           } else toast.error("Failed to fetch user");
         }
       }
@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({
     { name: "Home", icon: <FaHome />, path: "/" },
     { name: "Jobs", icon: <FaSearch />, path: "/jobs" },
     { name: "Applications", icon: <HiDocumentText />, path: "/jobs/applied" },
-    { name: "Profile", icon: <FaUser />, path: "/users/profile" },
+    { name: "Profile", icon: <FaUser />, path: "/users/profile-card" },
   ];
   const employerLinks = [
     {
@@ -193,7 +193,7 @@ const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-4 z-50">
           {!accessToken ? (
             <button
-              className="hidden lg:block bg-brand-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-btn-hover transition-all shadow-md"
+              className="hidden lg:block bg-brand-primary cursor-pointer text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-btn-hover transition-all shadow-md"
               onClick={() => navigate("/login")}
             >
               Login / Register

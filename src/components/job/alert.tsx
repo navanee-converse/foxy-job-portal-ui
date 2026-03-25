@@ -61,7 +61,7 @@ export const JobAlertScreen = () => {
       } catch (error) {
         if (error && typeof error === "object" && "message" in error) {
           const apiError = error as ApiError;
-          toast.error(apiError.message);
+          console.error(apiError.message);
         } else toast.error("Failed to load job alert");
       }
     }
@@ -77,12 +77,17 @@ export const JobAlertScreen = () => {
 
       const method = mode === "update" ? "PUT" : "POST";
       await request("/users/me/alert", method, payload);
-      
+
       setMode("update");
       setIsEditing(false);
-      toast.success(`Alert ${mode === "update" ? "updated" : "created"} successfully!`);
+      toast.success(
+        `Alert ${mode === "update" ? "updated" : "created"} successfully!`,
+      );
     } catch (error) {
-      toast.error("Failed to save alert");
+      if (error && typeof error === "object" && "message" in error) {
+        const apiError = error as ApiError;
+        console.error(apiError.message);
+      } else toast.error("Failed to save job alert");
     }
   };
 
@@ -97,10 +102,10 @@ export const JobAlertScreen = () => {
             <h1 className="text-3xl font-medium">
               {mode === "update" ? "Job Alert" : "Create Alert"}
             </h1>
-            
+
             {mode === "update" && !isEditing && (
-              <Button 
-                type="button" 
+              <Button
+                type="button"
                 variant="outline"
                 onClick={() => setIsEditing(true)}
                 className="gap-2  text-white bg-brand-primary hover:text-white hover:bg-brand-btn-hover cursor-pointer"
@@ -112,21 +117,21 @@ export const JobAlertScreen = () => {
           </div>
 
           <div className="space-y-10 border border-slate-200 p-10 rounded-lg bg-white">
-            <RoleOverviewSection 
-               control={form.control} 
-               showLastDate={false} 
-               showOpenings={false} 
-               disabled={isFieldsDisabled} 
+            <RoleOverviewSection
+              control={form.control}
+              showLastDate={false}
+              showOpenings={false}
+              disabled={isFieldsDisabled}
             />
-            <AlertFilterFields 
-               control={form.control} 
-               disabled={isFieldsDisabled} 
+            <AlertFilterFields
+              control={form.control}
+              disabled={isFieldsDisabled}
             />
-            <TagSelectorField 
-               control={form.control} 
-               disabled={isFieldsDisabled} 
+            <TagSelectorField
+              control={form.control}
+              disabled={isFieldsDisabled}
             />
-            
+
             {mode === "update" && (
               <FormField
                 control={form.control}
@@ -157,14 +162,14 @@ export const JobAlertScreen = () => {
             {(mode === "create" || isEditing) && (
               <div className="flex justify-center w-full gap-4">
                 {isEditing && mode === "update" && (
-                   <Button 
-                    type="button" 
-                    variant="ghost" 
+                  <Button
+                    type="button"
+                    variant="ghost"
                     onClick={() => setIsEditing(false)}
                     className="cursor-pointer"
-                   >
+                  >
                     Cancel
-                   </Button>
+                  </Button>
                 )}
                 <Button
                   type="submit"

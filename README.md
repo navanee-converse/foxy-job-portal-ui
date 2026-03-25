@@ -71,3 +71,41 @@ export default defineConfig([
   },
 ])
 ```
+# Foxy Job Portal - Frontend
+
+A modern, full-stack job board UI built with **React**, **TypeScript**, and **Vite**.
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v24.13.0 recommended)
+- npm
+
+### Installation
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your .env file (see below).
+Variable | Description | Example |
+| :--- | :--- | :--- |
+| `VITE_API_URL` | Base endpoint for the Node.js backend | `http://localhost:8000/api/v1` |
+| `VITE_DOC_VIEW_URL` | Google Docs viewer prefix for resumes | `https://docs.google.com/gview?url=` |
+| `VITE_FB_URL` | Facebook sharing base URL | `https://www.facebook.com/sharer/sharer.php?u=` |
+| `VITE_LINKEDIN_URL` | LinkedIn sharing base URL | `https://www.linkedin.com/sharing/share-offsite/?url=` |
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Production build:
+   ```bash
+   npm run build
+   ```
+
+6. Start the production server after production build:
+   ```bash
+   npm run preview
+   ```

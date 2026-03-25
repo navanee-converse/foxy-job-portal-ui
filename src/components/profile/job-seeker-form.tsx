@@ -74,7 +74,7 @@ export const JobSeekerProfileForm = ({
         <JobSeekerFields control={form.control} />
         <Separator />
 
-        <TagSelectorField control={form.control} />
+        <TagSelectorField control={form.control} required={false} />
         <div className="flex justify-center gap-4 pt-4 sm:justify-end">
           <Button
             type="submit"

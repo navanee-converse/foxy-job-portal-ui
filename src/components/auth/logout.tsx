@@ -29,8 +29,8 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
-      } else toast.error("Error Occured");
+        console.error(apiError.message);
+      }
     } finally {
       Cookies.remove("access_token", { path: "/" });
       Cookies.remove("refresh_token", { path: "/" });

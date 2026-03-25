@@ -30,7 +30,7 @@ const JobDetailsPage: React.FC = () => {
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
+        console.error(apiError.message);
       } else toast.error("Failed to submit application.");
     }
   };
@@ -60,7 +60,7 @@ const JobDetailsPage: React.FC = () => {
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
+        console.error(apiError.message);
       } else toast.error("Could not update bookmark.");
     }
   };
@@ -85,7 +85,7 @@ const JobDetailsPage: React.FC = () => {
       } catch (error) {
         if (error && typeof error === "object" && "message" in error) {
           const apiError = error as ApiError;
-          toast.error(apiError.message);
+          console.error(apiError.message);
         } else toast.error("Could not load job details");
         navigate("/jobs");
       } finally {

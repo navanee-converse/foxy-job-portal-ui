@@ -37,7 +37,7 @@ const SavedJobs: React.FC = () => {
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
+        console.error(apiError.message);
       } else toast.error("Failed to load saved jobs");
     } finally {
       setIsLoading(false);
@@ -60,7 +60,7 @@ const SavedJobs: React.FC = () => {
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
+        console.error(apiError.message);
       } else toast.error("Could not update bookmark");
     }
   };

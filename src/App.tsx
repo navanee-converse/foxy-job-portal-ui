@@ -25,7 +25,6 @@ import Logout from "./components/auth/logout";
 import UnauthorizedError from "./components/error/unauthorized-error";
 import TooManyRequestError from "./components/error/too-many-request-error";
 import ForbiddenError from "./components/error/forbidden-error";
-import NotFoundError from "./components/error/not-found-error";
 import InternalServerError from "./components/error/internal-server-error";
 import ProtectedRoute from "./components/auth/protected-routes";
 import UserProfileView from "./components/profile/user-card";
@@ -53,7 +52,6 @@ function App() {
           <Route path="/error/400" element={<Error400 />} />
           <Route path="/error/401" element={<UnauthorizedError />} />
           <Route path="/error/403" element={<ForbiddenError />} />
-          <Route path="/error/404" element={<NotFoundError />} />
           <Route path="/error/429" element={<TooManyRequestError />} />
           <Route path="/error/500" element={<InternalServerError />} />
 

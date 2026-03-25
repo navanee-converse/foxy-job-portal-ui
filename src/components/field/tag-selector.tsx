@@ -18,7 +18,6 @@ import {
   ComboboxItem,
 } from "@/components/ui/combobox";
 import { request } from "@/services/api";
-import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import type { ApiError } from "@/types/response";
 import useDebounce from "@/hooks/useDebounce";
@@ -31,11 +30,13 @@ export type TagOption = {
 interface TagSelectorFieldProps<T extends FieldValues> {
   control: Control<T>;
   disabled?: boolean;
+  required?: boolean;
 }
 
 export const TagSelectorField = <T extends FieldValues>({
   control,
   disabled = false,
+  required = true,
 }: TagSelectorFieldProps<T>) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [suggestions, setSuggestions] = useState<TagOption[]>([]);
@@ -51,12 +52,10 @@ export const TagSelectorField = <T extends FieldValues>({
         "GET",
       );
       setSuggestions(res);
-    } catch (error: unknown) {
+    } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
-      } else {
-        toast.error("Failed to fetch tags");
+        console.error(apiError.message);
       }
     }
   };
@@ -76,7 +75,9 @@ export const TagSelectorField = <T extends FieldValues>({
 
         return (
           <FormItem className="space-y-2 cursor-pointer">
-            <FormLabel className="label-required">Tags (Categories)</FormLabel>
+            <FormLabel className={`${required ? "label-required" : "  "}`}>
+              Tags (Categories)
+            </FormLabel>
 
             <Combobox<TagOption, true>
               items={suggestions}
@@ -97,7 +98,7 @@ export const TagSelectorField = <T extends FieldValues>({
                   <ComboboxValue>
                     {value.map((tag) => (
                       <ComboboxChip
-                        className="focus-within:bg-white" 
+                        className="focus-within:bg-white"
                         key={tag._id}
                       >
                         {tag.name}

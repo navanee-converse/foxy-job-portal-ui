@@ -9,7 +9,11 @@ const educationSchema = z.object({
   institution: z.string().optional(),
   startYear: z.coerce.number().int().min(1900).max(2100).optional(),
   endYear: z.coerce.number().int().min(1900).max(2100).optional(),
-  percentage: z.coerce.number().min(0).max(100).optional(),
+  percentage: z.coerce
+    .number()
+    .min(35, { message: "Percentage should be greater than or equal to 35" })
+    .max(100, { message: "Percentage should be less than or equal to 100" })
+    .optional(),
 });
 
 const experienceSchema = z.object({

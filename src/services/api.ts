@@ -39,12 +39,6 @@ export const request = async <T>(
 
   try {
     const response: AxiosResponse<Response<T>> = await apiClient(config);
-
-    if (method !== "GET" && response.data.message) {
-      const successMsg = (response.data).message || "Action successful!";
-      toast.success(successMsg);
-    }
-
     return response.data.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -61,10 +55,6 @@ export const request = async <T>(
       if (status === 403) {
         window.location.href = "/error/403";
         throw { status: 403, message: "Forbidden access" };
-      }
-      if (status === 404) {
-        window.location.href = "/error/404";
-        throw { status: 404, message: "Not found" };
       }
       if (status && status >= 500) {
         window.location.href = "/error/500";
@@ -95,7 +85,6 @@ export const request = async <T>(
 
     const genericMessage =
       error instanceof Error ? error.message : "A client-side error occurred";
-    toast.error(genericMessage);
     throw { status: 500, message: genericMessage };
   }
 };

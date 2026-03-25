@@ -52,8 +52,8 @@ const LoginPage: React.FC = () => {
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
-        toast.error(apiError.message);
-      } else toast.error("Invalid email or password.");
+        console.error(apiError.message);
+      }
     } finally {
       setIsLoading(false);
     }
