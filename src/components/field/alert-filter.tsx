@@ -16,10 +16,10 @@ import {
 import type { AlertFormValues } from "@/validations/alert";
 import type { Control } from "react-hook-form";
 
-export const AlertFilterFields = ({ 
-  control, 
-  disabled = false 
-}: { 
+export const AlertFilterFields = ({
+  control,
+  disabled = false,
+}: {
   control: Control<AlertFormValues>;
   disabled?: boolean;
 }) => (
@@ -48,7 +48,7 @@ export const AlertFilterFields = ({
               }}
             />
           </FormControl>
-          <FormMessage />
+          <FormMessage className="text-[11px]" />
         </FormItem>
       )}
     />
@@ -58,9 +58,9 @@ export const AlertFilterFields = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>Frequency</FormLabel>
-          <Select 
-            onValueChange={field.onChange} 
-            value={field.value} 
+          <Select
+            onValueChange={field.onChange}
+            value={field.value}
             disabled={disabled}
           >
             <FormControl>
@@ -68,7 +68,7 @@ export const AlertFilterFields = ({
                 <SelectValue placeholder="Select frequency" />
               </SelectTrigger>
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-[11px]" />
             <SelectContent>
               {["daily", "weekly"].map((t) => (
                 <SelectItem key={t} value={t} className="capitalize">

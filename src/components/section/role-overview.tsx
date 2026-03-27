@@ -71,7 +71,7 @@ export const RoleOverviewSection = <T extends FieldValues>({
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
+              <FormMessage className="text-[11px]" />
             </FormItem>
           )}
         />
@@ -98,7 +98,7 @@ export const RoleOverviewSection = <T extends FieldValues>({
                     onChange={(e) => field.onChange(e.target.value)}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-[11px]" />
               </FormItem>
             )}
           />

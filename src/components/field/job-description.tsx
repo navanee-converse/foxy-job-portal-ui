@@ -30,7 +30,7 @@ export const JobDescriptionField = <T extends FieldValues>({
                 {...field}
               />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-[11px]" />
           </FormItem>
         )}
       />

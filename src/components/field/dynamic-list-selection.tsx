@@ -96,7 +96,7 @@ export const DynamicListSection = <T extends FieldValues>({
                     </Button>
                   )}
                 </div>
-                <FormMessage />
+                <FormMessage className="text-[11px]" />
               </FormItem>
             )}
           />

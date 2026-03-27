@@ -18,6 +18,11 @@ const ChangePasswordPage: React.FC = () => {
     newPassword: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   const navigate = useNavigate();
 
@@ -25,18 +30,45 @@ const ChangePasswordPage: React.FC = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const validatePassword = (password: string) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])(?=.{8,})/;
-    return regex.test(password);
+  const validate = () => {
+    let isValid = true;
+    const newErrors = { oldPassword: "", newPassword: "", confirmPassword: "" };
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+    if (!formData.oldPassword) {
+      newErrors.oldPassword = "Current password is required";
+      isValid = false;
+    } else if (!passwordRegex.test(formData.newPassword)) {
+      newErrors.oldPassword =
+        "Must be 8 chars with uppercase, lowercase, number, and symbol";
+      isValid = false;
+    }
+
+    if (!formData.newPassword) {
+      newErrors.newPassword = "New password is required";
+      isValid = false;
+    } else if (!passwordRegex.test(formData.newPassword)) {
+      newErrors.newPassword =
+        "Must be 8 chars with uppercase, lowercase, number, and symbol";
+      isValid = false;
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Confirm password is required";
+      isValid = false;
+    } else if (formData.newPassword !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (!validatePassword(formData.newPassword)) {
-      toast.error(
-        "Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.",
-      );
+    if (!validate()) {
       return;
     }
 
@@ -71,7 +103,7 @@ const ChangePasswordPage: React.FC = () => {
 
   return (
     <AuthLayout title="Change Password">
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} noValidate className="space-y-5">
         <div className="space-y-1">
           <label className="text-sm font-medium text-content-heading label-required">
             Old Password
@@ -81,10 +113,15 @@ const ChangePasswordPage: React.FC = () => {
               id="oldPassword"
               type={showPasswords.old ? "text" : "password"}
               value={formData.oldPassword}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                if (errors.oldPassword)
+                  setErrors({ ...errors, oldPassword: "" });
+              }}
               placeholder="Enter current password"
               required
-              className="w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50"
+              className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 
+                ${errors.oldPassword ? "border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             <button
               type="button"
@@ -94,6 +131,11 @@ const ChangePasswordPage: React.FC = () => {
               {showPasswords.old ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </button>
           </div>
+          {errors.oldPassword && (
+            <p className="mt-1 text-xs text-red-500 font-medium">
+              {errors.oldPassword}
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -105,10 +147,15 @@ const ChangePasswordPage: React.FC = () => {
               id="newPassword"
               type={showPasswords.new ? "text" : "password"}
               value={formData.newPassword}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                if (errors.newPassword)
+                  setErrors({ ...errors, newPassword: "" });
+              }}
               placeholder="Minimum 8 characters"
               required
-              className="w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent"
+              className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent
+                ${errors.newPassword ? "border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             <button
               type="button"
@@ -118,6 +165,11 @@ const ChangePasswordPage: React.FC = () => {
               {showPasswords.new ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </button>
           </div>
+          {errors.newPassword && (
+            <p className="mt-1 text-xs text-red-500 font-medium">
+              {errors.newPassword}
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -129,10 +181,15 @@ const ChangePasswordPage: React.FC = () => {
               id="confirmPassword"
               type={showPasswords.confirm ? "text" : "password"}
               value={formData.confirmPassword}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                if (errors.confirmPassword)
+                  setErrors({ ...errors, confirmPassword: "" });
+              }}
               placeholder="Re-enter new password"
               required
-              className="w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent"
+              className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent
+                ${errors.confirmPassword ? "border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             <button
               type="button"
@@ -146,6 +203,11 @@ const ChangePasswordPage: React.FC = () => {
               )}
             </button>
           </div>
+          {errors.confirmPassword && (
+            <p className="mt-1 text-xs text-red-500 font-medium">
+              {errors.confirmPassword}
+            </p>
+          )}
         </div>
 
         <button

@@ -16,11 +16,46 @@ const LoginPage: React.FC = () => {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
 
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+    if (errors[id as keyof typeof errors]) {
+      setErrors({ ...errors, [id]: "" });
+    }
+  };
+
+  const validate = () => {
+    let isValid = true;
+    const newErrors = { email: "", password: "" };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email) {
+      newErrors.email = "Email address is required";
+      isValid = false;
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (!passwordRegex.test(formData.password)) {
+      newErrors.password =
+        "Password must be at least 8 characters and include uppercase, lowercase, a number, and a symbol";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSocialLogin = (provider: "google" | "linkedin" | "github") => {
@@ -30,6 +65,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     setIsLoading(true);
 
     try {
@@ -62,7 +98,7 @@ const LoginPage: React.FC = () => {
   return (
     <AuthLayout title="Login to Hirely">
       <div className="flex flex-col justify-evenly">
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="space-y-1">
             <label
               htmlFor="email"
@@ -78,8 +114,14 @@ const LoginPage: React.FC = () => {
               placeholder="Email"
               required
               disabled={isLoading}
-              className="w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer"
+              className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer
+                ${errors.email ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
+            {errors.email && (
+              <p className="mt-1 text-xs font-medium text-red-500">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div className="space-y-1">
@@ -107,7 +149,8 @@ const LoginPage: React.FC = () => {
                 placeholder="Password"
                 required
                 disabled={isLoading}
-                className="w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer"
+                className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer 
+                  ${errors.password ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"}`}
               />
               <button
                 type="button"
@@ -117,6 +160,12 @@ const LoginPage: React.FC = () => {
                 {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               </button>
             </div>
+            {errors.password && (
+              <p className="mt-1 text-xs font-medium text-red-500">
+                {errors.password}
+              </p>
+            )}
+            
           </div>
 
           <button

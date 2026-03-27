@@ -94,7 +94,7 @@ export const FileField = <T extends FieldValues>({
               </div>
             )}
           </FormControl>
-          <FormMessage />
+          <FormMessage className="text-[11px]" />
         </FormItem>
       )}
     />

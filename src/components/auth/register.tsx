@@ -22,6 +22,9 @@ const RegisterPage: React.FC = () => {
     email: "",
   });
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({
+    email: "",
+  });
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -67,8 +70,22 @@ const RegisterPage: React.FC = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return "Email address is required";
+    if (!emailRegex.test(email)) return "Please enter a valid email address";
+    return "";
+  };
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    const emailError = validateEmail(formData.email);
+    if (emailError) {
+      setErrors({ email: emailError });
+      return;
+    }
+    setErrors({ email: "" });
 
     if (!selectedRoleId) {
       alert("Please select a role first.");
@@ -128,7 +145,7 @@ const RegisterPage: React.FC = () => {
         </div>
 
         <div className="flex flex-col flex-1">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
             <div className="space-y-1">
               <label
                 htmlFor="email"
@@ -142,10 +159,16 @@ const RegisterPage: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                required
                 disabled={isLoading}
-                className="w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-blue-600 focus:bg-white border border-transparent disabled:opacity-50"
+                className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all border 
+      ${errors.email ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"} 
+      disabled:opacity-50`}
               />
+              {errors.email && (
+                <p className="mt-1 text-xs font-medium text-red-500 animate-in fade-in slide-in-from-top-1">
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             <div className="pt-4">

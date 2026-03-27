@@ -8,10 +8,25 @@ import AuthLayout from "@/layouts/auth";
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
+  const validate = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      setError("Email address is required");
+      return false;
+    }
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    setError("");
+    return true;
+  };
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     setIsLoading(true);
 
     try {
@@ -33,7 +48,7 @@ const ForgotPasswordPage: React.FC = () => {
   return (
     <AuthLayout title="Forgot Password?">
       <div className="flex flex-col justify-evenly">
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="space-y-1">
             <label
               htmlFor="email"
@@ -45,12 +60,21 @@ const ForgotPasswordPage: React.FC = () => {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (error) setError("");
+              }}
               placeholder="Enter your registered email"
               required
               disabled={isLoading}
-              className="w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-1 focus:bg-white border border-transparent disabled:opacity-50"
+              className={`w-full rounded-xl bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:ring-1 focus:bg-white border border-transparent 
+                ${error ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"} disabled:opacity-50`}
             />
+            {error && (
+              <p className="mt-1 text-xs font-medium text-red-500 animate-in fade-in slide-in-from-top-1">
+                {error}
+              </p>
+            )}
           </div>
 
           <button

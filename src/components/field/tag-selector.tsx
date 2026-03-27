@@ -142,8 +142,7 @@ export const TagSelectorField = <T extends FieldValues>({
                 </ComboboxList>
               </ComboboxContent>
             </Combobox>
-
-            <FormMessage />
+            <FormMessage className="text-[11px]" />
           </FormItem>
         );
       }}
