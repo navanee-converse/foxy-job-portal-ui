@@ -160,7 +160,7 @@ const RegisterPage: React.FC = () => {
                 onChange={handleChange}
                 placeholder="Enter your email"
                 disabled={isLoading}
-                className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all border 
+                className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all border 
       ${errors.email ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"} 
       disabled:opacity-50`}
               />

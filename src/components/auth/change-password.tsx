@@ -120,7 +120,7 @@ const ChangePasswordPage: React.FC = () => {
               }}
               placeholder="Enter current password"
               required
-              className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 
+              className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 
                 ${errors.oldPassword ? "border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             <button
@@ -154,7 +154,7 @@ const ChangePasswordPage: React.FC = () => {
               }}
               placeholder="Minimum 8 characters"
               required
-              className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent
+              className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent
                 ${errors.newPassword ? "border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             <button
@@ -188,7 +188,7 @@ const ChangePasswordPage: React.FC = () => {
               }}
               placeholder="Re-enter new password"
               required
-              className={`w-full rounded-lg cursor-pointer bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent
+              className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent
                 ${errors.confirmPassword ? "border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             <button

@@ -114,7 +114,7 @@ const LoginPage: React.FC = () => {
               placeholder="Email"
               required
               disabled={isLoading}
-              className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer
+              className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50
                 ${errors.email ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"}`}
             />
             {errors.email && (
@@ -149,7 +149,7 @@ const LoginPage: React.FC = () => {
                 placeholder="Password"
                 required
                 disabled={isLoading}
-                className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50 cursor-pointer 
+                className={`w-full rounded-lg bg-header-bg px-5 py-4 text-sm outline-none transition-all focus:border-brand-primary focus:bg-white border border-transparent disabled:opacity-50
                   ${errors.password ? "border-red-500 focus:border-red-500" : "border-transparent focus:border-brand-primary"}`}
               />
               <button
