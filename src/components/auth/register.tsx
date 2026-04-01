@@ -115,7 +115,7 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <AuthLayout title="Create a Free Hirely Account">
+    <AuthLayout title="Create a Free Foxy Job Account">
       <div className="flex flex-col justify-evenly">
         <div className="flex flex-1 w-full gap-4 mb-10">
           {roles.map((role) => {

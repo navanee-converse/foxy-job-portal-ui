@@ -11,10 +11,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title }) => {
       <div className="hidden lg:relative lg:block lg:flex-1 bg-brand-light">
         <div className="absolute inset-0 flex flex-col items-center justify-center p-16 text-center">
           <div className="relative mb-12 flex h-80 w-80 items-center justify-center rounded-full bg-white shadow-xl border border-white/50">
-            <img src="logo.png" alt="Hirely" className="w-36 h-36" />
+            <img src="logo.png" alt="FoxyJob" className="w-36 h-36" />
           </div>
           <h3 className="text-3xl font-extrabold text-content-heading mb-4 px-10">
-            Find your dream job with Hirely
+            Find your dream job with FoxyJob
           </h3>
           <p className="max-w-md text-content-body leading-relaxed text-lg font-medium opacity-80">
             Discover exclusive opportunities, track your progress, and take the
@@ -29,11 +29,11 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title }) => {
             <div className="flex items-center gap-3">
               <img
                 src="logo.png"
-                alt="Hirely Logo"
+                alt="FoxyJob Logo"
                 className="w-10 h-10 object-contain"
               />
               <span className="text-2xl font-black text-content-heading tracking-tight">
-                Hirely
+                FoxyJob
               </span>
             </div>
           </div>

@@ -26,9 +26,10 @@ export const jobSchema = z
           name: z.string(),
         }),
       )
-      .min(1, "Please select at least one category"),
+      .min(1, "Please select at least one tag"),
 
     status: z.enum(["draft", "published", "closed"]),
+    categoryId: z.string().min(1, "Please select a job category"),
     description: z.string().min(20, "Please provide a detailed description"),
 
     numberOfPositions: z.preprocess(
@@ -61,10 +62,9 @@ export const jobSchema = z
       .min(0, { message: "Minimum salary must be zero or a positive number" })
       .optional(),
     lastDate: z.coerce
-    .date()
-    .min(new Date(), { message: 'Last date must be in the future' })
-    .optional(),
-
+      .date()
+      .min(new Date(), { message: "Last date must be in the future" })
+      .optional(),
   })
   .refine(
     (data) => {

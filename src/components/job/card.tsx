@@ -4,6 +4,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { formatRelativeTime } from "@/utils/date-formatter";
 import type { Job } from "@/types/job";
 import { getDecodedToken } from "@/utils/auth";
+import toast from "react-hot-toast";
 
 interface JobCardProps {
   job: Job;
@@ -17,7 +18,6 @@ const TAG_PALETTE = [
   { bg: "bg-rose-50", text: "text-rose-600" },
   { bg: "bg-cyan-50", text: "text-cyan-600" },
 ];
-
 const JobCard: React.FC<JobCardProps> = ({
   job,
   isBookmarked,
@@ -34,11 +34,15 @@ const JobCard: React.FC<JobCardProps> = ({
 
   return (
     <div className="bg-white p-7 rounded-lg border border-gray-300 hover:shadow transition-all relative group">
-      {payload?.role === "job_seeker" ? (
+      {payload?.role !== "employer" ? (
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onToggleBookmark(e, job._id);
+            if (!payload) {
+              toast.error("Log in to save ");
+            } else {
+              onToggleBookmark(e, job._id);
+            }
           }}
           className="absolute top-4 right-3 rounded-full transition-colors z-10"
           title={activeBookmark ? "Remove Bookmark" : "Save Job"}
@@ -56,7 +60,7 @@ const JobCard: React.FC<JobCardProps> = ({
         <div
           className={`absolute top-6 right-6 m-8 text-sm rounded-full ${color}`}
         >
-          <div className="m-3"> {job.status}</div>
+          <div className="m-3 capitalize"> {job.status}</div>
         </div>
       )}
       <div className="flex gap-6">
@@ -73,9 +77,7 @@ const JobCard: React.FC<JobCardProps> = ({
         </div>
 
         <div className="flex-1">
-          <h3
-            className="font-bold text-lg text-gray-800 mb-2 cursor-pointer hover:text-blue-600 inline-block"
-          >
+          <h3 className="font-bold text-lg text-gray-800 mb-2 cursor-pointer hover:text-blue-600 inline-block">
             {job.title}
           </h3>
 
@@ -96,7 +98,7 @@ const JobCard: React.FC<JobCardProps> = ({
 
             <span className="flex items-center gap-1.5 font-medium text-gray-700">
               <FaRupeeSign className="text-gray-400" />
-              {job.minSalary ? `${job.minSalary / 1000}k` : "N/A"} -
+              {job.minSalary ? `${job.minSalary / 1000}k` : "N/A"} -{" "}
               {job.maxSalary ? `${job.maxSalary / 1000}k` : "N/A"}
             </span>
           </div>

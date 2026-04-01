@@ -76,7 +76,7 @@ export const TagSelectorField = <T extends FieldValues>({
         return (
           <FormItem className="space-y-2 cursor-pointer">
             <FormLabel className={`${required ? "label-required" : "  "}`}>
-              Tags (Categories)
+              Tags
             </FormLabel>
 
             <Combobox<TagOption, true>
@@ -112,7 +112,7 @@ export const TagSelectorField = <T extends FieldValues>({
                   placeholder="Search tags..."
                   value={searchTerm}
                   onFocus={() => fetchTags(undefined)}
-                  className="cursor-pointer"
+                  className={`cursor-pointer ${searchTerm.length > 0 ? "mb-1.5" : ""}`}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </ComboboxChips>

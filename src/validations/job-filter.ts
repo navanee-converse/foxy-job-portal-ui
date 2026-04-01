@@ -49,6 +49,13 @@ export const JobFilterSchema = z.object({
   ),
   city: z.string().optional(),
 
+  categoryId: z.preprocess(
+    (val) => {
+      if (!val || val === "") return undefined;
+      return typeof val === "string" ? [val] : val;
+    },
+    z.array(z.string().regex(/^[0-9a-fA-F]{24}$/)).optional(),
+  ),
   sortBy: z
     .enum(["minSalary", "maxSalary", "publishedAt"])
     .default("publishedAt")

@@ -21,7 +21,9 @@ export const SalarySection = <T extends FieldValues>({
       {!showFrequency && (
         <h2 className="text-xl font-bold text-slate-800">Salary Range</h2>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div
+        className={`grid grid-cols-1 gap-8 ${!showFrequency ? "md:grid-cols-2" : "md:grid-cols-3"}`}
+      >
         <FormInput
           name={"minSalary" as Path<T>}
           label="Min Salary"

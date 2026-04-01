@@ -154,7 +154,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           <img
             src="/logo.png"
-            alt="Hirely Logo"
+            alt="FoxyJob Logo"
             onDragStart={(e) => {
               e.dataTransfer.setData("text/uri-list", window.location.origin);
               e.dataTransfer.setData("text/plain", window.location.origin);
@@ -162,7 +162,7 @@ const Header: React.FC<HeaderProps> = ({
               className="w-8 h-8 md:w-10 md:h-10"
           />
           <span className="pl-3 text-xl font-bold text-content-heading">
-            Hirely
+            FoxyJob
           </span>
         </div>
 

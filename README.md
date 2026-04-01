@@ -17,9 +17,9 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
 
@@ -34,43 +34,44 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
       // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
+      reactX.configs["recommended-typescript"],
       // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
+
 # Foxy Job Portal - Frontend
 
 A modern, full-stack job board UI built with **React**, **TypeScript**, and **Vite**.
@@ -78,29 +79,33 @@ A modern, full-stack job board UI built with **React**, **TypeScript**, and **Vi
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v24.13.0 recommended)
 - npm
 
 ### Installation
+
 1. Clone the repository.
 2. Install dependencies:
    ```bash
    npm install
    ```
 3. Set up your .env file (see below).
-Variable | Description | Example |
-| :--- | :--- | :--- |
-| `VITE_API_URL` | Base endpoint for the Node.js backend | `http://localhost:8000/api/v1` |
-| `VITE_DOC_VIEW_URL` | Google Docs viewer prefix for resumes | `https://docs.google.com/gview?url=` |
-| `VITE_FB_URL` | Facebook sharing base URL | `https://www.facebook.com/sharer/sharer.php?u=` |
-| `VITE_LINKEDIN_URL` | LinkedIn sharing base URL | `https://www.linkedin.com/sharing/share-offsite/?url=` |
+   Variable | Description | Example |
+   | :--- | :--- | :--- |
+   | `VITE_API_URL` | Base endpoint for the Node.js backend | `http://localhost:8000/api/v1` |
+   | `VITE_DOC_VIEW_URL` | Google Docs viewer prefix for resumes | `https://docs.google.com/gview?url=` |
+   | `VITE_FB_SHARE_URL` | Facebook sharing base URL | `https://www.facebook.com/sharer/sharer.php?u=` |
+   | `VITE_LINKEDIN_SHARE_URL` | LinkedIn sharing base URL | `https://www.linkedin.com/sharing/share-offsite/?url=` |
 
 4. Start the development server:
+
    ```bash
    npm run dev
    ```
 
 5. Production build:
+
    ```bash
    npm run build
    ```

@@ -19,6 +19,7 @@ interface SidebarProps {
     city: string;
     minSalary: string;
     maxSalary: string;
+    categoryId:string;
     selectedEmploymentTypes: EmploymentTypeValue[];
   };
   setters: {
@@ -28,6 +29,7 @@ interface SidebarProps {
     setMinSalary: (val: string) => void;
     setMaxSalary: (val: string) => void;
     setCity: (val: string) => void;
+    setCategoryId:(val: string)=>void
   };
   handleEmploymentToggle: (type: EmploymentTypeValue) => void;
 }

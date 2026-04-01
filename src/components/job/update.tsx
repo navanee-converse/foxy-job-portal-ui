@@ -16,6 +16,7 @@ import { JobDescriptionField } from "../field/job-description";
 import { TagSelectorField } from "../field/tag-selector";
 import type { Job } from "@/types/job";
 import type { ApiError } from "@/types/response";
+import { CategorySelectorField } from "../field/category-selector";
 
 const UpdateJob = () => {
   const { id } = useParams();
@@ -40,6 +41,7 @@ const UpdateJob = () => {
       experienceLevel: "Entry Level",
       lastDate: new Date(),
       tagIds: [],
+      categoryId: "",
     },
   });
 
@@ -58,6 +60,7 @@ const UpdateJob = () => {
 
         form.reset({
           ...jobData,
+          categoryId: jobData.categoryId._id,
           experienceLevel:
             jobData.experienceLevel as JobFormValues["experienceLevel"],
           lastDate: jobData.lastDate ? new Date(jobData.lastDate) : new Date(),
@@ -157,10 +160,10 @@ const UpdateJob = () => {
                 <h2 className="text-xl font-bold text-slate-800">
                   Classification
                 </h2>
-                <TagSelectorField
-                  control={form.control}
-                  disabled={!isEditing}
-                />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <CategorySelectorField control={form.control} />
+                  <TagSelectorField control={form.control} />
+                </div>
               </section>
               <Separator />
 

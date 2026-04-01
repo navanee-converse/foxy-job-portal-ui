@@ -57,7 +57,7 @@ const JobHeader: React.FC<JobHeaderProps> = ({ job, onApply, onBookmark }) => (
         </div>
       </div>
 
-      {payload?.role === "job_seeker" && (
+      {payload?.role !== "employer" && (
         <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
           <button
             disabled={job.isApplied}

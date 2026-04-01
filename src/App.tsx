@@ -28,6 +28,7 @@ import ForbiddenError from "./components/error/forbidden-error";
 import InternalServerError from "./components/error/internal-server-error";
 import ProtectedRoute from "./components/auth/protected-routes";
 import UserProfileView from "./components/profile/user-card";
+import { WorkInProgress } from "./components/pages/work-in-progress";
 
 const MainLayout = ({ headerColor }: { headerColor: string }) => (
   <HomeLayout headerColor={headerColor}>
@@ -63,7 +64,7 @@ function App() {
             <Route path="/jobs" element={<JobFilterPage />} />
             <Route path="/jobs/:id" element={<JobDetailsPage />} />
             <Route path="/users/profile" element={<UserProfile />} />
-            <Route path="/users/profile-card" element={<UserProfileView/>} />
+            <Route path="/users/profile-card" element={<UserProfileView />} />
 
             <Route element={<ProtectedRoute roles={["job_seeker"]} />}>
               <Route path="/jobs/alert" element={<JobAlertScreen />} />
@@ -94,6 +95,10 @@ function App() {
               </div>
             }
           />
+          <Route path="/about" element={<WorkInProgress />} />
+          <Route path="/terms" element={<WorkInProgress />} />
+          <Route path="/blog" element={<WorkInProgress />} />
+          <Route path="/contact" element={<WorkInProgress />} />
         </Routes>
       </BrowserRouter>
     </>

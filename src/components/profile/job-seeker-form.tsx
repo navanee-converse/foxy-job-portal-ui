@@ -40,7 +40,22 @@ export const JobSeekerProfileForm = ({
 }: JobSeekerProfileFormProps) => {
   const form = useForm<JobSeekerFormValues>({
     resolver: zodResolver(jobSeekerSchema) as Resolver<JobSeekerFormValues>,
-    defaultValues: initialData,
+    defaultValues: {
+      ...initialData,
+      education: initialData.education?.length
+        ? initialData.education
+        : [
+            {
+              level: "bachelor",
+              degree: "",
+              institution: "",
+              fieldOfStudy: "",
+              percentage: 0,
+              startYear: new Date().getFullYear() - 4,
+              endYear: new Date().getFullYear(),
+            },
+          ],
+    },
     shouldFocusError: true,
     mode: "onBlur",
   });

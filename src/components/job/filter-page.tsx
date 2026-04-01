@@ -31,6 +31,9 @@ const JobFilterPage: React.FC = () => {
 
   const [title, setTitle] = useState(searchParams.get("title") || "");
   const [city, setCity] = useState(searchParams.get("city") || "");
+  const [categoryId, setCategoryId] = useState(
+    searchParams.get("categoryId") || "",
+  );
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
   const [locationType, setLocationType] = useState<LocationValue | "">("");
@@ -41,7 +44,7 @@ const JobFilterPage: React.FC = () => {
     EmploymentTypeValue[]
   >([]);
 
-  const dTitle = useDebounce(title);
+  const dTitle = useDebounce(title, 800);
   const dCity = useDebounce(city);
   const dMinSalary = useDebounce(minSalary);
   const dMaxSalary = useDebounce(maxSalary);
@@ -55,6 +58,7 @@ const JobFilterPage: React.FC = () => {
           selectedEmploymentTypes.length > 0
             ? selectedEmploymentTypes
             : undefined,
+        categoryId: categoryId || undefined,
         experienceLevel: experienceLevel || undefined,
         location: locationType || undefined,
         minSalary: dMinSalary.trim() || undefined,
@@ -93,6 +97,7 @@ const JobFilterPage: React.FC = () => {
     locationType,
     experienceLevel,
     selectedEmploymentTypes,
+    categoryId,
   ]);
 
   useEffect(() => {
@@ -132,7 +137,7 @@ const JobFilterPage: React.FC = () => {
       </header>
 
       <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-8 pb-4 pr-4 overflow-y-auto lg:overflow-hidden min-h-0">
-        {payload?.role === "job_seeker" && (
+        {payload?.role !== "employer" && (
           <aside className="w-full lg:w-1/4 shrink-0 overflow-y-visible lg:overflow-y-auto custom-scrollbar">
             <FilterSidebar
               filters={{
@@ -143,6 +148,7 @@ const JobFilterPage: React.FC = () => {
                 minSalary,
                 maxSalary,
                 selectedEmploymentTypes,
+                categoryId,
               }}
               setters={{
                 setTitle,
@@ -151,6 +157,7 @@ const JobFilterPage: React.FC = () => {
                 setExperienceLevel,
                 setMinSalary,
                 setMaxSalary,
+                setCategoryId,
               }}
               handleEmploymentToggle={(type) => {
                 setPage(1);
@@ -176,9 +183,9 @@ const JobFilterPage: React.FC = () => {
                   key={job._id}
                   onClick={() =>
                     navigate(
-                      payload?.role === "job_seeker"
-                        ? `/jobs/${job._id}`
-                        : `/update-job/${job._id}`,
+                      payload?.role === "employer"
+                        ? `/update-job/${job._id}`
+                        : `/jobs/${job._id}`,
                     )
                   }
                   className="cursor-pointer"

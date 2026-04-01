@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import type { TagOption } from "@/types/tag";
 import type { ApiError } from "@/types/response";
 import { SalarySection } from "../section/salary";
+import { CategorySelectorField } from "../field/category-selector";
 
 const PostJob = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,6 +37,7 @@ const PostJob = () => {
       experienceLevel: "Entry Level",
       lastDate: new Date(),
       tagIds: [],
+      categoryId: "",
     },
   });
 
@@ -88,8 +90,12 @@ const PostJob = () => {
               <h2 className="text-xl font-bold text-slate-800">
                 Classification
               </h2>
-              <TagSelectorField control={form.control} />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <CategorySelectorField control={form.control} />
+                <TagSelectorField control={form.control} />
+              </div>
             </section>
+
             <Separator />
             <div>
               <DynamicListSection

@@ -96,7 +96,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <AuthLayout title="Login to Hirely">
+    <AuthLayout title="Login to FoxyJob">
       <div className="flex flex-col justify-evenly">
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="space-y-1">

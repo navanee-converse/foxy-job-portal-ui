@@ -47,12 +47,21 @@ export interface JobUser {
   email: string;
 }
 
+export interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+  iconName: string;
+  openPositions?: number;
+}
+
 export interface Job {
   _id: string;
   id: string;
   title: string;
   description: string;
   responsibilities: string[];
+  categoryId: Category;
   skillsAndQualifications: string[];
   companyId: Company;
   numberOfPositions: number;

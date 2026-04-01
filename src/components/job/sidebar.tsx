@@ -1,10 +1,12 @@
 import React from "react";
-import { FiCalendar, FiClock, FiMapPin, FiUser } from "react-icons/fi";
+import { FiCalendar, FiClock, FiMapPin } from "react-icons/fi";
+import { FaRegBuilding } from "react-icons/fa6";
 import { PiMoneyBold } from "react-icons/pi";
 import type { IconType } from "react-icons";
 import { formatRelativeTime } from "@/utils/date-formatter";
 import type { Job } from "@/types/job";
 import { HiUserGroup } from "react-icons/hi";
+import { BiCategory } from "react-icons/bi";
 
 interface SidebarItemProps {
   icon: IconType;
@@ -12,7 +14,7 @@ interface SidebarItemProps {
   value: string | number | React.ReactNode;
 }
 
-const   JobSidebar: React.FC<{ job: Job }> = ({ job }) => {
+const JobSidebar: React.FC<{ job: Job }> = ({ job }) => {
   const formatSalary = (min: number, max: number) => {
     return `₹${(min / 1000).toFixed(0)}k - ₹${(max / 1000).toFixed(0)}k`;
   };
@@ -52,17 +54,24 @@ const   JobSidebar: React.FC<{ job: Job }> = ({ job }) => {
                 : (job.companyId?.location.city ?? job.location)
             }
           />
+          {job.companyId.industry && (
+            <SidebarItem
+              icon={FaRegBuilding}
+              label="Industry"
+              value={job.companyId.industry}
+            />
+          )}
           <SidebarItem
-            icon={FiUser}
+            icon={BiCategory}
             label="Job Category"
-            value={job.title.split(" ")[0]}
+            value={job.categoryId.name}
           />
           <SidebarItem
             icon={PiMoneyBold}
             label="Salary"
             value={formatSalary(job.minSalary, job.maxSalary)}
           />
-           <SidebarItem
+          <SidebarItem
             icon={HiUserGroup}
             label="Openings"
             value={job.numberOfPositions}

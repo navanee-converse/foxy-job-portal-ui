@@ -9,6 +9,7 @@ import { request } from "@/services/api";
 import toast from "react-hot-toast";
 import { Skeleton } from "../ui/skeleton";
 import type { ApiError } from "@/types/response";
+import { getDecodedToken } from "@/utils/auth";
 
 const JobDetailsPage: React.FC = () => {
   const { id } = useParams();
@@ -18,15 +19,20 @@ const JobDetailsPage: React.FC = () => {
   const sessionId = useRef(getOrSetSessionId());
   const jobUrl = window.location.href;
 
-  const fbUrl = import.meta.env.VITE_FB_URL;
-  const linkedInUrl = import.meta.env.VITE_LINKEDIN_URL;
+  const fbUrl = import.meta.env.VITE_FB_SHARE_URL;
+  const linkedInUrl = import.meta.env.VITE_LINKEDIN_SHARE_URL;
+  const payload = getDecodedToken();
 
   const handleApplyJob = async () => {
     try {
-      await request("/applications", "POST", { jobId: job?._id });
-
-      setJob((prev) => (prev ? { ...prev, isApplied: true } : null));
-      toast.success("Application submitted successfully!");
+      if (!payload) {
+        toast.error("Log in to apply for a job");
+        navigate("/login");
+      } else {
+        await request("/applications", "POST", { jobId: job?._id });
+        setJob((prev) => (prev ? { ...prev, isApplied: true } : null));
+        toast.success("Application submitted successfully!");
+      }
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
@@ -38,25 +44,29 @@ const JobDetailsPage: React.FC = () => {
     e.stopPropagation();
     if (!job?._id) return;
     try {
-      await request("/users/me/saved-jobs", "POST", { jobId: job?._id });
-
-      const storageKey = "bookmarked_jobs";
-      const storedIds: string[] = JSON.parse(
-        localStorage.getItem(storageKey) || "[]",
-      );
-
-      let updatedIds: string[];
-      if (job.isSaved) {
-        updatedIds = storedIds.filter((id) => id !== job._id);
-        toast.success("Removed from bookmarks");
+      if (!payload) {
+        toast.error("Log in to save a job");
       } else {
-        updatedIds = [...storedIds, job._id];
-        toast.success("Job saved successfully!");
+        await request("/users/me/saved-jobs", "POST", { jobId: job?._id });
+
+        const storageKey = "bookmarked_jobs";
+        const storedIds: string[] = JSON.parse(
+          localStorage.getItem(storageKey) || "[]",
+        );
+
+        let updatedIds: string[];
+        if (job.isSaved) {
+          updatedIds = storedIds.filter((id) => id !== job._id);
+          toast.success("Removed from bookmarks");
+        } else {
+          updatedIds = [...storedIds, job._id];
+          toast.success("Job saved successfully!");
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(updatedIds));
+
+        setJob((prev) => (prev ? { ...prev, isSaved: !prev.isSaved } : null));
       }
-
-      localStorage.setItem(storageKey, JSON.stringify(updatedIds));
-
-      setJob((prev) => (prev ? { ...prev, isSaved: !prev.isSaved } : null));
     } catch (error) {
       if (error && typeof error === "object" && "message" in error) {
         const apiError = error as ApiError;
@@ -211,7 +221,7 @@ const JobDetailsPage: React.FC = () => {
                         key={index}
                         className="flex items-start gap-3 text-gray-600"
                       >
-                        <span className="mt-2 w-1.5 h-1.5 bg-blue-400 rounded-full shrink-0" />
+                        <span className="mt-2 w-1.5 h-1.5 bg-gray-400 rounded-full shrink-0" />
                         {item}
                       </li>
                     ),
