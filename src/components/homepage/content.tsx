@@ -54,7 +54,6 @@ const HomePageContent: React.FC = () => {
           const data = res;
           setCitySuggestions(Array.from(new Set(data)));
           setShowCitySuggestions(data.length > 0);
-          console.log("response,", res);
         } catch (err) {
           console.error("City fetch error:", err);
           setCitySuggestions([]);

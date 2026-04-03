@@ -13,7 +13,7 @@ const JobPagination = ({
   onNext,
   disableNext,
 }: PaginationProps) => (
-  <div className="shrink-0 px-6 py-4 border-t border-gray-100 flex items-center justify-between gap-4 bg-white">
+  <div className="shrink-0 px-6 py-4 border-b border-x border-gray-200 flex items-center rounded-b-lg justify-between gap-4 bg-white">
     <div className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">
       Page {page} of {totalPages || 1}
     </div>

@@ -16,12 +16,12 @@ import { JobCardSkeleton } from "./card-skeleton";
 import JobPagination from "./pagination";
 import FilterSidebar from "../filter-sidebar";
 import type { PaginationMeta } from "@/types/pagination";
+import JobSortControls from "./sort-control";
 
 const JobFilterPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const payload = getDecodedToken();
-  const limit = 10;
 
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,11 +44,38 @@ const JobFilterPage: React.FC = () => {
     EmploymentTypeValue[]
   >([]);
 
+  const [sort, setSort] = useState("default");
+  const [limit, setLimit] = useState(10);
   const dTitle = useDebounce(title, 800);
   const dCity = useDebounce(city);
   const dMinSalary = useDebounce(minSalary);
   const dMaxSalary = useDebounce(maxSalary);
 
+  const isFiltered =
+    title !== "" ||
+    city !== "" ||
+    categoryId !== "" ||
+    minSalary !== "" ||
+    maxSalary !== "" ||
+    locationType !== "" ||
+    experienceLevel !== "" ||
+    selectedEmploymentTypes.length > 0 ||
+    sort !== "default" ||
+    limit !== 10;
+
+  const handleClearAll = () => {
+    setTitle("");
+    setCity("");
+    setCategoryId("");
+    setMinSalary("");
+    setMaxSalary("");
+    setLocationType("");
+    setExperienceLevel("");
+    setSelectedEmploymentTypes([]);
+    setSort("default");
+    setLimit(10);
+    setPage(1);
+  };
   const fetchJobs = useCallback(async () => {
     try {
       const filterData = {
@@ -70,10 +97,24 @@ const JobFilterPage: React.FC = () => {
 
       setIsLoading(true);
       const params = new URLSearchParams();
+
+      // Append Filter Data
       Object.entries(filterData).forEach(([key, value]) => {
         if (Array.isArray(value)) value.forEach((v) => params.append(key, v));
         else if (value) params.append(key, value as string);
       });
+
+      // --- NEW SORTING LOGIC ---
+      if (sort === "newest") {
+        params.append("sortBy", "updatedAt");
+        params.append("sortOrder", "desc"); // Newest first = descending
+      } else if (sort === "oldest") {
+        params.append("sortBy", "updatedAt");
+        params.append("sortOrder", "asc"); // Oldest first = ascending
+      }
+      // "default" does not append sortBy or sortOrder
+
+      // --- PAGINATION & LIMIT ---
       params.append("page", page.toString());
       params.append("limit", limit.toString());
 
@@ -98,6 +139,8 @@ const JobFilterPage: React.FC = () => {
     experienceLevel,
     selectedEmploymentTypes,
     categoryId,
+    limit,
+    sort, // Ensure sort is here
   ]);
 
   useEffect(() => {
@@ -171,39 +214,56 @@ const JobFilterPage: React.FC = () => {
           </aside>
         )}
 
-        <main className="flex-1 flex flex-col p-1 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden min-h-125 lg:min-h-0">
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-gray-50/20 custom-scrollbar">
-            {isLoading ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <JobCardSkeleton key={i} />
-              ))
-            ) : jobs.length > 0 ? (
-              jobs.map((job) => (
-                <div
-                  key={job._id}
-                  onClick={() =>
-                    navigate(
-                      payload?.role === "employer"
-                        ? `/update-job/${job._id}`
-                        : `/jobs/${job._id}`,
-                    )
-                  }
-                  className="cursor-pointer"
-                >
-                  <JobCard
-                    job={job}
-                    isBookmarked={bookmarks.includes(job._id)}
-                    onToggleBookmark={toggleBookmark}
-                  />
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-20 text-gray-500 font-medium">
-                No jobs found matching your criteria.
-              </div>
-            )}
+        <main className="flex-1 flex flex-col p-1 overflow-hidden min-h-125 lg:min-h-0">
+          <div className="bg-header-bg">
+            <JobSortControls
+              sort={sort}
+              limit={limit}
+              onSortChange={(val) => {
+                setSort(val);
+                setPage(1);
+              }}
+              onLimitChange={(val) => {
+                setLimit(val);
+                setPage(1);
+              }}
+              onClear={handleClearAll}
+              showClear={isFiltered}
+            />
           </div>
-
+          <div className="flex-1 rounded-t-lg border border-gray-200 bg-white p-3 md:p-4 lg:p-6 overflow-hidden flex flex-col">
+            <div className="p-2 border-t-gray-200 flex-1 overflow-y-auto space-y-4 custom-scrollbar rounded-xl">
+              {isLoading ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <JobCardSkeleton key={i} />
+                ))
+              ) : jobs.length > 0 ? (
+                jobs.map((job) => (
+                  <div
+                    key={job._id}
+                    onClick={() =>
+                      navigate(
+                        payload?.role === "employer"
+                          ? `/update-job/${job._id}`
+                          : `/jobs/${job._id}`,
+                      )
+                    }
+                    className="group transition-all"
+                  >
+                    <JobCard
+                      job={job}
+                      isBookmarked={bookmarks.includes(job._id)}
+                      onToggleBookmark={toggleBookmark}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white border border-dashed border-gray-300 rounded-xl py-20 text-center text-gray-500">
+                  No jobs found matching your criteria.
+                </div>
+              )}
+            </div>
+          </div>
           <JobPagination
             page={page}
             totalPages={totalPages}
