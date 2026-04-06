@@ -4,26 +4,31 @@ import {
   Pencil,
   Check,
   X,
-  ChevronDown,
   UserSquare2,
-} from "lucide-react"; // Added icons
+} from "lucide-react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { request } from "@/services/api";
 import { getDecodedToken } from "@/utils/auth";
 import type { ProfileFormValues, UserMeResponse } from "@/types/user-profile";
-import type { ApiError } from "@/types/response";
 import JobSeekerProfileCard from "./job-seeker-card";
 import EmployerProfileCard from "./employer-card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const UserProfileView = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [isSwitching, setIsSwitching] = useState(false); // For API loading state
-  const [isEditingRole, setIsEditingRole] = useState(false); // Toggle for dropdown
+  const [isSwitching, setIsSwitching] = useState(false);
+  const [isEditingRole, setIsEditingRole] = useState(false);
   const [role, setRole] = useState("");
-  const [selectedRole, setSelectedRole] = useState(""); // Local dropdown state
+  const [selectedRole, setSelectedRole] = useState("");
 
   const [profileData, setProfileData] = useState<Partial<ProfileFormValues>>(
     {},
@@ -63,7 +68,6 @@ const UserProfileView = () => {
     fetchProfile();
   }, []);
 
-  // Handle Switch Role API Call
   const handleSwitchRole = async () => {
     if (selectedRole === role) {
       setIsEditingRole(false);
@@ -116,7 +120,7 @@ const UserProfileView = () => {
 
             <div className="flex items-center gap-2 mt-2">
               {!isEditingRole ? (
-                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full">
+                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-lg">
                   <UserSquare2 className="w-3.5 h-3.5 text-blue-600" />
                   <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
                     {role.replace("_", " ")}
@@ -129,39 +133,59 @@ const UserProfileView = () => {
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <select
-                      value={selectedRole}
-                      onChange={(e) => setSelectedRole(e.target.value)}
-                      className="appearance-none pl-3 pr-8 py-1 text-xs font-bold uppercase tracking-wider bg-white border border-blue-300 text-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                    >
-                      <option value="job_seeker">Job Seeker</option>
-                      <option value="employer">Employer</option>
-                    </select>
-                    <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 pointer-events-none" />
-                  </div>
+                <div className="flex items-center gap-2 mt-2">
+                  {!isEditingRole ? (
+                    <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full">
+                      <UserSquare2 className="w-3.5 h-3.5 text-blue-600" />
+                      <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
+                        {role.replace("_", " ")}
+                      </span>
+                      <button
+                        onClick={() => setIsEditingRole(true)}
+                        className="p-1 hover:bg-blue-100 rounded-full transition-colors cursor-pointer"
+                      >
+                        <Pencil className="w-3 h-3 text-blue-400" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <Select
+                        value={selectedRole}
+                        onValueChange={(val) => setSelectedRole(val)}
+                      >
+                        <SelectTrigger className="w-40 h-8 bg-white rounded-lg border-blue-200 font-bold text-[10px] uppercase tracking-wider text-blue-700 focus:ring-blue-500/20">
+                          <SelectValue placeholder="Select Role" />
+                        </SelectTrigger>
+                        <SelectContent className="font-bold text-xs">
+                          <SelectItem value="job_seeker">Job Seeker</SelectItem>
+                          <SelectItem value="employer">Employer</SelectItem>
+                        </SelectContent>
+                      </Select>
 
-                  <button
-                    onClick={handleSwitchRole}
-                    disabled={isSwitching}
-                    className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:opacity-50"
-                  >
-                    {isSwitching ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Check className="w-3 h-3" />
-                    )}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsEditingRole(false);
-                      setSelectedRole(role);
-                    }}
-                    className="p-1.5 bg-slate-200 text-slate-600 rounded-md hover:bg-slate-300"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
+                      <div className="flex items-center gap-1.5 ml-1">
+                        <button
+                          onClick={handleSwitchRole}
+                          disabled={isSwitching}
+                          className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all active:scale-90 disabled:opacity-50 cursor-pointer"
+                        >
+                          {isSwitching ? (
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <Check className="w-4 h-4" />
+                          )}
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsEditingRole(false);
+                            setSelectedRole(role);
+                          }}
+                          className="p-1.5 bg-slate-200 text-slate-600 rounded-md hover:bg-slate-300 transition-all active:scale-90 cursor-pointer"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

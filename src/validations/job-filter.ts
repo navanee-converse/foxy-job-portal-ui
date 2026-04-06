@@ -4,6 +4,8 @@ export const EmploymentType = {
   FULL_TIME: "full-time",
   PART_TIME: "part-time",
   CONTRACT: "contract",
+  INTERNSHIP: "internship",
+  FREELANCE: "freelance",
 } as const;
 
 export type EmploymentTypeValue =

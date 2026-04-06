@@ -40,7 +40,7 @@ const FilterSidebar: React.FC<SidebarProps> = ({
   handleEmploymentToggle,
 }) => {
   return (
-    <aside className="w-full space-y-6">
+    <aside className="w-full space-y-6 no-scrollbar">
       <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm space-y-6">
         <div className="space-y-3">
           <h4 className="font-bold text-gray-800">Search by title</h4>

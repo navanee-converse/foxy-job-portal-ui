@@ -98,23 +98,19 @@ const JobFilterPage: React.FC = () => {
       setIsLoading(true);
       const params = new URLSearchParams();
 
-      // Append Filter Data
       Object.entries(filterData).forEach(([key, value]) => {
         if (Array.isArray(value)) value.forEach((v) => params.append(key, v));
         else if (value) params.append(key, value as string);
       });
 
-      // --- NEW SORTING LOGIC ---
       if (sort === "newest") {
         params.append("sortBy", "updatedAt");
-        params.append("sortOrder", "desc"); // Newest first = descending
+        params.append("sortOrder", "desc");
       } else if (sort === "oldest") {
         params.append("sortBy", "updatedAt");
-        params.append("sortOrder", "asc"); // Oldest first = ascending
+        params.append("sortOrder", "asc");
       }
-      // "default" does not append sortBy or sortOrder
 
-      // --- PAGINATION & LIMIT ---
       params.append("page", page.toString());
       params.append("limit", limit.toString());
 
@@ -140,7 +136,7 @@ const JobFilterPage: React.FC = () => {
     selectedEmploymentTypes,
     categoryId,
     limit,
-    sort, // Ensure sort is here
+    sort,
   ]);
 
   useEffect(() => {
@@ -174,12 +170,12 @@ const JobFilterPage: React.FC = () => {
   const totalPages = Math.ceil(totalJobs / limit);
 
   return (
-    <div className="min-h-screen lg:h-screen flex flex-col bg-header-bg pb-5">
+    <div className="min-h-screen lg:min-h-screen flex flex-col bg-header-bg pb-5">
       <header className="bg-header-bg shrink-0 w-full py-6 md:py-10 flex flex-col items-center border-b border-gray-100">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Jobs</h1>
       </header>
 
-      <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-8 pb-4 pr-4 overflow-y-auto lg:overflow-hidden min-h-0">
+      <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-8 pb-4 pr-4 lg:overflow-hidden min-h-200">
         {payload?.role !== "employer" && (
           <aside className="w-full lg:w-1/4 shrink-0 overflow-y-visible lg:overflow-y-auto custom-scrollbar">
             <FilterSidebar
@@ -214,7 +210,7 @@ const JobFilterPage: React.FC = () => {
           </aside>
         )}
 
-        <main className="flex-1 flex flex-col p-1 overflow-hidden min-h-125 lg:min-h-0">
+        <main className="flex-1 flex flex-col p-1 overflow-hidden min-h-125 lg:h-200">
           <div className="bg-header-bg">
             <JobSortControls
               sort={sort}
@@ -231,8 +227,10 @@ const JobFilterPage: React.FC = () => {
               showClear={isFiltered}
             />
           </div>
-          <div className="flex-1 rounded-t-lg border border-gray-200 bg-white p-3 md:p-4 lg:p-6 overflow-hidden flex flex-col">
-            <div className="p-2 border-t-gray-200 flex-1 overflow-y-auto space-y-4 custom-scrollbar rounded-xl">
+          <div className="h-162.5 rounded-t-lg border border-gray-200 bg-white p-3 md:p-4 lg:p-6 flex flex-col shadow-sm">
+            {" "}
+            <div className="p-2 border-t-gray-200 overflow-y-auto space-y-4 custom-scrollbar rounded-xl h-full">
+              {" "}
               {isLoading ? (
                 Array.from({ length: 4 }).map((_, i) => (
                   <JobCardSkeleton key={i} />
@@ -264,15 +262,17 @@ const JobFilterPage: React.FC = () => {
               )}
             </div>
           </div>
-          <JobPagination
-            page={page}
-            totalPages={totalPages}
-            onPrev={() => setPage((p) => Math.max(1, p - 1))}
-            onNext={() => setPage((p) => p + 1)}
-            disableNext={
-              jobs.length < limit || (totalPages > 1 && page === totalPages)
-            }
-          />
+          <div className="">
+            <JobPagination
+              page={page}
+              totalPages={totalPages}
+              onPrev={() => setPage((p) => Math.max(1, p - 1))}
+              onNext={() => setPage((p) => p + 1)}
+              disableNext={
+                jobs.length < limit || (totalPages > 1 && page === totalPages)
+              }
+            />
+          </div>
         </main>
       </div>
     </div>

@@ -46,7 +46,7 @@ const JobSortControls: React.FC<Props> = ({
             value={limit.toString()}
             onValueChange={(val) => onLimitChange(Number(val))}
           >
-            <SelectTrigger className="w-30 h-9 rounded-lg border-gray-200 font-medium text-sm focus:ring-blue-500/20">
+            <SelectTrigger className="w-30 h-9 rounded-lg bg-white border-gray-200 font-medium text-sm focus:ring-blue-500/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
