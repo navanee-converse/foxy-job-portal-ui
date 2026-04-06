@@ -155,7 +155,6 @@ const UserProfileForm = () => {
             await request("/users/me/resumes", "POST", formData, {
               "Content-Type": "multipart/form-data",
             });
-            toast.success("Resume uploaded, processing started...");
           } catch (uploadError) {
             setIsSyncing(false);
             toast.error("Resume upload failed");
