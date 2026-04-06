@@ -90,9 +90,9 @@ const Footer: React.FC = () => {
                 FoxyJob
               </span>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <p className="text-slate-900 font-semibold">Call us</p>
-              <p className="text-blue-600 text-2xl font-bold hover:text-blue-700 transition-colors cursor-pointer">
+              <p className="text-blue-600 text-lg font-medium hover:text-blue-700 transition-colors cursor-pointer">
                 123 456 7890
               </p>
               <p className="text-slate-500 text-sm leading-relaxed max-w-xs">

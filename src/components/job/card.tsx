@@ -58,10 +58,10 @@ const JobCard: React.FC<JobCardProps> = ({
         </button>
       ) : (
         <div
-          className={`absolute top-6 right-6 m-8 text-sm rounded-full ${color}`}
-        >
-          <div className="m-3 capitalize"> {job.status}</div>
-        </div>
+    className={`absolute top-4 right-4 flex items-center justify-center w-28 h-8 text-[10px] font-bold uppercase tracking-wider rounded-md border ${color}`}
+  >
+    {job.status}
+  </div>
       )}
       <div className="flex gap-6">
         <div className="w-14 h-14 bg-[#1E293B] rounded-lg flex items-center justify-center text-white shrink-0 overflow-hidden">
