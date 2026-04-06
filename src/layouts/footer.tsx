@@ -1,18 +1,23 @@
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-
 import { RiFacebookFill } from "react-icons/ri";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getDecodedToken } from "@/utils/auth";
+import { useEffect, useState } from "react";
 
 const fbUrl = import.meta.env.VITE_FB_URL;
 const xUrl = import.meta.env.VITE_X_URL;
 const linkedInUrl = import.meta.env.VITE_LINKEDIN_URL;
 const instaUrl = import.meta.env.VITE_INSTAGRAM_URL;
-const payload = getDecodedToken();
 
 const Footer: React.FC = () => {
+  const location = useLocation();
+  const [payload, setPayload] = useState(getDecodedToken());
+
+  useEffect(() => {
+    setPayload(getDecodedToken());
+  }, [location]);
   const footerLinks = [
     {
       title: "For Candidates",
