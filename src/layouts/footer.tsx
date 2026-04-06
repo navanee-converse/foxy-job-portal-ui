@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
       title: "For Candidates",
       links: [
         { name: "Browse Jobs", path: "/jobs" },
-        { name: "Candidate", path: "/users/profile-card" },
+        { name: "Candidate", path: "/users/profile" },
         { name: "Job Alerts", path: "/jobs/alert" },
         { name: "My Bookmarks", path: "/jobs/saved" },
       ],
@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
       title: "For Employers",
       links: [
         { name: "Company", path: "/company" },
-        { name: "Employer", path: "/users/profile-card" },
+        { name: "Employer", path: "/users/profile" },
         { name: "Add Job", path: "/post-job" },
         { name: "Posted Jobs", path: "/jobs" },
       ],

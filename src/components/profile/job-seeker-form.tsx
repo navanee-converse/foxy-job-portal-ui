@@ -4,7 +4,6 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import z from "zod";
-
 import { updateJobSeekerProfileSchema } from "@/validations/job-seeker";
 import { updateUserSchema } from "@/validations/user";
 import { ProfileFields } from "../field/profile";
@@ -12,6 +11,7 @@ import { Separator } from "../ui/separator";
 import { JobSeekerFields } from "../field/job-seeker";
 import { TagSelectorField } from "../field/tag-selector";
 import { FileField } from "../field/file";
+import { Loader2 } from "lucide-react";
 
 const jobSeekerSchema = updateJobSeekerProfileSchema.extend({
   name: updateUserSchema.shape.name,
@@ -28,6 +28,7 @@ interface JobSeekerProfileFormProps {
   resumeUrl?: string;
   onRemoveResume: () => void;
   isSyncing: boolean;
+  isDisabled: boolean;
 }
 
 export const JobSeekerProfileForm = ({
@@ -37,9 +38,11 @@ export const JobSeekerProfileForm = ({
   resumeUrl,
   onRemoveResume,
   isSyncing,
+  isDisabled,
 }: JobSeekerProfileFormProps) => {
   const form = useForm<JobSeekerFormValues>({
     resolver: zodResolver(jobSeekerSchema) as Resolver<JobSeekerFormValues>,
+    disabled: isDisabled || isSubmitting,
     defaultValues: {
       ...initialData,
       education: initialData.education?.length
@@ -61,6 +64,12 @@ export const JobSeekerProfileForm = ({
   });
 
   useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form]);
+
+  useEffect(() => {
     if (resumeUrl && !isSyncing) {
       form.resetField("resume", { defaultValue: undefined });
     }
@@ -69,36 +78,50 @@ export const JobSeekerProfileForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave)} className="space-y-8">
-        <section className="space-y-6">
-          <h2 className="text-xl font-bold text-slate-800 tracking-tight">
-            Basic Details
-          </h2>
-          <ProfileFields control={form.control} />
-        </section>
+        <fieldset
+          disabled={isDisabled || isSubmitting}
+          className="space-y-8 disabled:opacity-90 transition-opacity"
+        >
+          <section className="space-y-6">
+            <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+              Basic Details
+            </h2>
+            <ProfileFields control={form.control} />
+          </section>
 
-        <Separator />
+          <Separator />
 
-        <FileField
-          control={form.control}
-          existingUrl={resumeUrl}
-          onRemoveExisting={onRemoveResume}
-          isSyncing={isSyncing}
-        />
-        <Separator />
+          <FileField
+            control={form.control}
+            existingUrl={resumeUrl}
+            onRemoveExisting={onRemoveResume}
+            isSyncing={isSyncing}
+          />
+          <Separator />
 
-        <JobSeekerFields control={form.control} />
-        <Separator />
+          <JobSeekerFields control={form.control} />
+          <Separator />
 
-        <TagSelectorField control={form.control} required={false} />
-        <div className="flex justify-center gap-4 pt-4 sm:justify-end">
-          <Button
-            type="submit"
-            disabled={isSubmitting || !form.formState.isDirty}
-            className="bg-brand-primary hover:bg-brand-btn-hover cursor-pointer px-10 h-12 text-white font-bold transition-all active:scale-95"
-          >
-            {isSubmitting ? "Saving Profile..." : "Save Profile"}
-          </Button>
-        </div>
+          <TagSelectorField control={form.control} required={false} />
+        </fieldset>
+        {!isDisabled && (
+          <div className="flex justify-center gap-4 pt-4 border-t border-slate-100 sm:justify-end">
+            <Button
+              type="submit"
+              disabled={isSubmitting || !form.formState.isDirty}
+              className="bg-brand-primary hover:bg-brand-btn-hover cursor-pointer px-10 h-12 text-white font-bold transition-all active:scale-95 shadow-md shadow-indigo-100"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Saving Changes...
+                </div>
+              ) : (
+                "Save Profile"
+              )}
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );

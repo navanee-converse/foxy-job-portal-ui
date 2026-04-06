@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({
     { name: "Home", icon: <FaHome />, path: "/" },
     { name: "Jobs", icon: <FaSearch />, path: "/jobs" },
     { name: "Applications", icon: <HiDocumentText />, path: "/jobs/applied" },
-    { name: "Profile", icon: <FaUser />, path: "/users/profile-card" },
+    { name: "Profile", icon: <FaUser />, path: "/users/profile" },
   ];
   const employerLinks = [
     {
@@ -159,7 +159,7 @@ const Header: React.FC<HeaderProps> = ({
               e.dataTransfer.setData("text/uri-list", window.location.origin);
               e.dataTransfer.setData("text/plain", window.location.origin);
             }}
-              className="w-8 h-8 md:w-10 md:h-10"
+            className="w-8 h-8 md:w-10 md:h-10"
           />
           <span className="pl-3 text-xl font-bold text-content-heading">
             FoxyJob
