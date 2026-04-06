@@ -107,23 +107,30 @@ const UserProfileForm = () => {
 
   useEffect(() => {
     if (role !== "job_seeker") return;
-    const eventSource = new EventSource(
-      `${import.meta.env.VITE_API_URL}/users/me/resumes/events`,
-      { withCredentials: true },
-    );
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.status === "completed" && data.url) {
-        setResumeUrl(data.url);
-        setIsSyncing(false);
-        toast.success("Resume processed!");
-      }
+
+    const connectSSE = () => {
+      const eventSource = new EventSource(
+        `${import.meta.env.VITE_API_URL}/users/me/resumes/events`,
+        { withCredentials: true },
+      );
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.status === "completed") {
+          setResumeUrl(data.url);
+          setIsSyncing(false);
+          toast.success("Resume processed!");
+        }
+      };
+      eventSource.onerror = () => {
+        console.error("SSE Connection Failed");
+        eventSource.close();
+        setTimeout(connectSSE, 3000);
+      };
+      return eventSource;
     };
-    eventSource.onerror = () => {
-      setIsSyncing(false);
-      eventSource.close();
-    };
-    return () => eventSource.close();
+
+    const es = connectSSE();
+    return () => es.close();
   }, [role]);
 
   const handleUpdate = async (values: Partial<ProfileFormValues>) => {
@@ -144,9 +151,15 @@ const UserProfileForm = () => {
           const formData = new FormData();
           formData.append("resume", values.resume);
           setIsSyncing(true);
-          await request("/users/me/resumes", "POST", formData, {
-            "Content-Type": "multipart/form-data",
-          });
+          try {
+            await request("/users/me/resumes", "POST", formData, {
+              "Content-Type": "multipart/form-data",
+            });
+            toast.success("Resume uploaded, processing started...");
+          } catch (uploadError) {
+            setIsSyncing(false);
+            toast.error("Resume upload failed");
+          }
         }
       } else {
         await request("/users/me/employer-profile", "PUT", {
