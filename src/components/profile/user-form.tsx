@@ -199,9 +199,9 @@ const UserProfileForm = () => {
 
               <div className="flex items-center gap-2 mt-2">
                 {!isEditingRole ? (
-                  <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-lg">
+                  <div className="flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-lg">
                     <UserSquare2 className="w-3.5 h-3.5 text-blue-600" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700">
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-blue-700">
                       {role.replace("_", " ")}
                     </span>
                     <button
@@ -217,7 +217,7 @@ const UserProfileForm = () => {
                       value={selectedRole}
                       onValueChange={setSelectedRole}
                     >
-                      <SelectTrigger className="w-36 h-7 bg-white rounded-md border-blue-200 font-bold text-[10px] uppercase tracking-wider text-blue-700 focus:ring-blue-500/20">
+                      <SelectTrigger className="w-36 h-7 bg-white rounded-md border-blue-200 font-medium text-[11px] uppercase tracking-wider text-blue-700 focus:ring-blue-500/20">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
