@@ -33,7 +33,7 @@ export type LocationValue = (typeof Location)[keyof typeof Location];
 
 export const JobFilterSchema = z.object({
   title: z.string().optional(),
-
+  companyName: z.string().optional(),
   employmentType: z.preprocess(
     (val) => (typeof val === "string" ? [val] : val),
     z.array(z.enum(EmploymentType)).optional(),

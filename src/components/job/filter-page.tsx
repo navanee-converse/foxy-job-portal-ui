@@ -31,6 +31,9 @@ const JobFilterPage: React.FC = () => {
 
   const [title, setTitle] = useState(searchParams.get("title") || "");
   const [city, setCity] = useState(searchParams.get("city") || "");
+  const [companyName, setCompanyName] = useState(
+    searchParams.get("companyName") || "",
+  );
   const [categoryId, setCategoryId] = useState(
     searchParams.get("categoryId") || "",
   );
@@ -50,12 +53,14 @@ const JobFilterPage: React.FC = () => {
   const dCity = useDebounce(city);
   const dMinSalary = useDebounce(minSalary);
   const dMaxSalary = useDebounce(maxSalary);
+  const dCompanyName = useDebounce(companyName);
 
   const isFiltered =
     title !== "" ||
     city !== "" ||
     categoryId !== "" ||
     minSalary !== "" ||
+    companyName !== "" ||
     maxSalary !== "" ||
     locationType !== "" ||
     experienceLevel !== "" ||
@@ -72,6 +77,7 @@ const JobFilterPage: React.FC = () => {
     setLocationType("");
     setExperienceLevel("");
     setSelectedEmploymentTypes([]);
+    setCompanyName("");
     setSort("default");
     setLimit(10);
     setPage(1);
@@ -90,6 +96,7 @@ const JobFilterPage: React.FC = () => {
         location: locationType || undefined,
         minSalary: dMinSalary.trim() || undefined,
         maxSalary: dMaxSalary.trim() || undefined,
+        companyName: dCompanyName.trim() || undefined,
       };
 
       const validation = JobFilterSchema.safeParse(filterData);
@@ -133,6 +140,7 @@ const JobFilterPage: React.FC = () => {
     dMaxSalary,
     locationType,
     experienceLevel,
+    dCompanyName,
     selectedEmploymentTypes,
     categoryId,
     limit,
@@ -183,6 +191,7 @@ const JobFilterPage: React.FC = () => {
                 title,
                 locationType,
                 experienceLevel,
+                companyName,
                 city,
                 minSalary,
                 maxSalary,
@@ -197,6 +206,7 @@ const JobFilterPage: React.FC = () => {
                 setMinSalary,
                 setMaxSalary,
                 setCategoryId,
+                setCompanyName
               }}
               handleEmploymentToggle={(type) => {
                 setPage(1);

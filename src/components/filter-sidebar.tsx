@@ -19,7 +19,8 @@ interface SidebarProps {
     city: string;
     minSalary: string;
     maxSalary: string;
-    categoryId:string;
+    categoryId: string;
+    companyName: string;
     selectedEmploymentTypes: EmploymentTypeValue[];
   };
   setters: {
@@ -29,7 +30,8 @@ interface SidebarProps {
     setMinSalary: (val: string) => void;
     setMaxSalary: (val: string) => void;
     setCity: (val: string) => void;
-    setCategoryId:(val: string)=>void
+    setCategoryId: (val: string) => void;
+    setCompanyName: (val: string) => void;
   };
   handleEmploymentToggle: (type: EmploymentTypeValue) => void;
 }
@@ -74,6 +76,20 @@ const FilterSidebar: React.FC<SidebarProps> = ({
             options={Object.values(Location)}
             placeholder="Location Type"
           />
+        </div>
+
+        <div className="space-y-3">
+          <h4 className="font-bold text-gray-800">Search by Company</h4>
+          <div className="relative">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Company name..."
+              value={filters.companyName}
+              onChange={(e) => setters.setCompanyName(e.target.value)}
+              className="w-full pl-11 cursor-pointer pr-4 py-3 border border-gray-200 rounded-lg text-sm focus:border-blue-500 outline-none"
+            />
+          </div>
         </div>
 
         <div className="space-y-3">
