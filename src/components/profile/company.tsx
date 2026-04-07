@@ -49,7 +49,7 @@ const CompanyProfile = () => {
   useEffect(() => {
     const fetchCompanyData = async () => {
       try {
-        const response = await request<Company>("/companies", "GET");
+        const response = await request<Company>("/companies/me", "GET");
         if (response && response.name) {
           form.reset(response);
           setHasExistingData(true);
