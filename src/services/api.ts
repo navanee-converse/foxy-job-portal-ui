@@ -7,7 +7,7 @@ import axios, {
   type RawAxiosRequestHeaders,
 } from "axios";
 import Cookies from "js-cookie";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const apiClient = axios.create({

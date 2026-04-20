@@ -15,24 +15,12 @@ import { SlMagnifier } from "react-icons/sl";
 import { TfiEmail } from "react-icons/tfi";
 import { getDecodedToken } from "@/utils/auth";
 import { SlLocationPin } from "react-icons/sl";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { VscBriefcase } from "react-icons/vsc";
-import { highlightMatch } from "@/utils/highlight-match";
-import { BiCoinStack } from "react-icons/bi";
 import {
-  Briefcase,
-  Car,
   Check,
   ChevronRight,
-  Code,
-  FileSearch,
-  Headphones,
-  HeartPulse,
-  Mail,
-  Megaphone,
-  PencilRuler,
-  Rocket,
-  Upload,
+  
 } from "lucide-react";
 import { FaRegBookmark } from "react-icons/fa";
 import { MdAccessTime } from "react-icons/md";
@@ -43,10 +31,8 @@ import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import DoubleQuotes from "../icons/double-quotes.png";
 import type { EmblaCarouselType } from "embla-carousel";
-import { MdOutlineCheck } from "react-icons/md";
 import EmployersCard from "../cards/employer";
 import { articles, stats } from "@/mocks/category";
-import { BsDot } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
 
 const HomePageContent: React.FC = () => {

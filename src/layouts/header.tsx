@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
-import { MdMenu, MdClose } from "react-icons/md";
 import { FaHome, FaSearch, FaUser } from "react-icons/fa";
 import { HiDocumentText } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { request } from "@/services/api";
-import { BsBell } from "react-icons/bs";
-import { ChevronDown, Divide } from "lucide-react";
-import { AiOutlineUser } from "react-icons/ai";
+import { ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
 import { getDecodedToken } from "@/utils/auth";
 import type { ApiError } from "@/types/response";
 import type { Job } from "@/types/job";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import HomeSidebar from "@/components/homepage/sidebar";
 import { CgCloseO } from "react-icons/cg";
 
