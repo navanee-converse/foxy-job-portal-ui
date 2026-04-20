@@ -1,19 +1,19 @@
-import * as FiIcons from "react-icons/fi";
-import * as MdIcons from "react-icons/md";
+// import * as FiIcons from "react-icons/fi";
+// import * as MdIcons from "react-icons/md";
 import { IoCheckmark } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { request } from "@/services/api";
-import type { PopularSearches } from "@/types/popular-searches";
+// import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+// import { request } from "@/services/api";
+// import type { PopularSearches } from "@/types/popular-searches";
 import { useSearchSuggestions } from "@/hooks/useSearchSuggestion";
-import type { Category, Job } from "@/types/job";
-import useDebounce from "@/hooks/useDebounce";
-import type { IconType } from "react-icons";
-import { Link } from "react-router-dom";
+import type { Job } from "@/types/job";
+// import useDebounce from "@/hooks/useDebounce";
+// import type { IconType } from "react-icons";
+// import { Link } from "react-router-dom";
 import { LiaFileUploadSolid } from "react-icons/lia";
 import { SlMagnifier } from "react-icons/sl";
 import { TfiEmail } from "react-icons/tfi";
-import { getDecodedToken } from "@/utils/auth";
+// import { getDecodedToken } from "@/utils/auth";
 import { SlLocationPin } from "react-icons/sl";
 // import toast from "react-hot-toast";
 import { VscBriefcase } from "react-icons/vsc";
@@ -36,15 +36,15 @@ import { articles, stats } from "@/mocks/category";
 import { GoDotFill } from "react-icons/go";
 
 const HomePageContent: React.FC = () => {
-  const contentWidthClass = "max-w-325 mx-auto px-6 md:px-12";
-  const navigate = useNavigate();
-  const [cityValue, setCityValue] = useState("");
-  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
-  const [showCitySuggestions, setShowCitySuggestions] = useState(false);
-  const [citySelectedIndex, setCitySelectedIndex] = useState(-1);
-  const cityContainerRef = useRef<HTMLDivElement>(null);
-  const debouncedCity = useDebounce(cityValue, 800);
-  const [jobCategories, setJobCategories] = useState<Category[]>([]);
+  // const contentWidthClass = "max-w-325 mx-auto px-6 md:px-12";
+  // const navigate = useNavigate();
+  // const [cityValue, setCityValue] = useState("");
+  // const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+  // const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+  // const [citySelectedIndex, setCitySelectedIndex] = useState(-1);
+  // const cityContainerRef = useRef<HTMLDivElement>(null);
+  // const debouncedCity = useDebounce(cityValue, 800);
+  // const [jobCategories, setJobCategories] = useState<Category[]>([]);
   const [api, setApi] = useState<EmblaCarouselType | undefined>(undefined);
   const [logoApi, setLogoApi] = useState<EmblaCarouselType | undefined>(
     undefined,
@@ -56,14 +56,14 @@ const HomePageContent: React.FC = () => {
     (job) => job.title,
   );
 
-  const [count, setCount] = useState(0);
-  const [popularSearches, setPopularSearches] = useState<{ term: string }[]>(
-    [],
-  );
-  const scrollRef = useRef(null);
-  let isDown = false;
-  let startX;
-  let scrollLeft;
+  // const [count, setCount] = useState(0);
+  // const [popularSearches, setPopularSearches] = useState<{ term: string }[]>(
+  //   [],
+  // );
+  // const scrollRef = useRef(null);
+  // let isDown = false;
+  // let startX;
+  // let scrollLeft;
 
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false }),
@@ -110,84 +110,84 @@ const HomePageContent: React.FC = () => {
     };
   }, [logoApi]);
 
-  const payload = getDecodedToken();
-  useEffect(() => {
-    const fetchCities = async () => {
-      if (debouncedCity.length >= 1) {
-        try {
-          const res = await request<string[]>(
-            `/companies/cities?search=${encodeURIComponent(debouncedCity)}`,
-            "GET",
-          );
-          const data = res;
-          setCitySuggestions(Array.from(new Set(data)));
-          setShowCitySuggestions(data.length > 0);
-        } catch (err) {
-          console.error("City fetch error:", err);
-          setCitySuggestions([]);
-        }
-      } else {
-        setCitySuggestions([]);
-        setShowCitySuggestions(false);
-      }
-    };
+  // const payload = getDecodedToken();
+  // useEffect(() => {
+  //   const fetchCities = async () => {
+  //     if (debouncedCity.length >= 1) {
+  //       try {
+  //         const res = await request<string[]>(
+  //           `/companies/cities?search=${encodeURIComponent(debouncedCity)}`,
+  //           "GET",
+  //         );
+  //         const data = res;
+  //         setCitySuggestions(Array.from(new Set(data)));
+  //         setShowCitySuggestions(data.length > 0);
+  //       } catch (err) {
+  //         console.error("City fetch error:", err);
+  //         setCitySuggestions([]);
+  //       }
+  //     } else {
+  //       setCitySuggestions([]);
+  //       setShowCitySuggestions(false);
+  //     }
+  //   };
 
-    fetchCities();
-  }, [debouncedCity]);
+  //   fetchCities();
+  // }, [debouncedCity]);
 
-  const handleCityKeyDown = (e: React.KeyboardEvent) => {
-    if (citySuggestions.length === 0) return;
+  // const handleCityKeyDown = (e: React.KeyboardEvent) => {
+  //   if (citySuggestions.length === 0) return;
 
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      const next =
-        citySelectedIndex === citySuggestions.length - 1
-          ? 0
-          : citySelectedIndex + 1;
-      setCitySelectedIndex(next);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const next =
-        citySelectedIndex <= 0
-          ? citySuggestions.length - 1
-          : citySelectedIndex - 1;
-      setCitySelectedIndex(next);
-    } else if (e.key === "Enter" && citySelectedIndex >= 0) {
-      setCityValue(citySuggestions[citySelectedIndex]);
-      setShowCitySuggestions(false);
-    } else if (e.key === "Escape") {
-      setShowCitySuggestions(false);
-    }
-  };
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const [searchRes, countRes, categoryRes] = await Promise.all([
-          request<PopularSearches[]>("/searches/popular", "GET"),
-          request<{ totalActiveJobs: number }>("/jobs/count", "GET"),
-          request<Category[]>("/categories/stats", "GET"),
-        ]);
-        setPopularSearches(searchRes);
-        setCount(countRes.totalActiveJobs);
-        setJobCategories(categoryRes);
-      } catch (err) {
-        console.error("Failed to fetch initial data", err);
-      }
-    };
-    fetchInitialData();
-  }, []);
+  //   if (e.key === "ArrowDown") {
+  //     e.preventDefault();
+  //     const next =
+  //       citySelectedIndex === citySuggestions.length - 1
+  //         ? 0
+  //         : citySelectedIndex + 1;
+  //     setCitySelectedIndex(next);
+  //   } else if (e.key === "ArrowUp") {
+  //     e.preventDefault();
+  //     const next =
+  //       citySelectedIndex <= 0
+  //         ? citySuggestions.length - 1
+  //         : citySelectedIndex - 1;
+  //     setCitySelectedIndex(next);
+  //   } else if (e.key === "Enter" && citySelectedIndex >= 0) {
+  //     setCityValue(citySuggestions[citySelectedIndex]);
+  //     setShowCitySuggestions(false);
+  //   } else if (e.key === "Escape") {
+  //     setShowCitySuggestions(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   const fetchInitialData = async () => {
+  //     try {
+  //       const [searchRes, countRes, categoryRes] = await Promise.all([
+  //         request<PopularSearches[]>("/searches/popular", "GET"),
+  //         request<{ totalActiveJobs: number }>("/jobs/count", "GET"),
+  //         request<Category[]>("/categories/stats", "GET"),
+  //       ]);
+  //       setPopularSearches(searchRes);
+  //       setCount(countRes.totalActiveJobs);
+  //       setJobCategories(categoryRes);
+  //     } catch (err) {
+  //       console.error("Failed to fetch initial data", err);
+  //     }
+  //   };
+  //   fetchInitialData();
+  // }, []);
 
-  const handlePopularClick = (term: string) => {
-    titleSearch.setValue(term);
-    titleSearch.prevValue.current = term;
-    navigate(`/jobs?title=${encodeURIComponent(term)}`);
-  };
+  // const handlePopularClick = (term: string) => {
+  //   titleSearch.setValue(term);
+  //   titleSearch.prevValue.current = term;
+  //   navigate(`/jobs?title=${encodeURIComponent(term)}`);
+  // };
 
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (titleSearch.value) params.append("title", titleSearch.value);
-    navigate(`/jobs?${params.toString()}`);
-  };
+  // const handleSearch = () => {
+  //   const params = new URLSearchParams();
+  //   if (titleSearch.value) params.append("title", titleSearch.value);
+  //   navigate(`/jobs?${params.toString()}`);
+  // };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

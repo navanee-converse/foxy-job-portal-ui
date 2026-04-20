@@ -1,74 +1,74 @@
 import { FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { RiFacebookFill } from "react-icons/ri";
-import { useLocation } from "react-router-dom";
-import { getDecodedToken } from "@/utils/auth";
-import { useEffect, useState } from "react";
+// import { useLocation } from "react-router-dom";
+// import { getDecodedToken } from "@/utils/auth";
+// import { useEffect, useState } from "react";
 
-const fbUrl = import.meta.env.VITE_FB_URL;
-const xUrl = import.meta.env.VITE_X_URL;
-const linkedInUrl = import.meta.env.VITE_LINKEDIN_URL;
-const instaUrl = import.meta.env.VITE_INSTAGRAM_URL;
+// const fbUrl = import.meta.env.VITE_FB_URL;
+// const xUrl = import.meta.env.VITE_X_URL;
+// const linkedInUrl = import.meta.env.VITE_LINKEDIN_URL;
+// const instaUrl = import.meta.env.VITE_INSTAGRAM_URL;
 
 const Footer: React.FC = () => {
-  const location = useLocation();
-  const [payload, setPayload] = useState(getDecodedToken());
+  // const location = useLocation();
+  // const [payload, setPayload] = useState(getDecodedToken());
 
-  useEffect(() => {
-    setPayload(getDecodedToken());
-  }, [location]);
-  const footerLinks = [
-    {
-      title: "For Candidates",
-      links: [
-        { name: "Browse Jobs", path: "/jobs" },
-        { name: "Candidate", path: "/users/profile" },
-        { name: "Job Alerts", path: "/jobs/alert" },
-        { name: "My Bookmarks", path: "/jobs/saved" },
-      ],
-      role: "job_seeker",
-    },
-    {
-      title: "For Employers",
-      links: [
-        { name: "Company", path: "/company" },
-        { name: "Employer", path: "/users/profile" },
-        { name: "Add Job", path: "/post-job" },
-        { name: "Posted Jobs", path: "/jobs" },
-      ],
-      role: "employer",
-    },
-    {
-      title: "About Us",
-      links: [
-        { name: "About Us", path: "/about" },
-        { name: "Terms Page", path: "/terms" },
-        { name: "Blog", path: "/blog" },
-        { name: "Contact", path: "/contact" },
-      ],
-    },
-  ];
+  // useEffect(() => {
+  //   setPayload(getDecodedToken());
+  // }, [location]);
+  // const footerLinks = [
+  //   {
+  //     title: "For Candidates",
+  //     links: [
+  //       { name: "Browse Jobs", path: "/jobs" },
+  //       { name: "Candidate", path: "/users/profile" },
+  //       { name: "Job Alerts", path: "/jobs/alert" },
+  //       { name: "My Bookmarks", path: "/jobs/saved" },
+  //     ],
+  //     role: "job_seeker",
+  //   },
+  //   {
+  //     title: "For Employers",
+  //     links: [
+  //       { name: "Company", path: "/company" },
+  //       { name: "Employer", path: "/users/profile" },
+  //       { name: "Add Job", path: "/post-job" },
+  //       { name: "Posted Jobs", path: "/jobs" },
+  //     ],
+  //     role: "employer",
+  //   },
+  //   {
+  //     title: "About Us",
+  //     links: [
+  //       { name: "About Us", path: "/about" },
+  //       { name: "Terms Page", path: "/terms" },
+  //       { name: "Blog", path: "/blog" },
+  //       { name: "Contact", path: "/contact" },
+  //     ],
+  //   },
+  // ];
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1] as const,
-        staggerChildren: 0.2,
-      },
-    },
-  };
+  // const containerVariants = {
+  //   hidden: { opacity: 0, y: 30 },
+  //   visible: {
+  //     opacity: 1,
+  //     y: 0,
+  //     transition: {
+  //       duration: 1.2,
+  //       ease: [0.22, 1, 0.36, 1] as const,
+  //       staggerChildren: 0.2,
+  //     },
+  //   },
+  // };
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.5 },
-    },
-  };
+  // const itemVariants = {
+  //   hidden: { opacity: 0, x: -10 },
+  //   visible: {
+  //     opacity: 1,
+  //     x: 0,
+  //     transition: { duration: 0.5 },
+  //   },
+  // };
 
   return (
     // <footer className="w-full bg-white">

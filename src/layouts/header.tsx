@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { FaHome, FaSearch, FaUser } from "react-icons/fa";
-import { HiDocumentText } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { useState } from "react";
+// import { FaHome, FaSearch, FaUser } from "react-icons/fa";
+// import { HiDocumentText } from "react-icons/hi2";
+// import { useNavigate } from "react-router-dom";
+// import Cookies from "js-cookie";
 import { motion } from "framer-motion";
-import { request } from "@/services/api";
+// import { request } from "@/services/api";
 import { ChevronDown } from "lucide-react";
-import toast from "react-hot-toast";
-import { getDecodedToken } from "@/utils/auth";
-import type { ApiError } from "@/types/response";
-import type { Job } from "@/types/job";
+// import toast from "react-hot-toast";
+// import { getDecodedToken } from "@/utils/auth";
+// import type { ApiError } from "@/types/response";
+// import type { Job } from "@/types/job";
 import HomeSidebar from "@/components/homepage/sidebar";
 import { CgCloseO } from "react-icons/cg";
 
@@ -17,118 +17,118 @@ interface HeaderProps {
   bgColor?: string;
 }
 
-interface UserMeResponse {
-  name: string;
-  email: string;
-  providers: object[];
-}
-type UserProfile = Omit<UserMeResponse, "providers">;
+// interface UserMeResponse {
+//   name: string;
+//   email: string;
+//   providers: object[];
+// }
+// type UserProfile = Omit<UserMeResponse, "providers">;
 
 const Header: React.FC<HeaderProps> = ({
   bgColor = "bg-white",
 }: HeaderProps) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isThirdPartyLogin, setIsThirdPartyLogin] = useState(false);
-  const [userData, setUserData] = useState<UserProfile | null>(null);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  // const [isThirdPartyLogin, setIsThirdPartyLogin] = useState(false);
+  // const [userData, setUserData] = useState<UserProfile | null>(null);
+  // const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const accessToken = Cookies.get("access_token");
-  const handleLogout = async () => {
-    if (isLoggingOut) return;
-    setIsLoggingOut(true);
-    const loadingToast = toast.loading("Logging out...");
+  // const accessToken = Cookies.get("access_token");
+  // const handleLogout = async () => {
+  //   if (isLoggingOut) return;
+  //   setIsLoggingOut(true);
+  //   const loadingToast = toast.loading("Logging out...");
 
-    try {
-      await request("/auth/logout", "POST");
-    } catch (error) {
-      if (error && typeof error === "object" && "message" in error) {
-        const apiError = error as ApiError;
-        console.error(apiError.message);
-      } else toast.error("Error occured");
-    } finally {
-      Cookies.remove("access_token", { path: "/" });
-      Cookies.remove("refresh_token", { path: "/" });
-      localStorage.clear();
+  //   try {
+  //     await request("/auth/logout", "POST");
+  //   } catch (error) {
+  //     if (error && typeof error === "object" && "message" in error) {
+  //       const apiError = error as ApiError;
+  //       console.error(apiError.message);
+  //     } else toast.error("Error occured");
+  //   } finally {
+  //     Cookies.remove("access_token", { path: "/" });
+  //     Cookies.remove("refresh_token", { path: "/" });
+  //     localStorage.clear();
 
-      toast.dismiss(loadingToast);
-      toast.success("Successfully logged out");
+  //     toast.dismiss(loadingToast);
+  //     toast.success("Successfully logged out");
 
-      setIsMenuOpen(false);
-      navigate("/login");
-      setIsLoggingOut(false);
-    }
-  };
-  const getJobId = async () => {
-    try {
-      const res = await request<{ data: Job[] }>("/jobs", "GET");
-      return res.data[0]._id;
-    } catch (_err) {
-      console.warn("Unable to fetch jobs");
-    }
-  };
+  //     setIsMenuOpen(false);
+  //     navigate("/login");
+  //     setIsLoggingOut(false);
+  //   }
+  // };
+  // const getJobId = async () => {
+  //   try {
+  //     const res = await request<{ data: Job[] }>("/jobs", "GET");
+  //     return res.data[0]._id;
+  //   } catch (_err) {
+  //     console.warn("Unable to fetch jobs");
+  //   }
+  // };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 150);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolled(window.scrollY > 150);
+  //   };
 
-    const fetchUser = async () => {
-      if (accessToken) {
-        try {
-          const res = await request<UserMeResponse>("/users/me", "GET");
-          if (res.providers.length > 0) {
-            setIsThirdPartyLogin(true);
-          }
-          setUserData({
-            name: res.name,
-            email: res.email,
-          });
-        } catch (error) {
-          if (error && typeof error === "object" && "message" in error) {
-            const apiError = error as ApiError;
-            console.error(apiError.message);
-          } else toast.error("Failed to fetch user");
-        }
-      }
-    };
+  //   const fetchUser = async () => {
+  //     if (accessToken) {
+  //       try {
+  //         const res = await request<UserMeResponse>("/users/me", "GET");
+  //         if (res.providers.length > 0) {
+  //           setIsThirdPartyLogin(true);
+  //         }
+  //         setUserData({
+  //           name: res.name,
+  //           email: res.email,
+  //         });
+  //       } catch (error) {
+  //         if (error && typeof error === "object" && "message" in error) {
+  //           const apiError = error as ApiError;
+  //           console.error(apiError.message);
+  //         } else toast.error("Failed to fetch user");
+  //       }
+  //     }
+  //   };
 
-    fetchUser();
-    window.addEventListener("profileUpdated", fetchUser);
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("profileUpdated", fetchUser);
-    };
-  }, [accessToken]);
-  const payload = getDecodedToken();
-  const role = payload?.role;
+  //   fetchUser();
+  //   window.addEventListener("profileUpdated", fetchUser);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //     window.removeEventListener("profileUpdated", fetchUser);
+  //   };
+  // }, [accessToken]);
+  // const payload = getDecodedToken();
+  // const role = payload?.role;
 
-  const navLinks = [
-    { name: "Home", icon: <FaHome />, path: "/" },
-    { name: "Jobs", icon: <FaSearch />, path: "/jobs" },
-    { name: "Applications", icon: <HiDocumentText />, path: "/jobs/applied" },
-    { name: "Profile", icon: <FaUser />, path: "/users/profile" },
-  ];
-  const employerLinks = [
-    {
-      name: "Post Job",
-      path: "/post-job",
-    },
-    {
-      name: "Company Profile",
-      path: "/company",
-    },
-  ];
-  const jobSeekerLinks = { name: "Saved Jobs", path: "/jobs/saved" };
+  // const navLinks = [
+  //   { name: "Home", icon: <FaHome />, path: "/" },
+  //   { name: "Jobs", icon: <FaSearch />, path: "/jobs" },
+  //   { name: "Applications", icon: <HiDocumentText />, path: "/jobs/applied" },
+  //   { name: "Profile", icon: <FaUser />, path: "/users/profile" },
+  // ];
+  // const employerLinks = [
+  //   {
+  //     name: "Post Job",
+  //     path: "/post-job",
+  //   },
+  //   {
+  //     name: "Company Profile",
+  //     path: "/company",
+  //   },
+  // ];
+  // const jobSeekerLinks = { name: "Saved Jobs", path: "/jobs/saved" };
 
-  const menuLinks = [
-    { name: "Change Password", path: "/change-password" },
-    { name: "Logout", path: "/" },
-  ];
+  // const menuLinks = [
+  //   { name: "Change Password", path: "/change-password" },
+  //   { name: "Logout", path: "/" },
+  // ];
 
-  const userInitial = userData?.name?.charAt(0).toUpperCase() || "U";
+  // const userInitial = userData?.name?.charAt(0).toUpperCase() || "U";
 
   return (
     <motion.header
