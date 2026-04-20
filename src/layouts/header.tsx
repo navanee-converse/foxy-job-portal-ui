@@ -7,13 +7,15 @@ import Cookies from "js-cookie";
 import { AnimatePresence, motion } from "framer-motion";
 import { request } from "@/services/api";
 import { BsBell } from "react-icons/bs";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Divide } from "lucide-react";
 import { AiOutlineUser } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { getDecodedToken } from "@/utils/auth";
 import type { ApiError } from "@/types/response";
 import type { Job } from "@/types/job";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import HomeSidebar from "@/components/homepage/sidebar";
+import { CgCloseO } from "react-icons/cg";
 
 interface HeaderProps {
   bgColor?: string;
@@ -146,37 +148,55 @@ const Header: React.FC<HeaderProps> = ({
         ease: [0.22, 1, 0.36, 1],
         backgroundColor: { duration: 0.6 },
       }}
-      className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10   ${
+      className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10 ${
         !isScrolled ? bgColor : ""
       }`}
     >
-      <div className="fixed top-0 left-0 items-center w-full z-99 h-fit bg-white xl:bg-header-bg xl:gap-35 text-[15px] xl:flex xl:pt-4 2xl:pt-6 3xl:flex 3xl:justify-around">
-        <div className="flex ml-5 justify-between p-1 pb-1.5 items-center xl:hidden shadow-[0_6px_15px_rgba(64,79,104,0.05)]">
+      <div
+        className="fixed top-0 left-0 items-center w-full z-99 h-fit bg-white xl:bg-header-bg xl:gap-35 text-[15px]
+      xl:flex xl:py-3.5 3xl:flex! 3xl:justify-around! 3xl:pl-41.25! 3xl:py-3.5!"
+      >
+        <div className="flex pl-6.25 justify-between p-1 pb-1.5 pr-2 md:pl-5 md:pr-0.5 items-center xl:hidden shadow-[0_6px_15px_rgba(64,79,104,0.05)]">
           <img
             src="/superio.svg"
             alt="superio"
-            className="h-10 xl:h-15 xl:w-10 m-2.5"
+            className="h-10 xl:h-15 xl:w-10 m-2.5 cursor-pointer"
           />
-          <div className="flex justify-end mr-3 lg:mr-3">
-            <AiOutlineUser className="w-6 h-6" />
-            <HiOutlineMenuAlt3 className="w-12 h-6" />
-          </div>
+          {!isMenuOpen && (
+            <div className="flex justify-between mr-3 w-15.75 lg:mr-3">
+              <img src="/header/user.svg" className="cursor-pointer" />
+              <img
+                src="/header/menu.svg"
+                alt=""
+                className="w-6.5 h-6.5 cursor-pointer"
+                onClick={() => setIsMenuOpen(true)}
+              />
+            </div>
+          )}
+          {isMenuOpen && (
+            <div>
+              <CgCloseO
+                className="w-6.5 h-6.5"
+                onClick={() => setIsMenuOpen(false)}
+              />
+            </div>
+          )}
         </div>
 
-        <div className="hidden lg:max-w-5xl xl:flex items-start pl-14.5 2xl:max-w-384 3xl:ml-38">
+        <div className="hidden lg:max-w-5xl xl:flex items-start pl-14.5 2xl:pl-15 2xl:max-w-384 3xl:ml-38 3xl:pl-12.5!">
           <img
             src="/superio.svg"
             alt="superio"
-            className="h-10 xl:w-38 xl:h-13"
+            className="h-10 xl:w-38 xl:h-13 cursor-pointer"
           />
 
-          <div className="flex gap-7.5 mt-3.5 ml-15  2xl:ml-24 2xl:gap-8 3xl:gap-8">
+          <div className="flex gap-7.5 mt-3.5 ml-15 xl:pl-1 xl:gap-7.25 2xl:ml-24 2xl:gap-8.5 3xl:gap-7.5!">
             <div className=" flex 3xl:ml-1">
               <a href="#">Home</a>
               <ChevronDown className="m-1.5 mt-1 w-3 h-3 stroke-5" />
             </div>
 
-            <div className=" flex 3xl:ml-1">
+            <div className="flex 3xl:ml-1 whitespace-nowrap">
               <a href="#">Find Jobs</a>
               <ChevronDown className="m-1.5 mt-1 w-3 h-3 stroke-5" />
             </div>
@@ -198,229 +218,29 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         </div>
-        <div className="hidden mr-6 xl:flex items-start mt-0 gap-5.5 text-sm 2xl:mt-0 2xl:pr-22 3xl:mr-32 3xl:text-[15px]">
-          <div className="mt-2 2xl:mt-4 3xl:mt-5 text-brand-primary">Upload your CV</div>
-          <div className="bg-button-lite text-brand-primary px-5 py-2 rounded-lg 2xl:px-9 2xl:py-4 3xl:py-5">
+        <div
+          className="hidden mr-6 xl:flex items-start mt-0 gap-5.5 text-sm xl:w-125 
+        xl:pl-3.75 xl:gap-5 2xl:w-250 2xl:mt-0 2xl:pl-109 3xl:mr-32 3xl:text-[15px]! 3xl:pl-77!"
+        >
+          <div className="mt-2 xl:text-[15px] 2xl:mt-4 3xl:mt-5 text-brand-primary cursor-pointer">
+            Upload your CV
+          </div>
+          <div
+            className="bg-button-lite text-brand-primary px-5 py-2 rounded-md 2xl:px-9 2xl:py-4 2xl:text-[15px] 3xl:py-5 cursor-pointer
+          hover:bg-brand-btn-hover hover:text-white transition-colors duration-500"
+          >
             Login / Register
           </div>
-          <div className=" bg-brand-primary text-white px-7 py-2 rounded-lg 2xl:px-11 2xl:py-4 3xl:py-5">
+          <div
+            className=" bg-brand-primary text-white px-7 py-2 rounded-md 2xl:px-11 2xl:text-[15px] 2xl:py-4 3xl:py-5 cursor-pointer
+          hover:bg-brand-btn-hover transition-colors duration-500"
+          >
             Job Post
           </div>
         </div>
       </div>
-      {/* <div className="max-w-wide mx-auto w-full flex items-center justify-between p-3 px-6 md:px-12 lg:px-20">
-          <div
-            className="flex items-center shrink-0 z-50 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            <img
-              src="/logo.png"
-              alt="FoxyJob Logo"
-              onDragStart={(e) => {
-                e.dataTransfer.setData("text/uri-list", window.location.origin);
-                e.dataTransfer.setData("text/plain", window.location.origin);
-              }}
-              className="w-8 h-8 md:w-10 md:h-10"
-            />
-            <span className="pl-3 text-xl font-bold text-content-heading">
-              FoxyJob
-            </span>
-          </div>
 
-          {accessToken && (
-            <nav className="hidden lg:flex items-center gap-8 xl:gap-25 font-medium text-content-heading">
-              {navLinks.map((link) => (
-                <div
-                  key={link.name}
-                  className="group flex items-center gap-2 hover:text-brand-primary cursor-pointer transition-colors"
-                  onClick={async () => {
-                    if (link.name === "Applications" && role === "employer") {
-                      const jobId = await getJobId();
-                      navigate(`/jobs/${jobId}/applications`);
-                    } else {
-                      navigate(link.path);
-                    }
-                  }}
-                >
-                  <span className="text-gray-400 group-hover:text-brand-primary transition-colors">
-                    {link.icon}
-                  </span>
-                  <span className="pr-2">{link.name}</span>
-                </div>
-              ))}
-            </nav>
-          )}
-
-          <div className="flex items-center gap-4 z-50">
-            {!accessToken ? (
-              <button
-                className="hidden lg:block bg-brand-primary cursor-pointer text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-btn-hover transition-all shadow-md"
-                onClick={() => navigate("/login")}
-              >
-                Login / Register
-              </button>
-            ) : (
-              <div className="flex gap-8">
-                {role === "job_seeker" && (
-                  <div>
-                    <BsBell
-                      className="hidden hover:text-brand-primary lg:flex items-center justify-center w-5 h-5 transition-all mt-3 cursor-pointer"
-                      onClick={() => navigate("/jobs/alert")}
-                    />
-                  </div>
-                )}
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-brand-primary text-white font-bold shadow-sm hover:ring-4 ring-brand-primary/10 transition-all cursor-pointer"
-                >
-                  {userInitial}
-                </button>
-              </div>
-            )}
-
-            <button
-              className="lg:hidden text-3xl text-content-heading"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <MdClose />
-              ) : accessToken ? (
-                <div className="w-8 h-8 rounded-full bg-brand-primary text-white text-sm flex items-center justify-center font-bold">
-                  {userInitial}
-                </div>
-              ) : (
-                <MdMenu />
-              )}
-            </button>
-          </div>
-        </div> */}
-
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            <div
-              className="fixed inset-0 z-40 lg:hidden"
-              onClick={() => setIsMenuOpen(false)}
-            />
-            <div
-              className="fixed inset-0 z-40 hidden lg:block"
-              onClick={() => setIsMenuOpen(false)}
-            />
-
-            <motion.div className="absolute top-full right-6 mt-2 w-72 bg-white rounded-lg shadow-2xl border border-gray-100 z-50 overflow-hidden">
-              <div className="flex flex-col p-3">
-                {accessToken && userData && (
-                  <div className="px-4 py-3 mb-2 border-b border-gray-50">
-                    <p className="text-sm font-bold text-content-heading">
-                      {userData.name}
-                    </p>
-                    <p className="text-xs text-gray-500 truncate">
-                      {userData.email}
-                    </p>
-                  </div>
-                )}
-
-                {accessToken && (
-                  <div className="lg:hidden flex flex-col">
-                    {navLinks.map((link) => {
-                      return (
-                        <div
-                          key={link.name}
-                          className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg transition-colors cursor-pointer group"
-                          onClick={async () => {
-                            setIsMenuOpen(false);
-                            if (
-                              link.name === "Applications" &&
-                              role === "employer"
-                            ) {
-                              const jobId = await getJobId();
-                              navigate(`/jobs/${jobId}/applications`);
-                            } else {
-                              navigate(link.path);
-                            }
-                          }}
-                        >
-                          <span className="font-medium text-gray-600 group-hover:text-brand-primary">
-                            {link.name}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-                <div className="flex flex-col">
-                  {accessToken && (
-                    <>
-                      {role === "employer" ? (
-                        employerLinks.map((link) => (
-                          <div
-                            key={link.name}
-                            className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg cursor-pointer group"
-                            onClick={() => {
-                              navigate(link.path);
-                              setIsMenuOpen(false);
-                            }}
-                          >
-                            <span className="font-medium text-gray-600 group-hover:text-brand-primary">
-                              {link.name}
-                            </span>
-                          </div>
-                        ))
-                      ) : (
-                        <div
-                          className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg cursor-pointer group"
-                          onClick={() => {
-                            navigate(jobSeekerLinks.path);
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          <span className="font-medium text-gray-600 group-hover:text-brand-primary">
-                            {jobSeekerLinks.name}
-                          </span>
-                        </div>
-                      )}
-                    </>
-                  )}
-
-                  {accessToken &&
-                    menuLinks.map((link) => {
-                      if (link.name !== "Change Password" || !isThirdPartyLogin)
-                        return (
-                          <div
-                            key={link.name}
-                            className="flex items-center gap-4 py-3 px-4 hover:bg-brand-primary/5 rounded-lg cursor-pointer group"
-                            onClick={() => {
-                              if (link.name === "Logout") handleLogout();
-                              else navigate(link.path);
-                              setIsMenuOpen(false);
-                            }}
-                          >
-                            <span className="font-medium text-gray-600 group-hover:text-brand-primary">
-                              {link.name}
-                            </span>
-                          </div>
-                        );
-                    })}
-                </div>
-
-                {!accessToken && (
-                  <div className="pt-3 mt-2 border-t border-gray-100">
-                    <button
-                      className="w-full bg-brand-primary text-white py-3.5 rounded-xl font-bold"
-                      onClick={() => {
-                        navigate("/login");
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      Login / Register
-                    </button>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      <HomeSidebar open={isMenuOpen} setOpen={setIsMenuOpen} />
     </motion.header>
   );
 };

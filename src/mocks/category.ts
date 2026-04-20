@@ -74,3 +74,48 @@ export const jobCategories: JobCategory[] = [
     openPositions: 92,
   },
 ];
+
+export const stats = [
+  {
+    value: "4M",
+    label: "4 million daily active users",
+  },
+  {
+    value: "12k",
+    label: "Over 12k open job positions",
+  },
+  {
+    value: "20M",
+    label: "Over 20 million stories shared",
+  },
+];
+
+export const articles = [
+  {
+    id: 1,
+    date: "August 31, 2021",
+    comments: "12 Comment",
+    title: "Attract Sales And Profits",
+    description:
+      "A job ravenously while Far much that one rank beheld after outside....",
+    image: "/articles/article-1.webp",
+  },
+  {
+    id: 2,
+    date: "August 31, 2021",
+    comments: "12 Comment",
+    title: "5 Tips For Your Job Interviews",
+    description:
+      "A job ravenously while Far much that one rank beheld after outside....",
+    image: "/articles/article-2.webp",
+  },
+  {
+    id: 3,
+    date: "August 31, 2021",
+    comments: "12 Comment",
+    title: "Overworked Newspaper Editor",
+    description:
+      "A job ravenously while Far much that one rank beheld after outside....",
+    image: "/articles/article-3.webp",
+  },
+];

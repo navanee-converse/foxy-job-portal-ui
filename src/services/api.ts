@@ -79,7 +79,7 @@ export const request = async <T>(
       }
 
       const message = data?.message || "An unexpected error occurred";
-      toast.error(message);
+      // toast.error(message);
       throw { status, message };
     }
 

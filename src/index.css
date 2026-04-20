@@ -31,8 +31,10 @@
 
   --font-jost: "Jost", sans-serif;
 
-  --breakpoint-3xl: 2560px;
   --breakpoint-xs: 375px;
+  --breakpoint-ml: 425px;
+  --breakpoint-3xl: 2560px;
+
 }
 :root {
   margin: 0;
@@ -183,7 +185,7 @@ body {
 } */
 
 .header-gradient {
-  background: linear-gradient(to right, #f3f5fb 0%, #f3f5fb 70%, #e4ebfa 100%);
+  background: linear-gradient(to bottom, #f3f5fb 0%, #f3f5fb 70%, #e4ebfa 100%);
 }
 
 .custom-scrollbar::-webkit-scrollbar {

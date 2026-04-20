@@ -5,6 +5,7 @@ import healthIcon from "@/components/icons/healthcare.png";
 import rocketIcon from "@/components/icons/rocket.png";
 import speakerIcon from "@/components/icons/speaker.png";
 import hrIcon from "@/components/icons/hr.png";
+import carIcon from "@/components/icons/car.png";
 export const categories = [
   {
     title: "Accounting / Finance",
@@ -49,7 +50,7 @@ export const categories = [
   {
     title: "Project Management",
     jobs: "92 open positions",
-    icon: moneyIcon,
+    icon: carIcon,
   },
 ];
 
@@ -63,6 +64,7 @@ export const jobs = [
     tag: "Urgent",
     postedAt: "11 hours ago",
     salary: "$35k - $45k",
+    image: "/job/job-1.webp",
   },
   {
     title: "Recruiting Coordinator",
@@ -73,6 +75,7 @@ export const jobs = [
     tag: "Urgent",
     postedAt: "11 hours ago",
     salary: "$35k - $45k",
+    image: "/job/job-2.webp",
   },
   {
     title: "Product Manager Studio",
@@ -83,6 +86,7 @@ export const jobs = [
     tag: "Urgent",
     postedAt: "11 hours ago",
     salary: "$35k - $45k",
+    image: "/job/job-3.webp",
   },
   {
     title: "Senior Product Designer",
@@ -93,6 +97,7 @@ export const jobs = [
     tag: "Urgent",
     postedAt: "11 hours ago",
     salary: "$35k - $45k",
+    image: "/job/job-4.webp",
   },
   {
     title: "Senior Full Stack Engineer, Creator Success",
@@ -103,6 +108,7 @@ export const jobs = [
     tag: "Urgent",
     postedAt: "11 hours ago",
     salary: "$35k - $45k",
+    image: "/job/job-5.webp",
   },
   {
     title: "Software Engineer (Android), Libraries",
@@ -113,6 +119,7 @@ export const jobs = [
     tag: "Urgent",
     postedAt: "11 hours ago",
     salary: "$35k - $45k",
+    image: "/job/job-6.webp",
   },
 ];
 
@@ -149,18 +156,18 @@ export const testimonials = [
     image: "https://i.pravatar.cc/100?img=13",
   },
   {
-    title: "Highly Recommend!",
+    title: "Brilliant Work!",
     text: "Without JobHunt I’d be homeless, they found me a job and got me sorted out quickly with everything! Can’t quite... The Mitech team works really hard to ensure high level of quality",
-    name: "David Chen",
+    name: "Emma Johnson",
     role: "Consultant",
-    image: "https://i.pravatar.cc/100?img=13",
+    image: "https://i.pravatar.cc/100?img=26",
   },
   {
-    title: "Highly Recommend!",
+    title: "Great Value",
     text: "Without JobHunt I’d be homeless, they found me a job and got me sorted out quickly with everything! Can’t quite... The Mitech team works really hard to ensure high level of quality",
-    name: "David Chen",
+    name: "Sophia Williams",
     role: "Consultant",
-    image: "https://i.pravatar.cc/100?img=13",
+    image: "https://i.pravatar.cc/100?img=32",
   },
 ];
 

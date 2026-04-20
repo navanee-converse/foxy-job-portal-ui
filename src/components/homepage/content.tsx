@@ -23,6 +23,7 @@ import {
   Briefcase,
   Car,
   Check,
+  ChevronRight,
   Code,
   FileSearch,
   Headphones,
@@ -42,6 +43,11 @@ import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import DoubleQuotes from "../icons/double-quotes.png";
 import type { EmblaCarouselType } from "embla-carousel";
+import { MdOutlineCheck } from "react-icons/md";
+import EmployersCard from "../cards/employer";
+import { articles, stats } from "@/mocks/category";
+import { BsDot } from "react-icons/bs";
+import { GoDotFill } from "react-icons/go";
 
 const HomePageContent: React.FC = () => {
   const contentWidthClass = "max-w-325 mx-auto px-6 md:px-12";
@@ -246,24 +252,28 @@ const HomePageContent: React.FC = () => {
                   <input
                     type="text"
                     placeholder="Job title, keywords, or company"
-                    className="w-full outline-none text-sm pl-2.75 placeholder:text-content-body md:pl-5.75 lg:w-[172px] lg:pt-[2px] lg:pl-[13px] xl:w-[205px]"
+                    className="w-full outline-none text-sm pl-2.75 placeholder:text-content-body md:pl-5.75 lg:w-[172px] lg:pt-[2px] lg:pl-[13px] xl:w-[205px]
+                    3xl:text-[15px]! 3xl:w-53.75!"
                   />
                 </div>
 
                 <div className="hidden lg:block bg-gray-200 min-h-12 left-[260px] top-[32px] w-[1px] absolute z-20 xl:left-[290px] xl:top-[20px] xl:h-[60px] 3xl:left-[313px]!"></div>
 
-                <div className="flex items-center bg-white rounded-md px-3 py-3 h-17.5 lg:pl-[32px] lg:pt-[16px] xl:pl-[49px] xl:pt-[2px] 3xl:pl-[70px]! 3xl:pt-[5px]!">
+                <div
+                  className="flex items-center bg-white rounded-md px-3 py-3 h-17.5 lg:pl-[32px] lg:pt-[16px] xl:pl-[49px] 
+                xl:pt-[2px] 3xl:pl-[50px]! 3xl:pt-[5px]!"
+                >
                   <span className="pl-1.75 md:pl-4.25 lg:pl-[1px]">
                     <SlLocationPin className="w-5 h-5 stroke-3 text-content-body xl:w-[23px] xl:h-[23px]" />
                   </span>
                   <input
                     type="text"
                     placeholder="City or postcode"
-                    className="w-full outline-none text-sm pl-2.75 placeholder:text-content-body md:pl-5.5 lg:pl-[10px]"
+                    className="w-full outline-none text-sm pl-2.75 placeholder:text-content-body md:pl-5.5 lg:pl-[10px] 3xl:text-[15px]!"
                   />
                 </div>
 
-                <button className="w-full bg-brand-primary text-white pt-4 mt-3 pb-2.5 rounded-[5px] text-[15px] md:h-[50px] md:rounded-md lg:w-[150px] lg:h-[50px] lg:right-0 lg:absolute xl:w-[142px] xl:h-[60px] xl:top-[8px] xl:right-[20px] 3xl:w-[154px]!">
+                <button className="w-full bg-brand-primary cursor-pointer text-white pt-3.5 mt-3 pb-2.5 rounded-[5px] text-[15px] md:h-[50px] md:rounded-md lg:w-[150px] lg:h-[50px] lg:right-0 lg:absolute xl:w-[142px] xl:h-[60px] xl:top-[8px] xl:right-[20px] 3xl:w-[154px]!">
                   Find Jobs
                 </button>
               </div>
@@ -282,11 +292,8 @@ const HomePageContent: React.FC = () => {
 
         <div className="hidden lg:block lg:w-[45%] relative h-full">
           <div className="absolute z-10 top-36 -left-13.75">
-            {/* Cards Container */}
-            {/* Work Inquiry */}
-            <div className="absolute inset-0">
-              {/* Work Inquiry */}
-              <div className="absolute top-3.75 -left-0.5 w-66 h-22.5 bg-white rounded-md p-4 flex items-center gap-3 xl:left-0.5 2xl:left-12.5 3xl:left-5!">
+            <div className="absolute inset-0 ">
+              <div className="absolute top-3.75 shadow-[0_40px_30px_rgba(25,25,46,0.04)] -left-0.5 w-66 h-22.5 bg-white rounded-md p-4 flex items-center gap-3 xl:left-0.5 2xl:left-12.5 3xl:left-5!">
                 <div className="bg-[#fef2d9] p-3.75 rounded-lg ml-1">
                   <TfiEmail className="w-5 h-5 text-[#f9ab00]" />
                 </div>
@@ -352,14 +359,6 @@ const HomePageContent: React.FC = () => {
             >
               <LiaFileUploadSolid className="text-brand-primary" size={40} />
             </div>
-            {/* <div className="bg-white justify-around flex rounded-sm gap-4 p-4">
-              <div className="bg-[#fef2d9] rounded-lg">
-                <TfiEmail className="text-[#f9ae08] w-6 h-6 mt-3" />
-              </div>
-              <p className="text-[16px] font-medium pr">
-                Work Inquiry From <span className="block"></span>Ali Tufan
-              </p>
-            </div> */}
           </div>
           <img
             src="/home/banner-img.png"
@@ -401,7 +400,10 @@ const HomePageContent: React.FC = () => {
 
               {/* Text */}
               <div className="pl-0.5">
-                <h3 className="font-medium text-[16px] pt-2.25 pl-px md:text-[18px] md:pl-0.75">
+                <h3
+                  className="font-medium text-[16px] pt-2.25 pl-px md:text-[18px] md:pl-0.75 cursor-pointer hover:text-brand-primary
+                transition duration-300"
+                >
                   {item.title}
                 </h3>
                 <p className="text-gray-500 text-sm pt-1.25 md:pt-1.75 md:pl-0.75">
@@ -416,7 +418,7 @@ const HomePageContent: React.FC = () => {
       <hr className="border-gray-200 md:pt-5" />
 
       <div
-        className="bg-white py-[11.6%] px-[20px] md:pt-[30px] md:px-[16px] md:pb-[6.5%] 
+        className="bg-white py-[11.6%] px-[20px] md:pt-7.5 md:px-4 md:pb-[6.5%] 
       lg:pb-[9%] lg:pt-[75px] xl:pb-[7.55] 2xl:px-[18%] 2xl:pb-[5%] 3xl:px-[25%]! 3xl:pb-[3.5%]!"
       >
         {/* Header */}
@@ -438,21 +440,22 @@ const HomePageContent: React.FC = () => {
             <div
               key={index}
               className="bg-white rounded-lg border border-gray-200 py-5 px-3 md:p-7.5 md:relative
-              lg:pb-[20px]"
+              lg:pb-[20px] hover:shadow-lg hover:shadow-gray-200/40 duration-300"
             >
               {/* Top Section */}
-              <div className="absolute right-[28px] top-6.25">
+              <div className="absolute right-5 top-5.25 hover:bg-gray-200 hover:rounded-full cursor-pointer p-2">
                 <FaRegBookmark />
               </div>
               <div className="flex items-start gap-4 pl-[8px] md:p-0">
                 <div>
-                  <div className="w-[50px] h-[48px] bg-indigo-600 rounded-lg flex items-center justify-center text-white font-medium ">
-                    {job.company[0]}
-                  </div>
+                  <img src={job.image} alt="" />
                 </div>
 
                 <div className="pl-[4px] leading-[20.9px] xl:pl-[2px]">
-                  <h3 className="font-medium text-gray-800 lg:text-[18px]">
+                  <h3
+                    className="font-medium text-gray-800 lg:text-[18px] hover:text-brand-primary
+                transition duration-300 cursor-pointer w-fit"
+                  >
                     {job.title}
                   </h3>
 
@@ -509,7 +512,10 @@ const HomePageContent: React.FC = () => {
           ))}
         </div>
         <div className="items-center flex justify-center pt-8.75 md:pt-11.25">
-          <button className="p-4 bg-brand-primary text-[15px] text-white rounded-lg px-[35px]">
+          <button
+            className="p-4 bg-brand-primary text-[15px] text-white rounded-lg px-[35px]
+          hover:bg-brand-btn-hover cursor-pointer transition-colors duration-300"
+          >
             Load More Listing
           </button>
         </div>
@@ -625,8 +631,8 @@ const HomePageContent: React.FC = () => {
                   <img
                     src={logo}
                     alt={`logo-${index}`}
-                    className="object-contain w-[73px] h-[26px] xs:w-[87px] xs:h-[31px]
-                    md:w-[93px] md:h-[33px] lg:w-[96px] lg:h-[34px]"
+                    className="object-contain w-18.25 h-6.5 xs:w-21.75 xs:h-7.75
+                    md:w-23.25 md:h-8.25 lg:w-24 lg:h-8.5 cursor-pointer"
                   />
                 </div>
               </CarouselItem>
@@ -638,257 +644,220 @@ const HomePageContent: React.FC = () => {
       <div className="w-full border-t border-gray-200"></div>
 
       <section
-        className={`${contentWidthClass} py-20 flex flex-col lg:flex-row items-center gap-12 lg:gap-20`}
+        className="py-12 px-5 flex flex-col lg:flex-row items-center gap-25 relative md:pt-23.75 md:py-3.75 md:px-3.75 md:gap-26 
+      lg:gap-6 lg:items-start xl:pt-27.5 2xl:px-74.5 2xl:py-25 3xl:px-153.75!"
       >
-        <div className="flex-1 w-full">
+        <div className="flex-1 w-full xl:pl-7.5 ">
           <img
             src="home/work-img.webp"
             alt="Find your job"
-            className="w-full h-auto object-cover rounded-xs shadow-sm"
+            className="w-full object-cover rounded-xs shadow-sm"
           />
         </div>
-        <div className="flex-1 flex flex-col gap-6">
-          <h2 className="text-4xl md:text-4xl font-semibold text-content-heading leading-tight">
-            Millions of Jobs. Find the one that suits you.
+        <div
+          className="absolute top-65 xs:top-78.75 ml:top-91.5 md:top-191.25
+        lg:top-128.25 lg:left-118.5 xl:top-155 xl:left-155 2xl:top-145.5 2xl:left-195 3xl:left-295! 3xl:top-152!"
+        >
+          <EmployersCard />
+        </div>
+        <div className="flex-1 flex flex-col gap-6 lg:gap-3.75 xl:pl-19.5 2xl:pl-21.25">
+          <h2
+            className="text-[28px] font-medium leading-8.75 md:text-[40px]
+          md:leading-13 lg:leading-13.75 "
+          >
+            Millions of Jobs. Find the one{" "}
+            <span className="2xl:block">that suits you.</span>
           </h2>
-          <p className="text-content-body text-base leading-relaxed">
+          <p className="text-content-body text-[15px] leading-6.25 md:w-97.5">
             Search all the open positions on the web. Get your own personalized
             salary estimate. Read reviews on over 600,000 companies worldwide.
           </p>
-          <div className="flex flex-col gap-4 mt-2">
+          <div className="flex flex-col text-[15px] pt-2.5 gap-6.25 lg:gap-5.75 lg:pt-4">
             {[
               "Bring to the table win-win survival",
               "Capitalize on low hanging fruit to identify",
               "But I must explain to you how all this",
             ].map((text, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="shrink-0 w-6 h-6 rounded-full bg-brand-light flex items-center justify-center">
-                  <IoCheckmark className="text-brand-primary text-xl" />
+              <div key={index} className="flex gap-3">
+                <div className="flex gap-2">
+                  <span>
+                    {" "}
+                    <IoCheckmark className="w-5.5 h-5.5" />
+                  </span>
+                  <p className="text-content-heading">{text}</p>
                 </div>
-                <span className="text-content-heading text-base font-medium">
-                  {text}
-                </span>
               </div>
             ))}
+          </div>
+          <div className="pt-3 lg:pt-6.25">
+            <button
+              className="bg-brand-primary text-white cursor-pointer hover:bg-brand-btn-hover px-8.75 py-3.75 rounded-md w-fit 
+            transition-colors duration-300 text-[15px] lg:py-4 relative z-10"
+            >
+              {" "}
+              Get Started
+            </button>
           </div>
         </div>
       </section>
-      {/* <div className="w-full bg-header-bg md:py-12 lg:py-16 lg:h-215 md:h-200 pt-50">
-        <div
-          className={`${contentWidthClass} flex flex-col lg:flex-row items-center lg:items-end lg:justify-evenly gap-12 lg:gap-20`}
-        >
-          <div className="flex flex-col gap-8 w-full lg:max-w-175 z-10 lg:pb-30 md:pb-20">
-            <div className="text-3xl md:text-4xl xl:text-5xl font-medium leading-tight text-content-heading text-[26px]">
-              <span className="inline-block lg:whitespace-nowrap ">
-                There Are <span className="text-brand-primary">{count}</span>{" "}
-                Postings Here
-              </span>
-              <br/> For you!
-            </div>
 
-            <div className="text-content-body text-base md:text-lg">
-              Find Jobs, Employment & Career Opportunities
+      <div
+        className="text-center pt-3.75 pb-10 md:flex md:flex-1 md:pt-23.75 md:px-0.75 md:pb-22.5 
+      lg:pt-28.75 2xl:pt-8.75 2xl:px-75 3xl:px-157.5! 3xl:pt-2.5!"
+      >
+        {stats.map((item, index) => (
+          <div key={index} className="md:w-[33.33%]">
+            <div className="text-[38px] font-medium pt-7 md:text-[50px] md:pt-6">
+              {item.value}
             </div>
+            <h4 className="text-[15px] text-content-body py-3.75 md:pt-0.5">
+              {item.label}
+            </h4>
+          </div>
+        ))}
+      </div>
 
-            <div className="w-full lg:max-w-218 lg:bg-white lg:shadow-sm rounded-lg lg:border lg:border-gray-100 lg:p-3 flex flex-col lg:flex-row items-center gap-6 lg:gap-0">
-              <div
-                className="relative flex-[1.6] w-full"
-                ref={titleSearch.containerRef}
-              >
-                <div className="flex items-center gap-4 px-6 py-6 w-full bg-white lg:bg-transparent rounded-2xl lg:rounded-none border border-gray-100 lg:border-none shadow-sm lg:shadow-none">
-                  <ImSearch className="text-gray-400 text-xl" />
-                  <input
-                    type="text"
-                    placeholder="Job title or keyword"
-                    value={titleSearch.value}
-                    onChange={(e) => {
-                      titleSearch.setValue(e.target.value);
-                      titleSearch.prevValue.current = e.target.value;
-                    }}
-                    onKeyDown={titleSearch.handleKeyDown}
-                    onFocus={() =>
-                      titleSearch.value.length > 1 &&
-                      titleSearch.setShowSuggestions(true)
-                    }
-                    className="w-full outline-none text-base text-content-heading bg-transparent placeholder:text-gray-400"
-                  />
+      <div
+        className="bg-[#ecedf2] pt-12 pb-7 px-5 md:py-25 md:px-3.75 xl:px-7.5
+      2xl:px-78 3xl:px-160!"
+      >
+        <div className="text-center">
+          <h2 className="text-[26px] font-medium md:text-[30px]">
+            Recent News Articles
+          </h2>
+          <p className="text-content-body text-[14px] pt-3.25 leading-6.5 md:text-[15px] md:pt-2.5">
+            Fresh job related news content posted each day.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-12.5">
+          {articles.map((item) => (
+            <div key={item.id} className="bg-white p-2.5 rounded-md group">
+              <div className=" overflow-clip rounded-md ">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="rounded-lg w-64.75 h-64.5 object-cover xs:w-78.75 xs:h-64.5 ml:w-91.25 ml:h-64.5 
+                xl:w-97.75 group-hover:scale-105 transition-all duration-300"
+                />
+              </div>
+              <div className="p-2.5 md:p-5">
+                <div className="text-sm text-content-body pb-5 flex md:pt-0.75 md:pb-4">
+                  <div className="pr-3 pb-1.25">{item.date}</div>
+                  <div>
+                    <GoDotFill className="w-3 h-3 mt-1.25" />
+                  </div>{" "}
+                  <div className="pl-2.75">{item.comments}</div>
                 </div>
 
-                {titleSearch.showSuggestions &&
-                  titleSearch.suggestions.length > 0 && (
-                    <div className="absolute top-full left-0 w-full bg-white border border-gray-200 mt-2 rounded-lg shadow-2xl z-999 max-h-60 overflow-y-auto">
-                      {titleSearch.suggestions.map((suggestion, index) => (
-                        <div
-                          key={index}
-                          className={`px-6 py-3 cursor-pointer text-content-heading transition-colors border-b last:border-none border-gray-50 
-                        ${titleSearch.selectedIndex === index ? "bg-brand-light text-brand-primary" : "hover:bg-brand-light"}`}
-                          onClick={() => {
-                            titleSearch.setValue(suggestion);
-                            titleSearch.setShowSuggestions(false);
-                          }}
-                        >
-                          {highlightMatch(suggestion, titleSearch.value)}{" "}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-              </div>
+                <h3 className="text-lg font-medium pb-2">{item.title}</h3>
 
-              <div className="hidden lg:block w-px h-10 bg-gray-200"></div>
+                <p className="text-gray-500 text-[15px] leading-6.25 pb-3.75 3xl:text-[14px]!">
+                  {item.description}
+                </p>
 
-              <div className="relative flex-1 w-full" ref={cityContainerRef}>
-                <div className="flex items-center gap-4 px-4 py-6 w-full bg-white lg:bg-transparent rounded-2xl lg:rounded-none border border-gray-100 lg:border-none shadow-sm lg:shadow-none">
-                  <CiLocationOn className="text-gray-400 text-2xl" />
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={cityValue}
-                    onChange={(e) => setCityValue(e.target.value)}
-                    onKeyDown={handleCityKeyDown}
-                    onFocus={() =>
-                      cityValue.length >= 1 && setShowCitySuggestions(true)
-                    }
-                    className="w-full outline-none text-base text-content-heading bg-transparent placeholder:text-gray-400"
-                  />
-                </div>
-
-                {showCitySuggestions && citySuggestions.length > 0 && (
-                  <div className="absolute top-full left-0 w-full bg-white border border-gray-200 mt-2 rounded-lg shadow-2xl z-999 max-h-60 overflow-y-auto">
-                    {citySuggestions.map((suggestion, index) => (
-                      <div
-                        key={index}
-                        className={`px-6 py-3 cursor-pointer text-content-heading transition-colors border-b last:border-none border-gray-50 
-                          ${citySelectedIndex === index ? "bg-brand-light text-brand-primary" : "hover:bg-brand-light"}`}
-                        onClick={() => {
-                          setCityValue(suggestion);
-                          setShowCitySuggestions(false);
-                        }}
-                      >
-                        {highlightMatch(suggestion, cityValue)}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="p-1 lg:pl-2 w-full lg:w-auto">
-                <button
-                  className="w-full lg:w-40 cursor-pointer bg-brand-primary text-white py-5 lg:py-4 px-6 rounded-lg font-medium hover:bg-brand-hover transition-all text-md shadow-md lg:shadow-sm"
-                  onClick={handleSearch}
-                >
-                  Find Jobs
+                <button className="text-brand-primary flex items-center gap-1 cursor-pointer">
+                  Read More
+                  <span className="pl-2">
+                    {" "}
+                    <ChevronRight className="w-3.5 h-3.5 stroke-4" />
+                  </span>
                 </button>
               </div>
             </div>
-
-            {popularSearches.length > 0 && (
-              <div className="text-sm text-content-heading mt-2">
-                <span className="font-semibold mr-2">Popular Searches :</span>
-                <span className="text-content-body">
-                  {popularSearches.slice(0, 3).map((item, index, array) => (
-                    <span key={index}>
-                      <button
-                        type="button"
-                        onClick={() => handlePopularClick(item.term)}
-                        className="hover:text-brand-primary transition-all cursor-pointer capitalize"
-                      >
-                        {item.term}
-                      </button>
-                      {index < array.length - 1 && ", "}
-                    </span>
-                  ))}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="hidden lg:flex relative shrink-0 overflow-hidden">
-            <img
-              src="home/banner-img.png"
-              alt="Banner Hero"
-              className="block w-full max-w-lg lg:w-97.5 xl:w-137.5 2xl:w-full xl:max-w-xl h-auto object-contain"
-            />
-          </div>
+          ))}
         </div>
       </div>
 
-      <section className="w-full pt-20 bg-white">
-        <div className={contentWidthClass}>
-          <div className="flex flex-col items-center text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-content-heading mb-3">
-              Popular Job Categories
+      <div
+        className="pt-12.5 pb-7.5 px-5 md:pb-12.5 lg:flex lg:flex-row-reverse w-full lg:items-start lg:pt-35 lg:pl-2.5
+      xl:pt-43.75 xl:pl-6.75 2xl:pt-38.75 3xl:pl-0! 3xl:pt-38.75!"
+      >
+        <div className="px-3 pb-30 w-full lg:pl-16 lg:pt-15 xl:pt-27.5 xl:pl-12.5 2xl:pl-5 3xl:pl-2!">
+          <div className="text-center lg:text-start">
+            <span className="text-[16px] text-brand-primary font-medium md:text-[18px]">
+              DOWNLOAD & ENJOY
+            </span>
+            <h2 className="text-[28px] font-medium leading-8.75 pt-2.5 md:text-[46px] md:leading-13.75">
+              Get the Superio Job <span className="ml:block">Search App</span>
             </h2>
+            <div
+              className="text-[14px] text-content-body pt-2.5
+            leading-6.25 md:text-[15px] lg:pt-4"
+            >
+              Search through millions of jobs and find the right fit. Simply
+              <br /> swipe right to apply.
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 py-20 gap-5 justify-items-center">
-            {jobCategories.map((cat) => {
-              const IconComponent = Icons[cat.iconName];
-              return (
-                <Link
-                  key={cat._id}
-                  to={`/jobs?categoryId=${cat._id}`}
-                  className="group border bg-header-bg border-gray-100 p-6 rounded-lg flex items-center gap-5 transition-all duration-300 cursor-pointer hover:shadow-md hover:border-brand-primary/20 w-full max-w-95"
-                >
-                  <div className="p-4 bg-gray-100 text-brand-primary rounded-xl transition-all duration-300 group-hover:bg-brand-primary group-hover:text-white shrink-0">
-                    {IconComponent ? (
-                      <IconComponent size={28} />
-                    ) : (
-                      <HiIcons.HiOutlineBriefcase size={28} />
-                    )}
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-base md:text-lg font-bold text-content-heading transition-colors duration-300 group-hover:text-brand-primary truncate">
-                      {cat.name}
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      ({cat.openPositions} open positions)
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+          <div
+            className="flex flex-col py-8.75 items-center ml:flex-row ml:justify-center ml:pt-6.25 ml:gap-7.25
+          lg:flex-col lg:items-start lg:pt-7.5 xl:flex-row xl:justify-start"
+          >
+            <img
+              src="/home/ios-image.webp"
+              alt=""
+              className="w-43.75 cursor-pointer h-12.5 ml:w-43.75 ml:h-12.5 lg:w-52.5 lg:h-15"
+            />
+            <img
+              src="/home/android-image.webp"
+              alt=""
+              className="w-39.75 cursor-pointer h-12.5 mt-5 ml:w-39.75 ml:h-12.5 ml:m-0 lg:w-52.5 lg:h-16.5"
+            />
           </div>
         </div>
-      </section> */}
-      {/* 
-      <div className="w-full border-t border-gray-200"></div>
-
-      <section
-        className={`${contentWidthClass} py-20 flex flex-col lg:flex-row items-center gap-12 lg:gap-20`}
-      >
-        <div className="flex-1 w-full">
+        <div
+          className="md:flex md:justify-center md:items-center w-full xl:justify-start
+        2xl:justify-center 2xl:pl-26.25 3xl:pl-0! 3xl:pr-50! 3xl:justify-end!"
+        >
           <img
-            src="home/work-img.webp"
-            alt="Find your job"
-            className="w-full h-auto object-cover rounded-xs shadow-sm"
+            src="/home/mobile.png"
+            alt=""
+            className="w-75 h-87.5 ml-5 ml:ml-10 md:m-0 lg:w-119.25 lg:h-139"
           />
         </div>
-        <div className="flex-1 flex flex-col gap-6">
-          <h2 className="text-4xl md:text-4xl font-semibold text-content-heading leading-tight">
-            Millions of Jobs. Find the one that suits you.
-          </h2>
-          <p className="text-content-body text-base leading-relaxed">
-            Search all the open positions on the web. Get your own personalized
-            salary estimate. Read reviews on over 600,000 companies worldwide.
-          </p>
-          <div className="flex flex-col gap-4 mt-2">
-            {[
-              "Bring to the table win-win survival",
-              "Capitalize on low hanging fruit to identify",
-              "But I must explain to you how all this",
-            ].map((text, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="shrink-0 w-6 h-6 rounded-full bg-brand-light flex items-center justify-center">
-                  <IoCheckmark className="text-brand-primary text-xl" />
-                </div>
-                <span className="text-content-heading text-base font-medium">
-                  {text}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
+      </div>
 
-      {payload?.role !== "job_seeker" && (
+      <div
+        className="px-5 py-12.5 md:px-5 lg:px-3.75 lg:pt-0 xl:pt-6.25 xl:px-7.5
+      2xl:px-78.75 2xl:pt-10 3xl:px-[640px]!"
+      >
+        {" "}
+        <section
+          className="flex bg-[#eff4fc] items-center flex-row-reverse relative overflow-hidden w-full 
+        rounded-md lg:items-start"
+        >
+          {/* <div className="absolute z-10 overflow-hidden">
+          <img src="/home/announcement.png" alt="" />
+        </div> */}
+          <div
+            className="bg-[url('/home/announcement.png')] bg-no-repeat bg-contain h-90.5 w-full absolute max-w-69.5 top-19.5 -right-43.75 
+          md:-right-53 md:top-6 md:max-w-92.5 lg:-right-1.75"
+          ></div>
+          <div
+            className=" px-7.5 pt-17.5 pb-13.75 rounded-lg w-full md:px-13.75 md:pt-11.25 md:pl-15 md:pb-15 lg:pb-14.5 lg:pt-12.5
+          xl:pb-15"
+          >
+            <h2 className="text-[26px] font-medium md:text-[30px]">
+              Recruiting?
+            </h2>
+            <div
+              className="text-[14px] text-content-body pt-3.75 w-[75%] ml:w-[80%] pb-7.5 leading-6.25 md:text-[15px] md:pt-2.75 md:w-[75%] lg:w-[55%]
+            xl:w-[40%]"
+            >
+              Advertise your jobs to millions of monthly users and search 15.8
+              million CVs in our database.
+            </div>
+            <button
+              className="text-[15px] text-white cursor-pointer hover:bg-brand-btn-hover
+            transition-colors duration-300 bg-brand-primary pt-4.5 pb-3.75 px-8.75 rounded-md"
+            >
+              Start Recruiting Now
+            </button>
+          </div>
+        </section>
+      </div>
+
+      {/* {payload?.role !== "job_seeker" && (
         <section className="w-full pt-5 -ml-2">
           <div className={contentWidthClass}>
             <div className="relative overflow-hidden bg-brand-light rounded-xl flex flex-row items-center min-h-55 md:min-h-75">
@@ -923,14 +892,14 @@ const HomePageContent: React.FC = () => {
                 <img
                   src="home/recruiting.png"
                   alt="Recruiting Illustration"
-                  className="w-auto h-[80%] md:h-full object-contain object-bottom-right"
+                  className="w-auto h-[80%] md:h-full object-contain object-bottom-right 3xl:w-[600px] 3xl:h-[600px]"
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-brand-primary/10 rounded-full blur-3xl opacity-40"></div>
             </div>
           </div>
         </section>
-      )}
+      )} */}
     </div>
   );
 };
