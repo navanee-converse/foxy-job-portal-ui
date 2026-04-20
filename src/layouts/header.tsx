@@ -25,11 +25,10 @@ interface HeaderProps {
 // type UserProfile = Omit<UserMeResponse, "providers">;
 
 const Header: React.FC<HeaderProps> = ({
-  bgColor = "bg-white",
 }: HeaderProps) => {
   // const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
   // const [isThirdPartyLogin, setIsThirdPartyLogin] = useState(false);
   // const [userData, setUserData] = useState<UserProfile | null>(null);
   // const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -133,20 +132,20 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <motion.header
       initial={{ y: 0 }}
-      animate={{
-        y: isScrolled ? [-100, 0] : 0,
-        position: isScrolled ? "fixed" : "sticky",
-        backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.98)" : "white",
-        boxShadow: isScrolled ? "0 10px 15px -3px rgba(0,0,0,0.1)" : "none",
-      }}
-      transition={{
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-        backgroundColor: { duration: 0.6 },
-      }}
-      className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10 ${
-        !isScrolled ? bgColor : ""
-      }`}
+      // animate={{
+      //   y: isScrolled ? [-100, 0] : 0,
+      //   position: isScrolled ? "fixed" : "sticky",
+      //   backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.98)" : "white",
+      //   boxShadow: isScrolled ? "0 10px 15px -3px rgba(0,0,0,0.1)" : "none",
+      // }}
+      // transition={{
+      //   duration: 0.8,
+      //   ease: [0.22, 1, 0.36, 1],
+      //   backgroundColor: { duration: 0.6 },
+      // }}
+      // className={`w-full top-0 z-50 border-b border-gray-100 shadow-md shadow-gray-200/10 ${
+      //   !isScrolled ? bgColor : ""
+      // }`}
     >
       <div
         className="fixed top-0 left-0 items-center w-full z-99 h-fit bg-white xl:bg-header-bg xl:gap-35 text-[15px]
