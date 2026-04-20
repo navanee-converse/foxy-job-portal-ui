@@ -34,7 +34,6 @@
   --breakpoint-xs: 375px;
   --breakpoint-ml: 425px;
   --breakpoint-3xl: 2560px;
-
 }
 :root {
   margin: 0;
@@ -200,6 +199,47 @@ body {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
+}
+
+.footer-link {
+  @apply relative inline-block transition-all duration-300 hover:pl-6 hover:text-brand-primary;
+}
+
+.footer-link::before {
+  content: "";
+  @apply absolute left-0 top-1/2 -translate-y-1/2 w-0 h-[2px] bg-brand-primary transition-all duration-300;
+}
+
+.footer-link:hover::before {
+  @apply w-3.5;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 1s ease;
+}
+
+.fade-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: all 1s ease;
+}
+
+.fade-left.show,
+.fade-right.show {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 @layer components {

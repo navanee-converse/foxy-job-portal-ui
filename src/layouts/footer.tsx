@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { RiFacebookFill } from "react-icons/ri";
 // import { useLocation } from "react-router-dom";
@@ -10,6 +11,30 @@ import { RiFacebookFill } from "react-icons/ri";
 // const instaUrl = import.meta.env.VITE_INSTAGRAM_URL;
 
 const Footer: React.FC = () => {
+  const footerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const section = footerRef.current;
+    if (!section) return;
+
+    const items = section.querySelectorAll(".fade-up");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("show");
+            }, i * 120);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    items.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
   // const location = useLocation();
   // const [payload, setPayload] = useState(getDecodedToken());
 
@@ -183,12 +208,14 @@ const Footer: React.FC = () => {
     //   </div>
     // </footer>
 
-    <footer className="text-content-body">
-      <div className="px-5 md:pt-11.25 md:px-3.75 lg:flex justify-between lg:px-3.75 lg:pt-12.5
-      xl:px-7.5 xl:pb-13.75 2xl:px-78.75 3xl:px-[640px]!">
+    <footer ref={footerRef} className="text-content-body">
+      <div
+        className="fade-up px-5 md:pt-11.25 md:px-3.75 lg:flex justify-between lg:px-3.75 lg:pt-12.5
+      xl:px-7.5 xl:pb-13.75 2xl:px-78.75 3xl:px-[640px]!"
+      >
         <div className="lg:w-53.75">
           <div className="flex items-center gap-3">
-            <img src="/superio.svg" alt="" className="cursor-pointer"/>
+            <img src="/superio.svg" alt="" className="cursor-pointer" />
           </div>
 
           <div className="pt-6.75">
@@ -198,13 +225,17 @@ const Footer: React.FC = () => {
             </p>
           </div>
           <div className="pt-5 pb-12.5 3xl:leading-7.5!">
-            <p className="text-[16px] leading-6.75 lg:w-70 xl:text-[14px] xl:leading-7.5
-            2xl:w-70 3xl:leading-7.5!">
+            <p
+              className="text-[16px] leading-6.75 lg:w-70 xl:text-[14px] xl:leading-7.5
+            2xl:w-70 3xl:leading-7.5!"
+            >
               329 Queensberry Street, North Melbourne VIC{" "}
               <span className="block"> 3051, Australia.</span>
             </p>
 
-            <p className="text-[16px] xl:text-[14px] xl:pt-1.5 3xl:pt-0!">support@superio.com</p>
+            <p className="text-[16px] cursor-pointer   xl:text-[14px] xl:pt-1.5 3xl:pt-0!">
+              support@superio.com
+            </p>
           </div>
         </div>
 
@@ -219,27 +250,27 @@ const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3.5 text-[14px] ">
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Browse Jobs
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Browse Categories
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Candidate Dashboard
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Job Alerts
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   My Bookmarks
                 </a>
               </li>
@@ -252,22 +283,22 @@ const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3.5 text-[14px] ">
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Browse Candidates
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Employer Dashboard
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Add Job
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Job Packages
                 </a>
               </li>
@@ -280,27 +311,27 @@ const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3.5 text-[14px] ">
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Job Page Invoice
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Terms Page
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Contact
                 </a>
               </li>
@@ -313,27 +344,27 @@ const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3.5 text-[14px] ">
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Site Map
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Terms of Use
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Privacy Center
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Security Center
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">
+                <a href="#" className="hover:text-brand-primary footer-link">
                   Accessibility Center
                 </a>
               </li>
@@ -344,24 +375,30 @@ const Footer: React.FC = () => {
 
       {/* <hr className="border-gray-200 pt-0.5" /> */}
 
-      <div className="px-5 border-t border-gray-200 py-9 w-full flex flex-col md:flex-row-reverse justify-between items-center text-sm md:px-3.75
-      lg:px-7.5 2xl:px-78.75 3xl:px-160!">
+      <div
+        className="px-5 border-t border-gray-200 py-9 w-full flex flex-col md:flex-row-reverse justify-between items-center text-sm md:px-3.75
+      lg:px-7.5 2xl:px-78.75 3xl:px-160!"
+      >
         <div className="flex gap-9 h-9.75 pt-0.5 md:pt-3.75 md:gap-8.25">
           <a href="#">
-            <RiFacebookFill className="w-3.75 h-3.75 hover:text-[#bb86fc]"/>
+            <RiFacebookFill className="w-3.75 h-3.75 hover:text-[#bb86fc]" />
           </a>
           <a href="#">
-            <FaTwitter className="hover:text-[#bb86fc]"/>
+            <FaTwitter className="hover:text-[#bb86fc]" />
           </a>
           <a href="#">
-            <FaInstagram className="hover:text-[#bb86fc]"/>
+            <FaInstagram className="hover:text-[#bb86fc]" />
           </a>
           <a href="#">
-            <FaLinkedinIn className="hover:text-[#bb86fc]"/>
+            <FaLinkedinIn className="hover:text-[#bb86fc]" />
           </a>
         </div>
         <p className="text-center leading-6.75">
-          © 2023 Superio by ib-themes. All Right Reserved.
+          © 2023 Superio by{" "}
+          <span className="cursor-pointer hover:underline hover:text-brand-primary">
+            ib-themes.
+          </span>{" "}
+          All Right Reserved.
         </p>
       </div>
     </footer>

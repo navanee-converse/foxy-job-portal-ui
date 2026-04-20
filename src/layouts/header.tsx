@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { FaHome, FaSearch, FaUser } from "react-icons/fa";
 // import { HiDocumentText } from "react-icons/hi2";
 // import { useNavigate } from "react-router-dom";
@@ -24,11 +24,10 @@ interface HeaderProps {
 // }
 // type UserProfile = Omit<UserMeResponse, "providers">;
 
-const Header: React.FC<HeaderProps> = ({
-}: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({}: HeaderProps) => {
   // const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   // const [isThirdPartyLogin, setIsThirdPartyLogin] = useState(false);
   // const [userData, setUserData] = useState<UserProfile | null>(null);
   // const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -67,6 +66,15 @@ const Header: React.FC<HeaderProps> = ({
   //     console.warn("Unable to fetch jobs");
   //   }
   // };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -148,8 +156,12 @@ const Header: React.FC<HeaderProps> = ({
       // }`}
     >
       <div
-        className="fixed top-0 left-0 items-center w-full z-99 h-fit bg-white xl:bg-header-bg xl:gap-35 text-[15px]
-      xl:flex xl:py-3.5 3xl:flex! 3xl:justify-around! 3xl:pl-41.25! 3xl:py-3.5!"
+        className={`fixed top-0 left-0 items-center w-full z-99 h-fit bg-white xl:bg-header-bg xl:gap-35 text-[15px]
+      xl:flex xl:py-3.5 3xl:flex! 3xl:justify-around! 3xl:pl-41.25! 3xl:py-3.5! transition-all duration-200 ${
+        isScrolled
+          ? "fixed bg-white shadow-md shadow-gray-200/60 xl:py-3.5 xl:bg-white"
+          : "absolute bg-transparent xl:py-5 xl:pt-6"
+      }`}
       >
         <div className="flex pl-6.25 justify-between p-1 pb-1.5 pr-2 md:pl-5 md:pr-0.5 items-center xl:hidden shadow-[0_6px_15px_rgba(64,79,104,0.05)]">
           <img

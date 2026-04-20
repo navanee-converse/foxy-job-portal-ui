@@ -2,7 +2,7 @@
 // import * as MdIcons from "react-icons/md";
 import { IoCheckmark } from "react-icons/io5";
 // import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { request } from "@/services/api";
 // import type { PopularSearches } from "@/types/popular-searches";
 import { useSearchSuggestions } from "@/hooks/useSearchSuggestion";
@@ -17,11 +17,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { SlLocationPin } from "react-icons/sl";
 // import toast from "react-hot-toast";
 import { VscBriefcase } from "react-icons/vsc";
-import {
-  Check,
-  ChevronRight,
-  
-} from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { FaRegBookmark } from "react-icons/fa";
 import { MdAccessTime } from "react-icons/md";
 import { GrCurrency } from "react-icons/gr";
@@ -64,6 +60,31 @@ const HomePageContent: React.FC = () => {
   // let isDown = false;
   // let startX;
   // let scrollLeft;
+
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const items = section.querySelectorAll(".fade-up,.fade-left, .fade-right");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("show");
+            }, i * 150);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    items.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false }),
@@ -204,14 +225,14 @@ const HomePageContent: React.FC = () => {
   }, [titleSearch]);
 
   return (
-    <div className="bg-white overflow-x-hidden">
+    <div ref={sectionRef} className="bg-white overflow-x-hidden">
       <div className="flex flex-col md:flex-row header-gradient md:min-h-207 lg:min-h-167 xl:min-h-206.5 2xl:min-h-218.75 3xl:min-h-218.75!">
         <div className="h-full pt-48 pb-5 md:px-2.5 md:pt-47.25 lg:max-w-[55%] 2xl:pl-61.25 3xl:pl-145!">
           <div className="from-gray-100 to-gray-200 px-5 pt-6 pb-8 relative lg:pb-0">
             <div className="absolute w-56 h-56 rounded-full -top-20 -left-20 opacity-40"></div>
             <div className="absolute w-48 h-48 rounded-full -bottom-16 -right-16 opacity-30"></div>
 
-            <div className="relative z-10">
+            <div className="fade-up relative z-10">
               <h3 className="text-[26px] font-medium text-gray-800 leading-7.75 mt-0.75 md:text-[40px] md:pt-0.75 md:leading-12 xl:text-[50px] xl:leading-[60px] xl:pt-[53px] xl:pl-[40px]">
                 There Are{" "}
                 <span className="text-blue-600 font-medium">93,178</span>{" "}
@@ -266,7 +287,7 @@ const HomePageContent: React.FC = () => {
             </div>
           </div>
 
-          <div className="px-4 mt-20.5 pl-5 md:mt-0 md:pt-19.25 lg:pt-6 xl:pt-[25px] xl:pl-[40px] 3xl:pt-[22px]!">
+          <div className="fade-up px-4 mt-20.5 pl-5 md:mt-0 md:pt-19.25 lg:pt-6 xl:pt-[25px] xl:pl-[40px] 3xl:pt-[22px]!">
             <p className="text-[14px] font-medium text-black lg:text-content-body xl:pl-[20px] 3xl:text-[15px]">
               Popular Searches :
               <span className="block md:inline text-[14px] font-normal md:pl-6 text-content-body pt-0.75 leading-7 lg:pl-6">
@@ -279,7 +300,7 @@ const HomePageContent: React.FC = () => {
         <div className="hidden lg:block lg:w-[45%] relative h-full">
           <div className="absolute z-10 top-36 -left-13.75">
             <div className="absolute inset-0 ">
-              <div className="absolute top-3.75 shadow-[0_40px_30px_rgba(25,25,46,0.04)] -left-0.5 w-66 h-22.5 bg-white rounded-md p-4 flex items-center gap-3 xl:left-0.5 2xl:left-12.5 3xl:left-5!">
+              <div className="fade-up absolute top-3.75 shadow-[0_40px_30px_rgba(25,25,46,0.04)] -left-0.5 w-66 h-22.5 bg-white rounded-md p-4 flex items-center gap-3 xl:left-0.5 2xl:left-12.5 3xl:left-5!">
                 <div className="bg-[#fef2d9] p-3.75 rounded-lg ml-1">
                   <TfiEmail className="w-5 h-5 text-[#f9ab00]" />
                 </div>
@@ -292,7 +313,7 @@ const HomePageContent: React.FC = () => {
 
               {/* Candidates */}
               <div
-                className="absolute -top-11.5 left-87.25 pl-8.75 bg-white rounded-md p-4 h-38.25 w-58 overflow-hidden xl:top-16.25 xl:w-70 xl:left-100 
+                className="fade-up absolute -top-11.5 left-87.25 pl-8.75 bg-white rounded-md p-4 h-38.25 w-58 overflow-hidden xl:top-16.25 xl:w-70 xl:left-100 
               2xl:left-[590px] 3xl:left-140!"
               >
                 <p className="text-[16px] font-medium mb-2 whitespace-nowrap pt-3.75 pl-11">
@@ -312,7 +333,7 @@ const HomePageContent: React.FC = () => {
               </div>
 
               {/* Creative Agency */}
-              <div className="absolute bottom-10 w-66 h-23 pl-5 bg-white rounded-md shadow flex  gap-3 lg:w-[600px] top-[231px] left-[336px] p-5 xl:w-[290px] xl:top-[346px] xl:items-center 2xl:left-[530px] 3xl:left-[498px]!">
+              <div className="fade-up absolute bottom-10 w-66 h-23 pl-5 bg-white rounded-md shadow flex  gap-3 lg:w-[600px] top-[231px] left-[336px] p-5 xl:w-[290px] xl:top-[346px] xl:items-center 2xl:left-[530px] 3xl:left-[498px]!">
                 <div className="bg-[#f7d6d3] rounded-full p-3.25 ">
                   <VscBriefcase className="w-6.5 h-6.5 text-[#d93025]" />
                 </div>
@@ -329,7 +350,7 @@ const HomePageContent: React.FC = () => {
 
               {/* Upload CV */}
               <div
-                className="absolute bottom-0 w-70 h-23 left-21.75 pl-[60px] bg-white items-center rounded-md shadow top-[398px] xl:top-[462px] xl:left-[102px] 
+                className="fade-up absolute bottom-0 w-70 h-23 left-21.75 pl-[60px] bg-white items-center rounded-md shadow top-[398px] xl:top-[462px] xl:left-[102px] 
               2xl:top-[550px] 2xl:left-[152px] 3xl:left-[118px]! 3xl:top-[553px]! "
               >
                 <p className="font-medium pt-[20px] pl-[6px]">Upload Your CV</p>
@@ -370,7 +391,7 @@ const HomePageContent: React.FC = () => {
 
         {/* Grid */}
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px] pt-[2%] md:gap-[30px] md:pt-0 lg:p-0
+          className=" fade-up grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px] pt-[2%] md:gap-[30px] md:pt-0 lg:p-0
          xl:w-[100%] xl:pl-[2%] xl:gap-[24px] 2xl:px-[15.8%] 3xl:px-[24.5%]!"
         >
           {categories.map((item, index) => (
@@ -419,7 +440,7 @@ const HomePageContent: React.FC = () => {
 
         {/* Job Grid */}
         <div
-          className="grid gap-5 sm:grid-cols-1 md:gap-7 lg:gap-6.25 lg:grid-cols-2
+          className="fade-up grid gap-5 sm:grid-cols-1 md:gap-7 lg:gap-6.25 lg:grid-cols-2
         xl:px-[16px]"
         >
           {jobs.map((job, index) => (
@@ -519,7 +540,7 @@ const HomePageContent: React.FC = () => {
             Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
           </div>
         </div>
-        <div className="p-[15px] pt-[35px] md:px-[0] xl:pt-[40px]">
+        <div className="fade-up p-[15px] pt-[35px] md:px-[0] xl:pt-[40px]">
           <Carousel
             setApi={setApi}
             plugins={[plugin.current]}
@@ -604,7 +625,7 @@ const HomePageContent: React.FC = () => {
             containScroll: "trimSnaps",
             duration: 40,
           }}
-          className="w-full"
+          className="w-full fade-up"
         >
           <CarouselContent>
             {logos.map((logo, index) => (
@@ -633,7 +654,7 @@ const HomePageContent: React.FC = () => {
         className="py-12 px-5 flex flex-col lg:flex-row items-center gap-25 relative md:pt-23.75 md:py-3.75 md:px-3.75 md:gap-26 
       lg:gap-6 lg:items-start xl:pt-27.5 2xl:px-74.5 2xl:py-25 3xl:px-153.75!"
       >
-        <div className="flex-1 w-full xl:pl-7.5 ">
+        <div className="fade-left flex-1 w-full xl:pl-7.5 ">
           <img
             src="home/work-img.webp"
             alt="Find your job"
@@ -646,7 +667,7 @@ const HomePageContent: React.FC = () => {
         >
           <EmployersCard />
         </div>
-        <div className="flex-1 flex flex-col gap-6 lg:gap-3.75 xl:pl-19.5 2xl:pl-21.25">
+        <div className="fade-right flex-1 flex flex-col gap-6 lg:gap-3.75 xl:pl-19.5 2xl:pl-21.25">
           <h2
             className="text-[28px] font-medium leading-8.75 md:text-[40px]
           md:leading-13 lg:leading-13.75 "
@@ -688,7 +709,7 @@ const HomePageContent: React.FC = () => {
       </section>
 
       <div
-        className="text-center pt-3.75 pb-10 md:flex md:flex-1 md:pt-23.75 md:px-0.75 md:pb-22.5 
+        className="fade-up text-center pt-3.75 pb-10 md:flex md:flex-1 md:pt-23.75 md:px-0.75 md:pb-22.5 
       lg:pt-28.75 2xl:pt-8.75 2xl:px-75 3xl:px-157.5! 3xl:pt-2.5!"
       >
         {stats.map((item, index) => (
@@ -716,7 +737,7 @@ const HomePageContent: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-12.5">
+        <div className="fade-up grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-12.5">
           {articles.map((item) => (
             <div key={item.id} className="bg-white p-2.5 rounded-md group">
               <div className=" overflow-clip rounded-md ">
@@ -759,7 +780,7 @@ const HomePageContent: React.FC = () => {
         className="pt-12.5 pb-7.5 px-5 md:pb-12.5 lg:flex lg:flex-row-reverse w-full lg:items-start lg:pt-35 lg:pl-2.5
       xl:pt-43.75 xl:pl-6.75 2xl:pt-38.75 3xl:pl-0! 3xl:pt-38.75!"
       >
-        <div className="px-3 pb-30 w-full lg:pl-16 lg:pt-15 xl:pt-27.5 xl:pl-12.5 2xl:pl-5 3xl:pl-2!">
+        <div className="fade-right px-3 pb-30 w-full lg:pl-16 lg:pt-15 xl:pt-27.5 xl:pl-12.5 2xl:pl-5 3xl:pl-2!">
           <div className="text-center lg:text-start">
             <span className="text-[16px] text-brand-primary font-medium md:text-[18px]">
               DOWNLOAD & ENJOY
@@ -792,7 +813,7 @@ const HomePageContent: React.FC = () => {
           </div>
         </div>
         <div
-          className="md:flex md:justify-center md:items-center w-full xl:justify-start
+          className="fade-left md:flex md:justify-center md:items-center w-full xl:justify-start
         2xl:justify-center 2xl:pl-26.25 3xl:pl-0! 3xl:pr-50! 3xl:justify-end!"
         >
           <img
@@ -804,7 +825,7 @@ const HomePageContent: React.FC = () => {
       </div>
 
       <div
-        className="px-5 py-12.5 md:px-5 lg:px-3.75 lg:pt-0 xl:pt-6.25 xl:px-7.5
+        className="fade-up px-5 py-12.5 md:px-5 lg:px-3.75 lg:pt-0 xl:pt-6.25 xl:px-7.5
       2xl:px-78.75 2xl:pt-10 3xl:px-[640px]!"
       >
         {" "}
